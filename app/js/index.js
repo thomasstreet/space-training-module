@@ -4,6 +4,7 @@ var leapHands = require('./leap-hands');
 var skybox = require('./skybox');
 var vr = require('./vr');
 var Planet = require('./planet');
+var loading = require('./loading');
 
 var viewport = document.getElementById('viewport');
 
@@ -38,7 +39,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   });
 
   scene.add(planet.group);
-  //scene.add(skybox);
+  scene.add(skybox);
 
   render();
 
@@ -60,4 +61,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   }
 }
 
-vr.init(main);
+loading(function() {
+  document.body.className = ('loaded');
+  vr.init(main);
+});

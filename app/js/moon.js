@@ -4,7 +4,7 @@ var atmosphereGlowMaterial = require('./atmosphereGlowMaterial');
 
 class Moon {
   constructor(options) {
-    this.radius = options.maxRadius * Math.max(0.5, Math.random());
+    this.radius = options.maxRadius * Math.max(0.7, Math.random());
     this.color = 0xffffff;
 
     this.sphereMesh = new THREE.Mesh(
