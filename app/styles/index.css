@@ -6,6 +6,10 @@ html, body, #viewport  {
   overflow: hidden;
 }
 
+#viewport {
+  z-index: 10;
+}
+
 #loading {
   background: black;
   color: white;
@@ -17,11 +21,12 @@ html, body, #viewport  {
   width: 100%;
   position: absolute;
   opacity: 1;
-  transition: opacity 1.5s;
+  transition: opacity 3s;
 }
 
 body.loaded #loading {
-  opacity: 0
+  opacity: 0;
+  pointer-events: none;
 }
 
 #hud {
