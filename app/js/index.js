@@ -25,18 +25,29 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   // Camera control by mouse
   var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-  //var ambientLight = new THREE.AmbientLight( 0xffffff );
-  //scene.add(ambientLight);
+  // Needed to show textures
+  var ambientLight = new THREE.AmbientLight( 0xffffff );
+  scene.add(ambientLight);
 
   scene.add(leapHands.group);
 
   var planet = new Planet({
     radius: 50,
-    color: 0xeeeeee,
+    color: 0x000000,
     moons: {
       count: 10
     }
   });
+
+  setTimeout(function() {
+    //planet.changeMaterial(
+      //new THREE.MeshBasicMaterial({ color: 0xff00ff })
+    //);
+
+    var planetMaterial = new THREE.MeshPhongMaterial();
+    planetMaterial.map = THREE.ImageUtils.loadTexture('assets/mars.jpg');
+    planet.changeMaterial(planetMaterial);
+  }, 5000);
 
   scene.add(planet.group);
   scene.add(skybox);

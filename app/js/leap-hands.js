@@ -1,4 +1,4 @@
-var atmosphereGlowMaterial = require('./atmosphereGlowMaterial');
+var atmosphereGlowMaterial = require('./atmosphere-glow-material');
 
 var group = new THREE.Group();
 

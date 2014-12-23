@@ -2,7 +2,7 @@ require('traceur/bin/traceur-runtime');
 
 var Moon = require ('./moon');
 
-var atmosphereGlowMaterial = require('./atmosphereGlowMaterial');
+var atmosphereGlowMaterial = require('./atmosphere-glow-material');
 
 class Planet {
   constructor(options) {
@@ -13,12 +13,12 @@ class Planet {
     this.rotate = options.rotate;
 
     this.sphereMesh = new THREE.Mesh(
-      new THREE.SphereGeometry(this.radius, 32, 32),
+      new THREE.SphereGeometry(this.radius, 64, 64),
       new THREE.MeshBasicMaterial({ color: this.color })
     );
 
     this.glowMesh = new THREE.Mesh(
-      new THREE.SphereGeometry(this.radius * 1.1, 32, 32),
+      new THREE.SphereGeometry(this.radius * 1.1, 64, 64),
       atmosphereGlowMaterial
     ); 
 
@@ -39,6 +39,11 @@ class Planet {
     this.moons.forEach(function(moon) {
       this.group.add(moon);
     }.bind(this));
+  }
+
+  changeMaterial(material) {
+    this.sphereMesh.material = material;
+    this.sphereMesh.needsUpdate;
   }
 }
 
