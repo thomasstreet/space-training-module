@@ -62,6 +62,8 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
 }
 
 loading(function() {
-  document.body.className = ('loaded');
   vr.init(main);
+  setTimeout(function() {
+    document.body.className = ('loaded');
+  }, 2000);
 });

@@ -3,22 +3,25 @@ html, body, #viewport  {
   height: 100%;
   margin: 0;
   padding: 0;
-}
-
-body {
-  background: black;
+  overflow: hidden;
 }
 
 #loading {
+  background: black;
   color: white;
   text-align: center;
   font-size: 36px;
   font-family: Monospace;
   margin: auto;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  opacity: 1;
+  transition: opacity 1.5s;
 }
 
 body.loaded #loading {
-  display: none;
+  opacity: 0
 }
 
 #hud {
