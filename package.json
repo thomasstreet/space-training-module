@@ -1,0 +1,34 @@
+{
+  "name": "planet-creator",
+  "version": "1.0.0",
+  "description": "## Getting Started",
+  "main": "index.js",
+  "dependencies": {
+    "serve": "^1.4.0",
+    "traceur": "0.0.79"
+  },
+  "devDependencies": {
+    "browserify": "^7.0.3",
+    "serve": "^1.4.0",
+    "traceurify": "0.0.6",
+    "watchify": "^2.2.1"
+  },
+  "scripts": {
+    "watch-scripts": "node_modules/watchify/bin/cmd.js app/js/index.js -t traceurify -o app/bundle.js --debug --verbose",
+    "watch": "npm run watch-scripts",
+    "build-scripts": "node_modules/browserify/bin/cmd.js app/js/index.js -t traceurify  -o app/bundle.js --debug --verbose",
+    "build": "npm run build-scripts",
+    "serve": "node_modules/serve/bin/serve app -p 1337",
+    "start-dev": "npm run build & npm run watch & npm run serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thomasstreet/virtual-reality-ui.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thomasstreet/virtual-reality-ui/issues"
+  },
+  "homepage": "https://github.com/thomasstreet/virtual-reality-ui"
+}

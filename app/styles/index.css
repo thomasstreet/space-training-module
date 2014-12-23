@@ -1,0 +1,28 @@
+html, body, #viewport  {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#hud {
+  opacity: 0.6;
+  border-radius 5px;
+  padding 20px;
+  z-index: 1;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+#hud #vr-toggle {
+  border: 0;
+  padding: 10px 20px;
+  background: white;
+  cursor: pointer;
+  display: none;
+}
+
+#hud #vr-toggle.active {
+  display: block !important;
+}
