@@ -31,24 +31,10 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
 
   var planet = new Planet({
     radius: 50,
-    color: 0xff0000,
-    moons: [
-      {
-        radius: 4,
-        color: 0xffffff,
-        orbiting: true
-      },
-      {
-        radius: 3,
-        color: 0xffffff,
-        orbiting: true
-      },
-      {
-        radius: 2,
-        color: 0xffffff,
-        orbiting: true
-      }
-    ]
+    color: 0xeeeeee,
+    moons: {
+      count: 10
+    }
   });
 
   scene.add(planet.group);
