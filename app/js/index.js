@@ -3,6 +3,7 @@
 var leapHands = require('./leap-hands');
 var skybox = require('./skybox');
 var vr = require('./vr');
+var Planet = require('./planet');
 
 var viewport = document.getElementById('viewport');
 
@@ -23,11 +24,14 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   // Camera control by mouse
   var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-  var ambientLight = new THREE.AmbientLight( 0xffffff );
-  scene.add( ambientLight );
+  //var ambientLight = new THREE.AmbientLight( 0xffffff );
+  //scene.add(ambientLight);
 
   scene.add(leapHands.group);
-  scene.add(skybox);
+
+  var planet = new Planet({ radius: 50, color: 0xff0000 });
+  scene.add(planet.group);
+  //scene.add(skybox);
 
   render();
 
