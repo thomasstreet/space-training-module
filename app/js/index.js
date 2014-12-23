@@ -29,7 +29,28 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
 
   scene.add(leapHands.group);
 
-  var planet = new Planet({ radius: 50, color: 0xff0000 });
+  var planet = new Planet({
+    radius: 50,
+    color: 0xff0000,
+    moons: [
+      {
+        radius: 4,
+        color: 0xffffff,
+        orbiting: true
+      },
+      {
+        radius: 3,
+        color: 0xffffff,
+        orbiting: true
+      },
+      {
+        radius: 2,
+        color: 0xffffff,
+        orbiting: true
+      }
+    ]
+  });
+
   scene.add(planet.group);
   //scene.add(skybox);
 
