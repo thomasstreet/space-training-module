@@ -14,8 +14,10 @@ class Planet {
 
     this.sphereMesh = new THREE.Mesh(
       new THREE.SphereGeometry(this.radius, 64, 64),
-      new THREE.MeshBasicMaterial({ color: this.color })
+      new THREE.MeshPhongMaterial({ color: this.color })
     );
+    this.sphereMesh.receiveShadow = true;
+    this.sphereMesh.castShadow = true;
 
     this.glowMesh = new THREE.Mesh(
       new THREE.SphereGeometry(this.radius * 1.1, 64, 64),

@@ -1,6 +1,6 @@
 require('traceur/bin/traceur-runtime');
 
-var atmosphereGlowMaterial = require('./atmosphereGlowMaterial');
+var atmosphereGlowMaterial = require('./atmosphere-glow-material');
 
 class Moon {
   constructor(options) {
@@ -9,22 +9,24 @@ class Moon {
 
     this.sphereMesh = new THREE.Mesh(
       new THREE.SphereGeometry(this.radius, 32, 32),
-      new THREE.MeshBasicMaterial({ color: this.color })
+      new THREE.MeshPhongMaterial({ color: this.color })
     );
+    this.sphereMesh.castShadow = true;
+    this.sphereMesh.receiveShadow = true;
 
     this.glowMesh = new THREE.Mesh(
-      new THREE.SphereGeometry(this.radius * 1.2, 32, 32),
+      new THREE.SphereGeometry(this.radius, 32, 32),
       atmosphereGlowMaterial
     ); 
 
     this.group = new THREE.Group();
     this.group.add(this.sphereMesh);
-    this.group.add(this.glowMesh);
+    //this.group.add(this.glowMesh);
 
-    var distanceFromPlanet = ((Math.random() * 30)) + 70;
+    var distanceFromPlanet = ((Math.random() * 30)) + 100;
 
-    // Random velocity from [0.01, 0.06];
-    var velocity = (Math.random() * 0.03) + 0.01;
+    // Random velocity from [0.001, 0.006];
+    var velocity = (Math.random() * 0.005) + 0.001;
 
     // Determine position.y based upon random angle with range of
     // [-maxYangle / 2, maxYAngle / 2].  To keep the yPosition following

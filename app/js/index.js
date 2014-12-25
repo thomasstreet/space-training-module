@@ -1,5 +1,7 @@
 'use strict';
 
+var utils = require('./utils');
+
 var leapHands = require('./leap-hands');
 var skybox = require('./skybox');
 var vr = require('./vr');
@@ -15,6 +17,10 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   camera.position.z = 300;
 
   var renderer = new THREE.WebGLRenderer();
+  renderer.shadowMapEnabled = true;
+  // to antialias the shadow
+  renderer.shadowMapType = THREE.PCFSoftShadowMap;
+
   renderer.setSize(window.innerWidth, window.innerHeight);
   viewport.appendChild(renderer.domElement);
 
@@ -26,8 +32,24 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
   // Needed to show textures
-  var ambientLight = new THREE.AmbientLight( 0xffffff );
-  scene.add(ambientLight);
+  var ambientLight = new THREE.AmbientLight(0x404040);
+  //scene.add(ambientLight);
+
+	var spotLight	= new THREE.SpotLight( 0xFFFFFF );
+	spotLight.target.position.set( 0, 0, -500 );
+  spotLight.castShadow = true;
+  spotLight.position.z	= 500;		
+  spotLight.position.x	= 600;		
+	scene.add( spotLight );	
+
+  var material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+  //material.emissive = 0xffffff;
+  var sphereMesh = new THREE.Mesh(
+    new THREE.SphereGeometry(50, 64, 64),
+    material
+  );
+  sphereMesh.position.copy(spotLight.position);
+  scene.add(sphereMesh);
 
   scene.add(leapHands.group);
 
@@ -40,12 +62,12 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   });
 
   setTimeout(function() {
-    //planet.changeMaterial(
-      //new THREE.MeshBasicMaterial({ color: 0xff00ff })
-    //);
-
-    var planetMaterial = new THREE.MeshPhongMaterial();
-    planetMaterial.map = THREE.ImageUtils.loadTexture('assets/mars.jpg');
+    var planetMaterial = new THREE.MeshPhongMaterial({
+      ambient		: 0xFFFFFF,
+      shininess	: 10, 
+      shading		: THREE.SmoothShading,
+      map: THREE.ImageUtils.loadTexture('assets/mars.jpg')
+    });
     planet.changeMaterial(planetMaterial);
   }, 5000);
 
@@ -55,6 +77,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   render();
 
   function render() {
+    planet.group.rotateY(-0.005);
     if (vrEnabled) {
       var state = vrHMDSensor.getState();
       camera.quaternion.set(
@@ -71,6 +94,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
     requestAnimationFrame(render);
   }
 }
+
 
 loading(function() {
   vr.init(main);
