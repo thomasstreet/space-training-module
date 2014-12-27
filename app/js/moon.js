@@ -30,7 +30,7 @@ class Moon {
     // Determine position.y based upon random angle with range of
     // [-maxYangle / 2, maxYAngle / 2].  To keep the yPosition following
     // the natural arc of the sphere
-    var maxYAngle = Math.PI / 6;
+    var maxYAngle = Math.PI / 12;
     var yAngle = (Math.random() * maxYAngle) - maxYAngle / 2;
     this.group.position.y = distanceFromPlanet * Math.sin(yAngle);
 

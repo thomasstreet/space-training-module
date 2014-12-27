@@ -33,7 +33,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
 
   // Needed to show textures
   var ambientLight = new THREE.AmbientLight(0x404040);
-  //scene.add(ambientLight);
+  scene.add(ambientLight);
 
 	var spotLight	= new THREE.SpotLight( 0xFFFFFF );
 	spotLight.target.position.set( 0, 0, -500 );
@@ -62,27 +62,24 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   });
 
   setTimeout(function() {
-    var planetMaterial = new THREE.MeshPhongMaterial({
+    var material = new THREE.MeshPhongMaterial({
       ambient		: 0xFFFFFF,
       shininess	: 10, 
       shading		: THREE.SmoothShading,
       transparent: true,
       map: THREE.ImageUtils.loadTexture('assets/mars.jpg')
     });
-    planet.changeMaterial(planetMaterial);
-  }, 5000);
+    planet.changeMaterial(material);
+
+  }, 6000);
 
   scene.add(planet.group);
   scene.add(skybox);
 
   render();
 
-  var angle = 0;
   function render() {
     planet.group.rotateY(-0.005);
-    angle += Math.PI / 360;
-    angle %= Math.PI * 2;
-    planet.sphereMesh.material.opacity = Math.abs(Math.cos(angle));
 
     if (vrEnabled) {
       var state = vrHMDSensor.getState();
