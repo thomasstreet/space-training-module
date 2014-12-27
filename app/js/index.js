@@ -1,6 +1,7 @@
 'use strict';
 
 var utils = require('./utils');
+var controls = require('./controls');
 
 var leapHands = require('./leap-hands');
 var skybox = require('./skybox');
@@ -8,11 +9,11 @@ var vr = require('./vr');
 var Planet = require('./planet');
 var loading = require('./loading');
 
+var scene = require('./scene');
+
 var viewport = document.getElementById('viewport');
 
 function main(vrEnabled, vrHMD, vrHMDSensor) {
-  var scene = new THREE.Scene();
-
   var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 100000);
   camera.position.z = 300;
 
@@ -51,7 +52,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   sphereMesh.position.copy(spotLight.position);
   scene.add(sphereMesh);
 
-  scene.add(leapHands.group);
+  //scene.add(leapHands.group);
 
   var planet = new Planet({
     radius: 50,
@@ -61,19 +62,18 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
     }
   });
 
-  setTimeout(function() {
-    var material = new THREE.MeshPhongMaterial({
-      ambient		: 0xFFFFFF,
-      shininess	: 10, 
-      shading		: THREE.SmoothShading,
-      transparent: true,
-      map: THREE.ImageUtils.loadTexture('assets/mars.jpg')
-    });
-    planet.changeMaterial(material);
+  //setTimeout(function() {
+    //var material = new THREE.MeshPhongMaterial({
+      //ambient		: 0xFFFFFF,
+      //shininess	: 10, 
+      //shading		: THREE.SmoothShading,
+      //transparent: true,
+      //map: THREE.ImageUtils.loadTexture('assets/mars.jpg')
+    //});
+    //planet.changeMaterial(material);
+  //}, 6000);
 
-  }, 6000);
-
-  scene.add(planet.group);
+  //scene.add(planet.group);
   scene.add(skybox);
 
   render();
