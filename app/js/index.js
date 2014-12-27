@@ -66,6 +66,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
       ambient		: 0xFFFFFF,
       shininess	: 10, 
       shading		: THREE.SmoothShading,
+      transparent: true,
       map: THREE.ImageUtils.loadTexture('assets/mars.jpg')
     });
     planet.changeMaterial(planetMaterial);
@@ -76,8 +77,13 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
 
   render();
 
+  var angle = 0;
   function render() {
     planet.group.rotateY(-0.005);
+    angle += Math.PI / 360;
+    angle %= Math.PI * 2;
+    planet.sphereMesh.material.opacity = Math.abs(Math.cos(angle));
+
     if (vrEnabled) {
       var state = vrHMDSensor.getState();
       camera.quaternion.set(

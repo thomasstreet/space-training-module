@@ -14,10 +14,13 @@ class Planet {
 
     this.sphereMesh = new THREE.Mesh(
       new THREE.SphereGeometry(this.radius, 64, 64),
-      new THREE.MeshPhongMaterial({ color: this.color })
+      new THREE.MeshPhongMaterial({ 
+        color: this.color,
+        opacity: 0.3,
+        transparent: true
+      })
     );
     this.sphereMesh.receiveShadow = true;
-    this.sphereMesh.castShadow = true;
 
     this.glowMesh = new THREE.Mesh(
       new THREE.SphereGeometry(this.radius * 1.1, 64, 64),
@@ -26,7 +29,7 @@ class Planet {
 
     this.group = new THREE.Group();
     this.group.add(this.sphereMesh);
-    this.group.add(this.glowMesh);
+    //this.group.add(this.glowMesh);
 
     if (options.moons) {
       this.moons = [];

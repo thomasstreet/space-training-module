@@ -12,7 +12,6 @@ class Moon {
       new THREE.MeshPhongMaterial({ color: this.color })
     );
     this.sphereMesh.castShadow = true;
-    this.sphereMesh.receiveShadow = true;
 
     this.glowMesh = new THREE.Mesh(
       new THREE.SphereGeometry(this.radius, 32, 32),
