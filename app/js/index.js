@@ -52,7 +52,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   sphereMesh.position.copy(spotLight.position);
   scene.add(sphereMesh);
 
-  //scene.add(leapHands.group);
+  scene.add(leapHands.group);
 
   var planet = new Planet({
     radius: 50,

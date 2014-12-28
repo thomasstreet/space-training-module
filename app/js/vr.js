@@ -3,6 +3,7 @@ var vrToggle = document.getElementById('vr-toggle');
 function init(callback) {
   if (navigator.getVRDevices) {
     navigator.getVRDevices().then(function(vrDevices) {
+      console.log(vrDevices);
       proccessVrDevices(vrDevices, callback);
     });
   } else {
@@ -11,6 +12,9 @@ function init(callback) {
 }
 
 function proccessVrDevices(vrDevices, callback) {
+  var vrHMD;
+  var vrEnabled;
+  var vrHMDSensor;
   for (var i = 0; i < vrDevices.length; ++i) {
     if (vrDevices[i] instanceof HMDVRDevice) {
       vrHMD = vrDevices[i];

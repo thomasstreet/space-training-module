@@ -54,27 +54,19 @@ var controls = new Controls();
 
 setTimeout(animateIn, 5000);
 
+var interval;
+
 tween.onUpdate(function() {
   controls.phiLength = this.pos * (Math.PI * 2); 
   controls.redraw();
-  //if (controls.phiLength >= Math.PI * 2) {
-    //clearInterval(interval);
-  //}
+  if (controls.phiLength >= Math.PI * 2) {
+    clearInterval(interval);
+  }
 });
 
 function animateIn() {
   tween.start();
   var interval = setInterval(TWEEN.update, 16);
-}
-
-function rotate() {
-  var interval = setInterval(function() {
-    this.phiLength += Math.PI / 90; 
-    this.redraw();
-    if (this.phiLength >= Math.PI * 2) {
-      clearInterval(interval);
-    }
-  }.bind(controls), 16);
 }
 
 var gui = new dat.GUI();
