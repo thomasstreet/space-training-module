@@ -1,5 +1,8 @@
 var scene = require('./scene');
 
+var tween = new TWEEN.Tween({pos: 0}).to({pos: 1}, 5000);
+tween.easing(TWEEN.Easing.Quartic.InOut);
+
 var sphere;
 
 var material = new THREE.PointCloudMaterial({
@@ -51,7 +54,20 @@ var controls = new Controls();
 
 setTimeout(animateIn, 5000);
 
+tween.onUpdate(function() {
+  controls.phiLength = this.pos * (Math.PI * 2); 
+  controls.redraw();
+  //if (controls.phiLength >= Math.PI * 2) {
+    //clearInterval(interval);
+  //}
+});
+
 function animateIn() {
+  tween.start();
+  var interval = setInterval(TWEEN.update, 16);
+}
+
+function rotate() {
   var interval = setInterval(function() {
     this.phiLength += Math.PI / 90; 
     this.redraw();
