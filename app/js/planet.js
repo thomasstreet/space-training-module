@@ -45,7 +45,7 @@ class Planet {
 
   fadeIn() {
     var fade = setInterval(function() {
-      this.sphereMesh.material.opacity += 0.005;
+      this.sphereMesh.material.opacity += 0.01;
       if (this.sphereMesh.material.opacity >= 1) {
         clearInterval(fade);
       }

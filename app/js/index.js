@@ -104,6 +104,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
 
         // Save the initial yDistance when reaching for the planet
         yDistance = planet.group.position.y - palm.position.y;
+        yDistance = 125;
         planet.group.position.x = palm.position.x;
         planet.group.position.y = palm.position.y + yDistance;
         planet.group.position.z = palm.position.z;
