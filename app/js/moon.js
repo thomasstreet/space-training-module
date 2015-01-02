@@ -22,7 +22,7 @@ class Moon {
     this.group.add(this.sphereMesh);
     //this.group.add(this.glowMesh);
 
-    var distanceFromPlanet = ((Math.random() * 30)) + 100;
+    var distanceFromPlanet = ((Math.random() * 30)) + 160;
 
     // Random velocity from [0.001, 0.006];
     var velocity = (Math.random() * 0.005) + 0.001;

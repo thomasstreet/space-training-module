@@ -66,7 +66,7 @@ tween.onUpdate(function() {
 
 function animateIn() {
   tween.start();
-  var interval = setInterval(TWEEN.update, 16);
+  interval = setInterval(TWEEN.update, 16);
 }
 
 var gui = new dat.GUI();
@@ -82,8 +82,8 @@ gui.add(controls, 'thetaLength', 0, 2 * Math.PI).onChange(controls.redraw);
 // from THREE.js examples
 function generateSprite() {
     var canvas = document.createElement('canvas');
-    canvas.width = 128;
-    canvas.height = 128;
+    canvas.width = 64;
+    canvas.height = 64;
     canvas.globalAlpha = 0.5;
 
     var context = canvas.getContext('2d');

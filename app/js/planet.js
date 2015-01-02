@@ -7,7 +7,7 @@ var atmosphereGlowMaterial = require('./atmosphere-glow-material');
 class Planet {
   constructor(options) {
     this.radius = options.radius;
-    this.maxMoonRadius = this.radius * 0.1;
+    this.maxMoonRadius = this.radius * 0.05;
 
     this.color = options.color;
     this.rotate = options.rotate;

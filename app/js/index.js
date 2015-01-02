@@ -50,30 +50,34 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
     material
   );
   sphereMesh.position.copy(spotLight.position);
-  scene.add(sphereMesh);
-
-  scene.add(leapHands.group);
+  //scene.add(sphereMesh);
 
   var planet = new Planet({
-    radius: 50,
+    radius: 110,
     color: 0x000000,
     moons: {
-      count: 10
+      count: 2
     }
   });
 
-  //setTimeout(function() {
-    //var material = new THREE.MeshPhongMaterial({
-      //ambient		: 0xFFFFFF,
-      //shininess	: 10, 
-      //shading		: THREE.SmoothShading,
-      //transparent: true,
-      //map: THREE.ImageUtils.loadTexture('assets/mars.jpg')
-    //});
-    //planet.changeMaterial(material);
-  //}, 6000);
+  setTimeout(function() {
+    scene.add(planet.group);
 
-  //scene.add(planet.group);
+    setTimeout(function() {
+      var material = new THREE.MeshPhongMaterial({
+        ambient		: 0xFFFFFF,
+        shininess	: 10, 
+        shading		: THREE.SmoothShading,
+        transparent: true,
+        map: THREE.ImageUtils.loadTexture('assets/mars.jpg')
+      });
+      planet.changeMaterial(material);
+
+      scene.add(leapHands.group);
+    }, 1000);
+
+  }, 10000);
+
   scene.add(skybox);
 
   render();
