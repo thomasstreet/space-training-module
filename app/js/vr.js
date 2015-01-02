@@ -1,5 +1,9 @@
 var vrToggle = document.getElementById('vr-toggle');
 
+var vrHMD;
+var vrEnabled;
+var vrHMDSensor;
+
 function init(callback) {
   if (navigator.getVRDevices) {
     navigator.getVRDevices().then(function(vrDevices) {
@@ -12,9 +16,6 @@ function init(callback) {
 }
 
 function proccessVrDevices(vrDevices, callback) {
-  var vrHMD;
-  var vrEnabled;
-  var vrHMDSensor;
   for (var i = 0; i < vrDevices.length; ++i) {
     if (vrDevices[i] instanceof HMDVRDevice) {
       vrHMD = vrDevices[i];
@@ -44,7 +45,6 @@ function proccessVrDevices(vrDevices, callback) {
 }
 
 function goVrFullscreen() {
-  vrEnabled = true;
   var viewport = document.querySelector('#viewport canvas');
   viewport.webkitRequestFullScreen({ vrDisplay: vrHMD });
 }
