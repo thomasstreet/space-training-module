@@ -15,7 +15,6 @@ class Planet {
       shininess	: 10, 
       shading		: THREE.SmoothShading,
       transparent: true,
-      //blending: THREE.AdditiveBlending,
       map: THREE.ImageUtils.loadTexture('assets/mars.jpg'),
       opacity: 0
     });
@@ -44,25 +43,9 @@ class Planet {
     }.bind(this));
   }
 
-  changeMaterial(material) {
-    this.sphereMesh.children[0].material = this.sphereMesh.children[1].material;
-
-    material.opacity = 0;
-    this.sphereMesh.children[1].material = material;
-
-    var fade = setInterval(function() {
-      this.sphereMesh.children[1].material.opacity += 0.005;
-      this.sphereMesh.children[0].material.opacity -= 0.005;
-      if (this.sphereMesh.children[1].material.opacity >= 1) {
-        clearInterval(fade);
-      }
-    }.bind(this), 16);
-  }
-
   fadeIn() {
     var fade = setInterval(function() {
       this.sphereMesh.material.opacity += 0.005;
-      this.glowMesh.material.opacity += 0.005;
       if (this.sphereMesh.material.opacity >= 1) {
         clearInterval(fade);
       }
