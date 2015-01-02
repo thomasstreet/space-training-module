@@ -1,5 +1,7 @@
 var atmosphereGlowMaterial = require('./atmosphere-glow-material');
 
+var camera = require('./camera');
+
 var yOffset = -300;
 
 var group = new THREE.Group();
@@ -111,6 +113,11 @@ Leap.loop({background: true}, {
   var palm = hand.palm;
   hide(palm);
 });
+
+//Leap.loopController.use('transform', {
+  //vr: true,
+  //effectiveParent: camera
+//});
 
 function show(mesh) {
   mesh.traverse(function(child) {

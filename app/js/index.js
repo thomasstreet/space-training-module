@@ -10,13 +10,11 @@ var Planet = require('./planet');
 var loading = require('./loading');
 
 var scene = require('./scene');
+var camera = require('./camera');
 
 var viewport = document.getElementById('viewport');
 
 function main(vrEnabled, vrHMD, vrHMDSensor) {
-  var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 100000);
-  camera.position.z = 500;
-
   var renderer = new THREE.WebGLRenderer();
   renderer.shadowMapEnabled = true;
   // to antialias the shadow
@@ -82,13 +80,14 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
 
     if (holding) {
 
-      if (velocity && velocity[2] <= -500) {
+      if (velocity && velocity[2] <= -850) {
+        console.log(velocity[2]);
         console.log('thrown!!!');
         holding = false;
 
         planet.group.position.x = 0;
         planet.group.position.y = 0;
-        planet.group.position.z = 0;
+        planet.group.position.z = -200;
       } else {
         var n = hand.normal;
         planet.group.position.x = palm.position.x + (yDistance * n[0]);
@@ -104,7 +103,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
 
         // Save the initial yDistance when reaching for the planet
         yDistance = planet.group.position.y - palm.position.y;
-        yDistance = 125;
+        yDistance = 150;
         planet.group.position.x = palm.position.x;
         planet.group.position.y = palm.position.y + yDistance;
         planet.group.position.z = palm.position.z;
