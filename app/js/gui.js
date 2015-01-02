@@ -110,7 +110,7 @@ function generateSprite() {
 module.exports = {
   deleteSphere: function(callback) {
     var interval = setInterval(function() {
-      sphere.material.opacity -= 0.005;
+      sphere.material.opacity -= 0.01;
       if (sphere.material.opacity <= 0) {
         scene.remove(sphere);
         callback();

@@ -1,6 +1,6 @@
 var atmosphereGlowMaterial = require('./atmosphere-glow-material');
 
-var yOffset = -200;
+var yOffset = -300;
 
 var group = new THREE.Group();
 

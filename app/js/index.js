@@ -43,14 +43,12 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   spotLight.position.x	= 600;		
 	scene.add( spotLight );	
 
-  var material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-  //material.emissive = 0xffffff;
-  var sphereMesh = new THREE.Mesh(
+  var sun = new THREE.Mesh(
     new THREE.SphereGeometry(50, 64, 64),
-    material
+    new THREE.MeshBasicMaterial({ color: 0xff0000 }) 
   );
-  sphereMesh.position.copy(spotLight.position);
-  //scene.add(sphereMesh);
+  sun.position.copy(spotLight.position);
+  scene.add(sun);
 
   var planet = new Planet({
     radius: 105,
@@ -59,8 +57,6 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
       count: 2
     }
   });
-  planet.group.position.z = -200;
-  planet.group.position.y = -200;
 
   setTimeout(function() {
     scene.add(planet.group);
@@ -68,7 +64,6 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
     gui.deleteSphere(function() {
       scene.add(leapHands.group);
     });
-
   }, 10000);
 
   scene.add(skybox);
@@ -91,15 +86,14 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
         console.log('thrown!!!');
         holding = false;
 
-        planet.group.position.x = velocity[0] / 100;
-        planet.group.position.y = velocity[1] / 100;
-        planet.group.position.z = velocity[2] / 100;
+        planet.group.position.x = 0;
+        planet.group.position.y = 0;
+        planet.group.position.z = 0;
       } else {
         var n = hand.normal;
-        console.log(yDistance);
-        planet.group.position.x = palm.position.x - (yDistance * n[0]);
-        planet.group.position.y = palm.position.y - (yDistance * n[1]);
-        planet.group.position.z = palm.position.z - (yDistance * n[2]);
+        planet.group.position.x = palm.position.x + (yDistance * n[0]);
+        planet.group.position.y = palm.position.y + (yDistance * n[1]);
+        planet.group.position.z = palm.position.z + (yDistance * n[2]);
         planet.group.updateMatrix();
       }
 
@@ -115,7 +109,6 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
         planet.group.position.z = palm.position.z;
       }
     }
-
 
     if (vrEnabled) {
       var state = vrHMDSensor.getState();
@@ -141,11 +134,11 @@ loading(function() {
 });
 
 
-function isInRange(planet, palm) {
+function isInRange(obj1, obj2) {
   var minDistance = 150;
-  var dx = Math.abs(planet.position.x - palm.position.x);
-  var dy = Math.abs(planet.position.y - palm.position.y);
-  var dz = Math.abs(planet.position.z - palm.position.z);
+  var dx = Math.abs(obj1.position.x - obj2.position.x);
+  var dy = Math.abs(obj1.position.y - obj2.position.y);
+  var dz = Math.abs(obj1.position.z - obj2.position.z);
 
   // Require a closer distance for z
   if (dx <= minDistance && dy <= minDistance && dz <= minDistance) {
