@@ -19,8 +19,8 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   renderer.shadowMapEnabled = true;
   // to antialias the shadow
   renderer.shadowMapType = THREE.PCFSoftShadowMap;
-
   renderer.setSize(window.innerWidth, window.innerHeight);
+
   viewport.appendChild(renderer.domElement);
 
   if (vrHMD) {
