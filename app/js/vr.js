@@ -46,7 +46,7 @@ function proccessVrDevices(vrDevices, callback) {
 
 function goVrFullscreen() {
   var viewport = document.querySelector('#viewport canvas');
-  viewport.webkitRequestFullScreen({ vrDisplay: vrHMD });
+  viewport.webkitRequestFullscreen({ vrDisplay: vrHMD });
 }
 
 module.exports = {
