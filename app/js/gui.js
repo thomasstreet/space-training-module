@@ -8,10 +8,13 @@ var sphere;
 var material = new THREE.PointCloudMaterial({
     color: 0xffffff,
     size: 5,
-    opacity: 0.6,
+    opacity: 1,
     transparent: true,
     blending: THREE.AdditiveBlending,
     map: generateSprite()
+    //map: THREE.ImageUtils.loadTexture(
+      //"assets/particle.png"
+    //)
 });
 
 // setup the control gui
@@ -66,7 +69,7 @@ tween.onUpdate(function() {
 
 function animateIn() {
   tween.start();
-  var interval = setInterval(TWEEN.update, 16);
+  interval = setInterval(TWEEN.update, 16);
 }
 
 var gui = new dat.GUI();
@@ -82,16 +85,18 @@ gui.add(controls, 'thetaLength', 0, 2 * Math.PI).onChange(controls.redraw);
 // from THREE.js examples
 function generateSprite() {
     var canvas = document.createElement('canvas');
-    canvas.width = 128;
-    canvas.height = 128;
+    canvas.width = 32;
+    canvas.height = 32;
     canvas.globalAlpha = 0.5;
+
+    document.body.appendChild(canvas);
 
     var context = canvas.getContext('2d');
     var gradient = context.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 2);
-    gradient.addColorStop(0, 'rgba(255,255,255,0.5)');
-    gradient.addColorStop(0.2, 'rgba(0,255,255,0.5)');
-    gradient.addColorStop(0.4, 'rgba(0,0,64,0.5)');
-    gradient.addColorStop(1, 'rgba(0,0,0,0)');
+    gradient.addColorStop(0, 'rgb(255,255,255)');
+    gradient.addColorStop(0.2, 'rgb(0,255,255)');
+    gradient.addColorStop(0.4, 'rgb(0,0,64)');
+    gradient.addColorStop(1, 'rgb(0,0,0)');
 
     context.fillStyle = gradient;
     context.fillRect(0, 0, canvas.width, canvas.height);
@@ -102,4 +107,18 @@ function generateSprite() {
     return texture;
 }
 
-module.exports = gui;
+module.exports = {
+  deleteSphere: function(callback) {
+    var interval = setInterval(function() {
+      sphere.material.opacity -= 0.005;
+      if (sphere.material.opacity <= 0) {
+        scene.remove(sphere);
+        callback();
+        clearInterval(interval);
+      }
+    }, 16);
+  },
+  sphere: function() {
+    return sphere;
+  }
+};

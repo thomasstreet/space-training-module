@@ -7,7 +7,6 @@ var vrHMDSensor;
 function init(callback) {
   if (navigator.getVRDevices) {
     navigator.getVRDevices().then(function(vrDevices) {
-      console.log(vrDevices);
       proccessVrDevices(vrDevices, callback);
     });
   } else {

@@ -1,7 +1,7 @@
 'use strict';
 
 var utils = require('./utils');
-var controls = require('./controls');
+var gui = require('./gui');
 
 var leapHands = require('./leap-hands');
 var skybox = require('./skybox');
@@ -50,30 +50,25 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
     material
   );
   sphereMesh.position.copy(spotLight.position);
-  scene.add(sphereMesh);
-
-  scene.add(leapHands.group);
+  //scene.add(sphereMesh);
 
   var planet = new Planet({
-    radius: 50,
+    radius: 110,
     color: 0x000000,
     moons: {
-      count: 10
+      count: 2
     }
   });
 
-  //setTimeout(function() {
-    //var material = new THREE.MeshPhongMaterial({
-      //ambient		: 0xFFFFFF,
-      //shininess	: 10, 
-      //shading		: THREE.SmoothShading,
-      //transparent: true,
-      //map: THREE.ImageUtils.loadTexture('assets/mars.jpg')
-    //});
-    //planet.changeMaterial(material);
-  //}, 6000);
+  setTimeout(function() {
+    scene.add(planet.group);
+    planet.fadeIn();
+    gui.deleteSphere(function() {
+      scene.add(leapHands.group);
+    });
 
-  //scene.add(planet.group);
+  }, 10000);
+
   scene.add(skybox);
 
   render();
