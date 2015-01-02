@@ -2,8 +2,6 @@ require('traceur/bin/traceur-runtime');
 
 var Moon = require ('./moon');
 
-var atmosphereGlowMaterial = require('./atmosphere-glow-material');
-
 class Planet {
   constructor(options) {
     this.radius = options.radius;
@@ -12,32 +10,24 @@ class Planet {
     this.color = options.color;
     this.rotate = options.rotate;
 
-    var materials = [
-      new THREE.MeshPhongMaterial({ 
-        color: this.color,
-        opacity: 0,
-        transparent: true
-      }),
-      new THREE.MeshPhongMaterial({ 
-        color: this.color,
-        transparent: true
-      }),
-    ];
+    var material = new THREE.MeshPhongMaterial({
+      ambient		: 0xFFFFFF,
+      shininess	: 10, 
+      shading		: THREE.SmoothShading,
+      transparent: true,
+      //blending: THREE.AdditiveBlending,
+      map: THREE.ImageUtils.loadTexture('assets/mars.jpg'),
+      opacity: 0
+    });
 
-    this.sphereMesh = THREE.SceneUtils.createMultiMaterialObject(
+    this.sphereMesh = new THREE.Mesh(
       new THREE.SphereGeometry(this.radius, 64, 64),
-      materials
+      material
     );
     this.sphereMesh.receiveShadow = true;
 
-    this.glowMesh = new THREE.Mesh(
-      new THREE.SphereGeometry(this.radius * 1.1, 64, 64),
-      atmosphereGlowMaterial
-    ); 
-
     this.group = new THREE.Group();
     this.group.add(this.sphereMesh);
-    this.group.add(this.glowMesh);
 
     if (options.moons) {
       this.moons = [];
@@ -64,6 +54,16 @@ class Planet {
       this.sphereMesh.children[1].material.opacity += 0.005;
       this.sphereMesh.children[0].material.opacity -= 0.005;
       if (this.sphereMesh.children[1].material.opacity >= 1) {
+        clearInterval(fade);
+      }
+    }.bind(this), 16);
+  }
+
+  fadeIn() {
+    var fade = setInterval(function() {
+      this.sphereMesh.material.opacity += 0.005;
+      this.glowMesh.material.opacity += 0.005;
+      if (this.sphereMesh.material.opacity >= 1) {
         clearInterval(fade);
       }
     }.bind(this), 16);
