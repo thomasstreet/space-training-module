@@ -1,5 +1,7 @@
 var atmosphereGlowMaterial = require('./atmosphere-glow-material');
 
+var yOffset = -200;
+
 var group = new THREE.Group();
 
 var left = {
@@ -13,12 +15,14 @@ var right = {
  velocity: null
 };
 
-var geometry = new THREE.TorusGeometry(25, 1, 32, 32);
-var material = new THREE.MeshBasicMaterial();
-
-var outer = new THREE.Mesh(geometry, material);
-geometry = new THREE.TorusGeometry(15, 1, 32, 32);
-var inner = new THREE.Mesh(geometry, material);
+var outer = new THREE.Mesh(
+  new THREE.TorusGeometry(25, 0.5, 32, 32),
+  new THREE.MeshBasicMaterial({ color: 0xffffff }) 
+);
+var inner = new THREE.Mesh(
+  new THREE.TorusGeometry(20, 0.5, 32, 32),
+  new THREE.MeshBasicMaterial({ color: 0xffffff }) 
+);
 inner.position.z = -5;
 left.palm = new THREE.Group();
 left.palm.add(outer);
@@ -52,19 +56,11 @@ group.add(right.palm);
 var geometry = new THREE.CylinderGeometry(10, 10, 1, 32, 32);
 var material = new THREE.MeshBasicMaterial();
 
-var ball;
 for (var i = 0; i < 5; i++) {
-  var finger = new THREE.Group();
   var leftSphere = new THREE.Mesh(geometry, material);
-  ball = new THREE.Mesh(
-    new THREE.SphereGeometry(10, 32, 16),
-    atmosphereGlowMaterial
-  );
-  finger.add(leftSphere);
-  finger.add(ball);
-  left.fingerTips.push(finger);
+  left.fingerTips.push(leftSphere);
   hide(leftSphere);
-  group.add(finger);
+  group.add(leftSphere);
 
   var rightSphere = new THREE.Mesh(geometry, material);
   right.fingerTips.push(rightSphere);
@@ -78,12 +74,14 @@ Leap.loop({background: true}, {
     data.fingers.forEach(function (finger, i) {
       var sphere = hand.fingerTips[i];
       sphere.position.fromArray(finger.tipPosition);
+      sphere.position.y += yOffset;
       var n = finger.direction;
       sphere.lookAt(new THREE.Vector3(n[0] * 1000, n[1] * 1000, n[2] * 1000));
       sphere.updateMatrix();
     });
     var palm = hand.palm;
     palm.position.fromArray(data.palmPosition);
+    palm.position.y += yOffset;
 
     hand.velocity = data.palmVelocity;
     hand.normal = data.palmNormal;
