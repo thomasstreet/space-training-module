@@ -1,74 +1,71 @@
+require('traceur/bin/traceur-runtime');
 var atmosphereGlowMaterial = require('./atmosphere-glow-material');
-
 var camera = require('./camera');
+
+class Hand {
+  constructor(group) {
+   var outer = new THREE.Mesh(
+     new THREE.TorusGeometry(25, 0.5, 32, 32),
+     new THREE.MeshBasicMaterial({ color: 0xffffff }) 
+   );
+   var inner = new THREE.Mesh(
+     new THREE.TorusGeometry(20, 0.5, 32, 32),
+     new THREE.MeshBasicMaterial({ color: 0xffffff }) 
+   );
+   inner.position.z = -3;
+
+   this.palm = new THREE.Group();
+   this.palm.add(outer);
+   this.palm.add(inner);
+   this.palm.position.z = 200;
+   this.palm.posSequence = [];
+   this.palm.normalSequence = [];
+
+   // Hide until active
+   hide(this.palm);
+   group.add(this.palm);
+
+   this.fingerTips = [];
+   this.velocity = null;
+
+   var geometry = new THREE.CylinderGeometry(10, 10, 1, 32, 32);
+   var material = new THREE.MeshBasicMaterial();
+   for (var i = 0; i < 5; i++) {
+     var sphere = new THREE.Mesh(geometry, material);
+     this.fingerTips.push(sphere);
+     hide(sphere);
+     group.add(sphere);
+   }
+  }
+  getRollingAverage(array, newPos) {
+    var maxLength = 10;
+    array.push(newPos);
+    if (array.length >= maxLength) {
+      array.shift();
+    }
+    var len = array.length;
+    var x = 0, y = 0, z = 0;
+    for (var i = 0; i < len; i++) {
+      var pos = array[i];
+      x += pos[0];
+      y += pos[1];
+      z += pos[2];
+    }
+    var out = [
+      x / len,
+      y / len,
+      z / len
+    ];
+    return out;
+  }
+}
 
 var yOffset = -300;
 
 var group = new THREE.Group();
 
-var left = {
- palm: null,
- fingerTips: []
-};
-
-var right = {
- palm: null,
- fingerTips: [],
- velocity: null
-};
-
-var outer = new THREE.Mesh(
-  new THREE.TorusGeometry(25, 0.5, 32, 32),
-  new THREE.MeshBasicMaterial({ color: 0xffffff }) 
-);
-var inner = new THREE.Mesh(
-  new THREE.TorusGeometry(20, 0.5, 32, 32),
-  new THREE.MeshBasicMaterial({ color: 0xffffff }) 
-);
-inner.position.z = -5;
-left.palm = new THREE.Group();
-left.palm.add(outer);
-left.palm.add(inner);
-
-left.palm.position.z = 200;
-
-// Hide until active
-hide(left.palm);
-group.add(left.palm);
-
-outer = new THREE.Mesh(
-  new THREE.TorusGeometry(25, 0.5, 32, 32),
-  new THREE.MeshBasicMaterial({ color: 0xffffff }) 
-);
-inner = new THREE.Mesh(
-  new THREE.TorusGeometry(20, 0.5, 32, 32),
-  new THREE.MeshBasicMaterial({ color: 0xffffff }) 
-);
-inner.position.z = -3;
-right.palm = new THREE.Group();
-right.palm.add(outer);
-right.palm.add(inner);
-
-// Set initial z position
-right.palm.position.z = 200;
-
-hide(right.palm);
-group.add(right.palm);
-
-var geometry = new THREE.CylinderGeometry(10, 10, 1, 32, 32);
-var material = new THREE.MeshBasicMaterial();
-
-for (var i = 0; i < 5; i++) {
-  var leftSphere = new THREE.Mesh(geometry, material);
-  left.fingerTips.push(leftSphere);
-  hide(leftSphere);
-  group.add(leftSphere);
-
-  var rightSphere = new THREE.Mesh(geometry, material);
-  right.fingerTips.push(rightSphere);
-  hide(rightSphere);
-  group.add(rightSphere);
-}
+var left = new Hand(group);
+var right = new Hand(group);
 
 Leap.loop({background: true}, {
   hand: function (data) {
@@ -81,12 +78,15 @@ Leap.loop({background: true}, {
       sphere.lookAt(new THREE.Vector3(n[0] * 1000, n[1] * 1000, n[2] * 1000));
       sphere.updateMatrix();
     });
+
     var palm = hand.palm;
-    palm.position.fromArray(data.palmPosition);
+    var position = hand.getRollingAverage(palm.posSequence, data.palmPosition);
+    palm.position.fromArray(position);
     palm.position.y += yOffset;
 
     hand.velocity = data.palmVelocity;
-    hand.normal = data.palmNormal;
+    var normal = hand.getRollingAverage(palm.normalSequence, data.palmNormal);
+    hand.normal = normal;
 
     var n = data.palmNormal;
     hand.palm.lookAt(new THREE.Vector3(n[0] * 1000, n[1] * 1000, n[2] * 1000));
@@ -153,7 +153,6 @@ function generateSprite() {
 
     return texture;
 }
-
 
 module.exports = {
   group: group,
