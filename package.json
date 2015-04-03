@@ -18,7 +18,7 @@
     "watch": "npm run watch-scripts",
     "build-scripts": "node_modules/browserify/bin/cmd.js app/js/index.js -t traceurify  -o app/bundle.js --debug --verbose",
     "build": "npm run build-scripts",
-    "serve": "node_modules/serve/bin/serve app -p 1337",
+    "serve": "node_modules/serve/bin/serve app -p 1315",
     "start-dev": "npm run build & npm run watch & npm run serve"
   },
   "repository": {

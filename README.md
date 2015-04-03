@@ -2,8 +2,6 @@
 
 ## Getting Started
 
-If OSX, double click the command.start.
-
-Or, in the command line:
-
-    $ sh start.command
+1) `npm install`
+2) `./start.command` or double click the `start.command` file
+3) Visit `localhost:1315`
