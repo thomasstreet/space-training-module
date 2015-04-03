@@ -1,7 +1,6 @@
 'use strict';
 
 var utils = require('./utils');
-var gui = require('./gui');
 
 var leapHands = require('./leap-hands');
 var skybox = require('./skybox');
