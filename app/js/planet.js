@@ -56,13 +56,13 @@ class Planet {
     }.bind(this));
   }
 
-  fadeIn() {
-    var fade = setInterval(function() {
+  fadeIn(duration) {
+    var fade = setInterval(() => {
       this.sphereMesh.material.opacity += 0.01;
       if (this.sphereMesh.material.opacity >= 1) {
         clearInterval(fade);
       }
-    }.bind(this), 16);
+    }, duration / 100);
   }
 }
 
