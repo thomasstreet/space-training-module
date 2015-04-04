@@ -35,10 +35,10 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   scene.add(ambientLight);
 
   var spotLight	= new THREE.SpotLight( 0xFFFFFF );
-  spotLight.target.position.set( 0, 0, -500 );
+  spotLight.target.position.set( 0, 0, 100 );
   spotLight.castShadow = true;
   spotLight.position.z	= 500;		
-  spotLight.position.x	= 600;		
+  spotLight.position.x	= 100;
   scene.add( spotLight );	
 
   var sun = objects.sun;
@@ -158,11 +158,13 @@ function determineIfObjectIsHeld(object) {
       object.isHeldByLeapHands = false;
 
       object.moveToInitialPosition();
+      object.fadeOutInfoView();
 
       leapHands.holdingObjectWithId = null;
       leapHands.timeWhenLastThrownObject = Date.now();
     } else {
       object.positionRelativeToHand(hand);
+      object.determineIfShowInfoView();
     }
   } 
 
