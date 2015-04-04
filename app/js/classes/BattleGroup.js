@@ -19,6 +19,8 @@ class BattleGroup extends BaseObject {
           i < count / 2 ? 0 : 40,
           0
         );
+        //object.children[0].material.emissive = new THREE.Color({r: 255, g: 255, b: 255});
+        //object.children[0].material.emissive.setRGB;
         this.group.add(object);
       }
     }, onProgress, onError);

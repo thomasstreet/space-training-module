@@ -30,16 +30,20 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
   // Needed to show textures
-  //var ambientLight = new THREE.AmbientLight(0x404040);
-  var ambientLight = new THREE.AmbientLight(0xffffff);
+  var ambientLight = new THREE.AmbientLight(0x404040);
+  //var ambientLight = new THREE.AmbientLight(0xffffff);
   scene.add(ambientLight);
+
+ var directionalLight = new THREE.DirectionalLight(0xffffff);
+      directionalLight.position.set(1, 0, 2).normalize();
+      scene.add(directionalLight);
 
   var spotLight	= new THREE.SpotLight( 0xFFFFFF );
   spotLight.target.position.set( 0, 0, 100 );
   spotLight.castShadow = true;
   spotLight.position.z	= 500;		
   spotLight.position.x	= 100;
-  scene.add( spotLight );	
+  //scene.add( spotLight );	
 
   var sun = objects.sun;
   sun.position.copy(spotLight.position);
