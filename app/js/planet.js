@@ -15,7 +15,7 @@ class Planet {
       shininess	: 10, 
       shading		: THREE.SmoothShading,
       transparent: true,
-      map: THREE.ImageUtils.loadTexture('assets/mars.jpg'),
+      map: THREE.ImageUtils.loadTexture(options.texture),
       opacity: 0
     });
 

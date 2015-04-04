@@ -3,6 +3,7 @@
 var utils = require('./utils');
 
 var leapHands = require('./leap-hands');
+var objects = require('./objects');
 var skybox = require('./skybox');
 var vr = require('./vr');
 var Planet = require('./planet');
@@ -40,38 +41,38 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   spotLight.position.x	= 600;		
 	scene.add( spotLight );	
 
-  var sun = new THREE.Mesh(
-    new THREE.SphereGeometry(50, 64, 64),
-    new THREE.MeshBasicMaterial({ color: 0xff0000 }) 
-  );
+  var sun = objects.sun;
   sun.position.copy(spotLight.position);
   scene.add(sun);
 
-  var planet = new Planet({
-    radius: 105,
-    color: 0x000000,
-    moons: {
-      count: 2
-    }
-  });
+  var planet = objects.tatooine;
 
-  setTimeout(function() {
-    scene.add(planet.group);
-    planet.fadeIn();
-    gui.deleteSphere(function() {
-      scene.add(leapHands.group);
-    });
-  }, 10000);
+  addPlanets();
+
+  setTimeout(addPlanets, 5000);
 
   scene.add(skybox);
 
   render();
 
+  function addPlanets() {
+    objects.planets.forEach((planet) => {
+      scene.add(planet.group);
+      planet.fadeIn();
+    });
+  }
+
+  function rotatePlanets() {
+    objects.planets.forEach((planet) => {
+      planet.group.rotateY(-0.005);
+    });
+  }
+
   var holding = false;
   var yDistance;
 
   function render() {
-    planet.group.rotateY(-0.005);
+    rotatePlanets();
 
     var hand = leapHands.rightHand;
     var palm = hand.palm;
@@ -80,7 +81,6 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
     if (holding) {
 
       if (velocity && velocity[2] <= -850) {
-        console.log(velocity[2]);
         console.log('thrown!!!');
         holding = false;
 
