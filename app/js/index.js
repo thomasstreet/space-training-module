@@ -6,7 +6,6 @@ var leapHands = require('./leap-hands');
 var objects = require('./objects');
 var skybox = require('./skybox');
 var vr = require('./vr');
-var Planet = require('./planet');
 var loading = require('./loading');
 
 var scene = require('./scene');
@@ -119,19 +118,6 @@ loading(function() {
 });
 
 
-function isInRange(obj1, obj2) {
-  var minDistance = 150;
-  var dx = Math.abs(obj1.position.x - obj2.position.x);
-  var dy = Math.abs(obj1.position.y - obj2.position.y);
-  var dz = Math.abs(obj1.position.z - obj2.position.z);
-
-  // Require a closer distance for z
-  if (dx <= minDistance && dy <= minDistance && dz <= minDistance) {
-    return true;
-  }
-  return false;
-}
-
 function addObjects() {
   objects.planets.forEach((planet, i) => {
     setTimeout(() => {
@@ -145,15 +131,15 @@ function addObjects() {
 }
 
 function rotateObjects() {
-  objects.planets.forEach((planet) => {
-    planet.group.rotateY(-0.005);
+  objects.planets.forEach((obj) => {
+    obj.rotate();
   });
 }
 
 function determineIfObjectsAreHeld() {
   if (scene.leapHandsAdded) {
-    objects.planets.forEach((planet) => {
-      determineIfPlanetIsHeld(planet);
+    objects.planets.forEach((obj) => {
+      determineIfObjectIsHeld(obj);
     });
   }
 }
@@ -161,41 +147,36 @@ function determineIfObjectsAreHeld() {
 var throwVelocityThreshold = -850;
 var waitBeforeHoldingObjectAgain = 1000;
 
-function determineIfPlanetIsHeld(object) {
+function determineIfObjectIsHeld(object) {
   var hand = leapHands.rightHand;
   var palm = hand.palm;
   var velocity = leapHands.rightHand.velocity;
 
-  // LeapHands are holding this planet
+  console.log(leapHands.holdingObjectWithId);
+  // LeapHands are holding this object
   if (leapHands.holdingObjectWithId === object.id) {
     if (velocity && velocity[2] <= throwVelocityThreshold) {
       object.isHeldByLeapHands = false;
 
-      //var tween = new TWEEN.Tween({pos: 0}).to({pos: 1}, 5000);
-      //tween.easing(TWEEN.Easing.Quartic.InOut);
-
-      object.group.position.set(
-        object.initialPosition[0],
-        object.initialPosition[1],
-        object.initialPosition[2]
-      );
+      object.moveToInitialPosition();
 
       leapHands.holdingObjectWithId = null;
       leapHands.timeWhenLastThrownObject = Date.now();
     } else {
-      var n = hand.normal;
       //var yDistance = object.initialDistanceWhenHeld[1];
       var yDistance = 100;
-      object.group.position.x = palm.position.x + (yDistance * n[0]);
-      object.group.position.y = palm.position.y + (yDistance * n[1]);
-      object.group.position.z = palm.position.z + (yDistance * n[2]);
+
+      object.group.position.x = palm.position.x + (yDistance * hand.normal[0]);
+      object.group.position.y = palm.position.y + (yDistance * hand.normal[1]);
+      object.group.position.z = palm.position.z + (yDistance * hand.normal[2]);
+
       object.group.updateMatrix();
     }
   } 
 
-  // LeapHands are holding nothing
-  else if (leapHands.holdingObjectWithId === null) {
-    if (isInRange(object.group, palm)) {
+  // LeapHands are holding nothing, so check if object is close enough to be held
+  else if (!leapHands.holdingObjectWithId) {
+    if (object.isInRange(palm)) {
 
       // If not enough time has elapsed since last held an object, don't hold
       if (Date.now() - leapHands.timeWhenLastThrownObject < waitBeforeHoldingObjectAgain) {

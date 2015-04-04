@@ -1,20 +1,16 @@
 require('traceur/bin/traceur-runtime');
 
 var Moon = require ('./moon');
+var BaseObject = require ('./base-object');
 
-class Planet {
+class Planet extends BaseObject {
   constructor(options) {
-    this.id = options.id;
-    this.isHeldByLeapHands = false;
-    this.initialDistanceWhenHeld = null;
+    super(options);
 
     this.radius = options.radius;
     this.maxMoonRadius = this.radius * 0.05;
 
     this.color = options.color;
-    this.rotate = options.rotate;
-
-    this.initialPosition = options.initialPosition;
 
     var material = new THREE.MeshPhongMaterial({
       ambient		: 0xFFFFFF,
@@ -30,8 +26,6 @@ class Planet {
       material
     );
     this.sphereMesh.receiveShadow = true;
-
-    this.group = new THREE.Group();
     
     this.group.position.set(
       this.initialPosition[0],
