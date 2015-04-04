@@ -12,6 +12,32 @@ class BaseObject {
     this.initialDistanceWhenHeld = null;
 
     this.group = new THREE.Group();
+
+    var video = document.getElementById( 'video' );
+
+    var texture = new THREE.VideoTexture( video );
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+    texture.format = THREE.RGBFormat;
+
+    this.infoView = new THREE.Mesh(
+      new THREE.BoxGeometry(160 * 0.8, 90 * 0.8, 2),
+      new THREE.MeshLambertMaterial({color: 0xffffff, map: texture})
+    );
+    this.infoView.castShadow = true;
+
+    this.infoViewOffset = [
+      options.radius,
+      0,
+      options.radius
+    ];
+
+    this.moveToInitialPosition();
+  }
+
+  attachToScene(scene) {
+    scene.add(this.group);
+    scene.add(this.infoView);
   }
 
   isInRange(otherObject) {
@@ -36,6 +62,12 @@ class BaseObject {
       this.initialPosition[1],
       this.initialPosition[2]
     );
+
+    this.infoView.position.set(
+      this.initialPosition[0] + this.infoViewOffset[0],
+      this.initialPosition[1] + this.infoViewOffset[1],
+      this.initialPosition[2] + this.infoViewOffset[2]
+    );
   }
 
   positionRelativeToHand(hand) {
@@ -49,6 +81,12 @@ class BaseObject {
     this.group.position.z = palm.position.z + (yDistance * hand.normal[2]);
 
     this.group.updateMatrix();
+
+    this.infoView.position.x = palm.position.x + (yDistance * hand.normal[0]) + this.infoViewOffset[0];
+    this.infoView.position.y = palm.position.y + (yDistance * hand.normal[1]) + this.infoViewOffset[1];
+    this.infoView.position.z = palm.position.z + (yDistance * hand.normal[2]) + this.infoViewOffset[2];
+
+    this.infoView.updateMatrix();
   }
 
   rotate() {

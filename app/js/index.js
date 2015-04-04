@@ -121,7 +121,7 @@ loading(function() {
 function addObjects() {
   objects.planets.forEach((planet, i) => {
     setTimeout(() => {
-      scene.add(planet.group);
+      planet.attachToScene(scene);
       planet.fadeIn(500);
     }, 500 * i);
   });

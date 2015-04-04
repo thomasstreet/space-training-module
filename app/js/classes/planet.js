@@ -26,12 +26,6 @@ class Planet extends BaseObject {
       material
     );
     this.sphereMesh.receiveShadow = true;
-    
-    this.group.position.set(
-      this.initialPosition[0],
-      this.initialPosition[1],
-      this.initialPosition[2]
-    );
 
     this.group.add(this.sphereMesh);
 
