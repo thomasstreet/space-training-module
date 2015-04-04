@@ -145,4 +145,3 @@ function isInRange(obj1, obj2) {
   }
   return false;
 }
-

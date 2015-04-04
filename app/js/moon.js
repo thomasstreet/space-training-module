@@ -1,7 +1,5 @@
 require('traceur/bin/traceur-runtime');
 
-var atmosphereGlowMaterial = require('./atmosphere-glow-material');
-
 class Moon {
   constructor(options) {
     this.radius = options.maxRadius * Math.max(0.7, Math.random());
@@ -13,14 +11,8 @@ class Moon {
     );
     this.sphereMesh.castShadow = true;
 
-    this.glowMesh = new THREE.Mesh(
-      new THREE.SphereGeometry(this.radius, 32, 32),
-      atmosphereGlowMaterial
-    ); 
-
     this.group = new THREE.Group();
     this.group.add(this.sphereMesh);
-    //this.group.add(this.glowMesh);
 
     var distanceFromPlanet = ((Math.random() * 30)) + 160;
 

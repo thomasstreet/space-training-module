@@ -1,18 +1,20 @@
 var Planet = require('./planet');
 
 var tatooine =  new Planet({
-  radius: 105,
+  radius: 100,
   color: 0x000000,
   texture: 'assets/mars.jpg',
+  position: [-200, 0, 0],
   moons: {
     count: 2
   }
 });
 
 var hoth =  new Planet({
-  radius: 205,
+  radius: 70,
   color: 0x000000,
   texture: 'assets/planet_hoth.png',
+  position: [200, 0, 0],
   moons: {
     count: 4
   }

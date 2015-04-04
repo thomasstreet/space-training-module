@@ -26,6 +26,12 @@ class Planet {
     this.sphereMesh.receiveShadow = true;
 
     this.group = new THREE.Group();
+
+    this.group.position.set(
+      options.position[0],
+      options.position[1],
+      options.position[2]
+    );
     this.group.add(this.sphereMesh);
 
     if (options.moons) {
