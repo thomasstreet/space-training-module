@@ -145,7 +145,8 @@ function determineIfPlanetIsHeld(object) {
       leapHands.timeWhenLastThrownObject = Date.now();
     } else {
       var n = hand.normal;
-      var yDistance = object.initialYDistanceWhenHeld;
+      //var yDistance = object.initialDistanceWhenHeld[1];
+      var yDistance = 100;
       object.group.position.x = palm.position.x + (yDistance * n[0]);
       object.group.position.y = palm.position.y + (yDistance * n[1]);
       object.group.position.z = palm.position.z + (yDistance * n[2]);
@@ -166,11 +167,15 @@ function determineIfPlanetIsHeld(object) {
       object.isHeldByLeapHands = true;
 
       // Save the initial yDistance when reaching for the object
-      //this.initialYDistanceWhenHeld = object.group.position.y - palm.position.y;
-      object.initialYDistanceWhenHeld = 150;
-      object.group.position.x = palm.position.x;
-      object.group.position.y = palm.position.y + object.initialYDistanceWhenHeld;
-      object.group.position.z = palm.position.z;
+      object.initialDistanceWhenHeld = [
+        object.group.position.x - palm.position.x,
+        object.group.position.y - palm.position.y,
+        object.group.position.z - palm.position.z
+      ];
+
+      object.group.position.x = palm.position.x + object.initialDistanceWhenHeld[0];
+      object.group.position.y = palm.position.y + object.initialDistanceWhenHeld[1];
+      object.group.position.z = palm.position.z + object.initialDistanceWhenHeld[2];
     }
   }
 

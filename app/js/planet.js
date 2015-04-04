@@ -6,7 +6,7 @@ class Planet {
   constructor(options) {
     this.id = options.id;
     this.isHeldByLeapHands = false;
-    this.initialYDistanceWhenHeld = null;
+    this.initialDistanceWhenHeld = null;
 
     this.radius = options.radius;
     this.maxMoonRadius = this.radius * 0.05;
