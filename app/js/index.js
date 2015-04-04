@@ -45,20 +45,18 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   sun.position.copy(spotLight.position);
   scene.add(sun);
 
-  var planet = objects.tatooine;
+  addObjects();
 
-  addPlanets();
-
-  setTimeout(addPlanets, 5000);
+  setTimeout(addObjects, 5000);
 
   scene.add(skybox);
 
   render();
 
   function render() {
-    rotatePlanets();
+    rotateObjects();
 
-    determineIfPlanetsAreHeld();
+    determineIfObjectsAreHeld();
 
     if (vrEnabled) {
       var state = vrHMDSensor.getState();
@@ -97,7 +95,7 @@ function isInRange(obj1, obj2) {
   return false;
 }
 
-function addPlanets() {
+function addObjects() {
   objects.planets.forEach((planet) => {
     scene.add(planet.group);
     planet.fadeIn();
@@ -107,13 +105,13 @@ function addPlanets() {
   scene.leapHandsAdded = true;
 }
 
-function rotatePlanets() {
+function rotateObjects() {
   objects.planets.forEach((planet) => {
     planet.group.rotateY(-0.005);
   });
 }
 
-function determineIfPlanetsAreHeld() {
+function determineIfObjectsAreHeld() {
   if (scene.leapHandsAdded) {
     objects.planets.forEach((planet) => {
       determineIfPlanetIsHeld(planet);

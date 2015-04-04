@@ -114,11 +114,6 @@ Leap.loop({background: true}, {
   hide(palm);
 });
 
-//Leap.loopController.use('transform', {
-  //vr: true,
-  //effectiveParent: camera
-//});
-
 function show(mesh) {
   mesh.traverse(function(child) {
     child.visible = true;
