@@ -131,6 +131,12 @@ class BaseObject {
     }, duration / 20);
   }
 
+  hideInfoViewImmediately() {
+    this.infoViewVisible = false;
+    this.infoView.material.opacity = 0;
+    this.infoView.castShadow = false;
+  }
+
 }
 
 module.exports = BaseObject;

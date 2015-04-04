@@ -158,7 +158,7 @@ function determineIfObjectIsHeld(object) {
       object.isHeldByLeapHands = false;
 
       object.moveToInitialPosition();
-      object.fadeOutInfoView();
+      object.hideInfoViewImmediately();
 
       leapHands.holdingObjectWithId = null;
       leapHands.timeWhenLastThrownObject = Date.now();
