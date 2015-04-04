@@ -123,7 +123,7 @@ function determineIfObjectIsHeld(object) {
     if (velocity && velocity[2] <= throwVelocityThreshold) {
       object.isHeldByLeapHands = false;
 
-      object.moveToInitialPosition(1000);
+      object.moveToInitialPosition(500);
       object.hideInfoViewImmediately();
 
       leapHands.holdingObjectWithId = null;

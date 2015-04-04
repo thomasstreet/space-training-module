@@ -76,12 +76,7 @@ class BaseObject {
       t += deltaPercentPerTick;
 
       this.group.position.addVectors(startPosition, groupDistance.clone().multiplyScalar(t));
-
-      //this.infoView.position.set
-        //this.initialPosition[0] + this.infoViewOffset[0],
-        //this.initialPosition[1] + this.infoViewOffset[1],
-        //this.initialPosition[2] + this.infoViewOffset[2]
-      //);
+      this.infoView.position.addVectors(this.group.position, this.infoViewOffset);
 
       if (t >= 1) {
         clearInterval(interval);
