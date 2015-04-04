@@ -6,18 +6,18 @@ class BattleGroup extends BaseObject {
   constructor(options) {
     super(options);
 
+    this.radius = options.radius;
+
     var loader = new THREE.OBJMTLLoader();
 
     loader.load(options.obj, options.mtl, (originalObject) => {
-      var scale = 0.03;
-      var count = 10;
-      for (var i = 0; i < count; i++) {
+      for (var i = 0; i < options.shipPositions.length; i++) {
         var object = originalObject.clone();
-        object.scale.set(scale,scale,scale);
+        object.scale.set(options.scale, options.scale, options.scale);
         object.position.set(
-          (i % 5) * 40,
-          i < count / 2 ? 0 : 40,
-          0
+          options.shipPositions[i].x,
+          options.shipPositions[i].y,
+          options.shipPositions[i].z
         );
         //object.children[0].material.emissive = new THREE.Color({r: 255, g: 255, b: 255});
         //object.children[0].material.emissive.setRGB;
@@ -27,12 +27,6 @@ class BattleGroup extends BaseObject {
   }
 
   fadeIn(duration) {
-    //var fade = setInterval(() => {
-      //this.sphereMesh.material.opacity += 0.01;
-      //if (this.sphereMesh.material.opacity >= 1) {
-        //clearInterval(fade);
-      //}
-    //}, duration / 100);
   }
 }
 

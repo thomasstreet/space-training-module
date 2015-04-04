@@ -44,9 +44,24 @@ var RebelAllianceBattleGroup = new BattleGroup({
   obj: 'assets/star-wars/ARC170-2/Arc170.obj',
   mtl: 'assets/star-wars/ARC170-2/Arc170.mtl',
   initialPosition: new THREE.Vector3(0, -200, 0),
-  rotationSpeed: 0,
-  scale: 0.03,
-  count: 10
+  radius: 80,
+  shipPositions: [
+    new THREE.Vector3(0, 40, 0),
+    new THREE.Vector3(20, 20, 0),
+    new THREE.Vector3(-20, 20, 0),
+
+    new THREE.Vector3(-80, 0, 0),
+    new THREE.Vector3(-40, 0, 0),
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(40, 0, 0),
+    new THREE.Vector3(80, 0, 0),
+
+    new THREE.Vector3(20, -20, 0),
+    new THREE.Vector3(-20, -20, 0),
+    new THREE.Vector3(0, -40, 0),
+  ],
+  rotationSpeed: -0.002,
+  scale: 0.02
 });
 
 var sun = new THREE.Mesh(
