@@ -60,6 +60,9 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
       scene.add(planet.group);
       planet.fadeIn();
     });
+
+    scene.add(leapHands.group);
+    scene.leapHandsAdded = true;
   }
 
   function rotatePlanets() {
@@ -74,6 +77,8 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   function render() {
     rotatePlanets();
 
+    if (!scene.leapHandsAdded) return;
+
     var hand = leapHands.rightHand;
     var palm = hand.palm;
     var velocity = leapHands.rightHand.velocity;
@@ -84,9 +89,11 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
         console.log('thrown!!!');
         holding = false;
 
-        planet.group.position.x = 0;
-        planet.group.position.y = 0;
-        planet.group.position.z = -200;
+        planet.group.position.set(
+          planet.initialPosition[0],
+          planet.initialPosition[1],
+          planet.initialPosition[2]
+        );
       } else {
         var n = hand.normal;
         planet.group.position.x = palm.position.x + (yDistance * n[0]);

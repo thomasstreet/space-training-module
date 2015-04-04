@@ -4,7 +4,7 @@ var tatooine =  new Planet({
   radius: 100,
   color: 0x000000,
   texture: 'assets/mars.jpg',
-  position: [-200, 0, 0],
+  initialPosition: [-200, 0, 0],
   moons: {
     count: 2
   }
@@ -14,7 +14,7 @@ var hoth =  new Planet({
   radius: 70,
   color: 0x000000,
   texture: 'assets/planet_hoth.png',
-  position: [200, 0, 0],
+  initialPosition: [200, 0, 0],
   moons: {
     count: 4
   }
