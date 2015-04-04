@@ -34,12 +34,12 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   var ambientLight = new THREE.AmbientLight(0x404040);
   scene.add(ambientLight);
 
-	var spotLight	= new THREE.SpotLight( 0xFFFFFF );
-	spotLight.target.position.set( 0, 0, -500 );
+  var spotLight	= new THREE.SpotLight( 0xFFFFFF );
+  spotLight.target.position.set( 0, 0, -500 );
   spotLight.castShadow = true;
   spotLight.position.z	= 500;		
   spotLight.position.x	= 600;		
-	scene.add( spotLight );	
+  scene.add( spotLight );	
 
   var sun = objects.sun;
   sun.position.copy(spotLight.position);
@@ -55,66 +55,10 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
 
   render();
 
-  function addPlanets() {
-    objects.planets.forEach((planet) => {
-      scene.add(planet.group);
-      planet.fadeIn();
-    });
-
-    scene.add(leapHands.group);
-    scene.leapHandsAdded = true;
-  }
-
-  function rotatePlanets() {
-    objects.planets.forEach((planet) => {
-      planet.group.rotateY(-0.005);
-    });
-  }
-
-  var holding = false;
-  var yDistance;
-
   function render() {
     rotatePlanets();
 
-    if (!scene.leapHandsAdded) return;
-
-    var hand = leapHands.rightHand;
-    var palm = hand.palm;
-    var velocity = leapHands.rightHand.velocity;
-
-    if (holding) {
-
-      if (velocity && velocity[2] <= -850) {
-        console.log('thrown!!!');
-        holding = false;
-
-        planet.group.position.set(
-          planet.initialPosition[0],
-          planet.initialPosition[1],
-          planet.initialPosition[2]
-        );
-      } else {
-        var n = hand.normal;
-        planet.group.position.x = palm.position.x + (yDistance * n[0]);
-        planet.group.position.y = palm.position.y + (yDistance * n[1]);
-        planet.group.position.z = palm.position.z + (yDistance * n[2]);
-        planet.group.updateMatrix();
-      }
-
-    } else {
-      if (isInRange(planet.group, palm)) {
-        holding = true;
-        console.log('holding');
-
-        // Save the initial yDistance when reaching for the planet
-        yDistance = planet.group.position.y - palm.position.y;
-        yDistance = 150;
-        planet.group.position.x = palm.position.x;
-        planet.group.position.y = palm.position.y + yDistance;
-        planet.group.position.z = palm.position.z;
-      }
-    }
+    determineIfPlanetsAreHeld();
 
     if (vrEnabled) {
       var state = vrHMDSensor.getState();
@@ -151,4 +95,89 @@ function isInRange(obj1, obj2) {
     return true;
   }
   return false;
+}
+
+function addPlanets() {
+  objects.planets.forEach((planet) => {
+    scene.add(planet.group);
+    planet.fadeIn();
+  });
+
+  scene.add(leapHands.group);
+  scene.leapHandsAdded = true;
+}
+
+function rotatePlanets() {
+  objects.planets.forEach((planet) => {
+    planet.group.rotateY(-0.005);
+  });
+}
+
+function determineIfPlanetsAreHeld() {
+  if (scene.leapHandsAdded) {
+    objects.planets.forEach((planet) => {
+      determineIfPlanetIsHeld(planet);
+    });
+  }
+}
+
+var throwVelocityThreshold = -850;
+var waitBeforeHoldingObjectAgain = 1000;
+
+function determineIfPlanetIsHeld(object) {
+  var hand = leapHands.rightHand;
+  var palm = hand.palm;
+  var velocity = leapHands.rightHand.velocity;
+
+  // LeapHands are holding this planet
+  if (leapHands.holdingObjectWithId === object.id) {
+    if (velocity && velocity[2] <= throwVelocityThreshold) {
+      object.isHeldByLeapHands = false;
+
+      //var tween = new TWEEN.Tween({pos: 0}).to({pos: 1}, 5000);
+      //tween.easing(TWEEN.Easing.Quartic.InOut);
+
+      object.group.position.set(
+        object.initialPosition[0],
+        object.initialPosition[1],
+        object.initialPosition[2]
+      );
+
+      leapHands.holdingObjectWithId = null;
+      leapHands.timeWhenLastThrownObject = Date.now();
+    } else {
+      var n = hand.normal;
+      var yDistance = object.initialYDistanceWhenHeld;
+      object.group.position.x = palm.position.x + (yDistance * n[0]);
+      object.group.position.y = palm.position.y + (yDistance * n[1]);
+      object.group.position.z = palm.position.z + (yDistance * n[2]);
+      object.group.updateMatrix();
+    }
+  } 
+
+  // LeapHands are holding nothing
+  else if (leapHands.holdingObjectWithId === null) {
+    if (isInRange(object.group, palm)) {
+
+      // If not enough time has elapsed since last held an object, don't hold
+      if (Date.now() - leapHands.timeWhenLastThrownObject < waitBeforeHoldingObjectAgain) {
+        return;
+      }
+
+      leapHands.holdingObjectWithId = object.id;
+      object.isHeldByLeapHands = true;
+
+      // Save the initial yDistance when reaching for the object
+      //this.initialYDistanceWhenHeld = object.group.position.y - palm.position.y;
+      object.initialYDistanceWhenHeld = 150;
+      object.group.position.x = palm.position.x;
+      object.group.position.y = palm.position.y + object.initialYDistanceWhenHeld;
+      object.group.position.z = palm.position.z;
+    }
+  }
+
+  // LeapHands are already holding an object, but not this one.
+  else {
+    // Do nothing
+  }
 }

@@ -155,6 +155,8 @@ function generateSprite() {
 }
 
 module.exports = {
+  timeWhenLastThrownObject: 0,
+  holdingObjectWithId: null,
   group: group,
   rightHand: right,
   leftHand: left

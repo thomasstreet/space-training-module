@@ -1,6 +1,7 @@
 var Planet = require('./planet');
 
 var tatooine =  new Planet({
+  id: "Tatooine",
   radius: 100,
   color: 0x000000,
   texture: 'assets/mars.jpg',
@@ -11,6 +12,7 @@ var tatooine =  new Planet({
 });
 
 var hoth =  new Planet({
+  id: "Hoth",
   radius: 70,
   color: 0x000000,
   texture: 'assets/planet_hoth.png',
