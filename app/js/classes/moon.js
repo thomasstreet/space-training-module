@@ -14,7 +14,9 @@ class Moon {
     this.group = new THREE.Group();
     this.group.add(this.sphereMesh);
 
-    var distanceFromPlanet = ((Math.random() * 30)) + 160;
+    var minDistanceFromPlanetSurface = 20;
+    var maxDistanceFromPlanetSurface = (Math.random() * 20) + minDistanceFromPlanetSurface;
+    var distanceFromPlanet = maxDistanceFromPlanetSurface + options.parentPlanetRadius;
 
     // Random velocity from [0.001, 0.006];
     var velocity = (Math.random() * 0.005) + 0.001;

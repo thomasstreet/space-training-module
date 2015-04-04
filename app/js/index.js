@@ -152,7 +152,6 @@ function determineIfObjectIsHeld(object) {
   var palm = hand.palm;
   var velocity = leapHands.rightHand.velocity;
 
-  console.log(leapHands.holdingObjectWithId);
   // LeapHands are holding this object
   if (leapHands.holdingObjectWithId === object.id) {
     if (velocity && velocity[2] <= throwVelocityThreshold) {
@@ -163,14 +162,7 @@ function determineIfObjectIsHeld(object) {
       leapHands.holdingObjectWithId = null;
       leapHands.timeWhenLastThrownObject = Date.now();
     } else {
-      //var yDistance = object.initialDistanceWhenHeld[1];
-      var yDistance = 100;
-
-      object.group.position.x = palm.position.x + (yDistance * hand.normal[0]);
-      object.group.position.y = palm.position.y + (yDistance * hand.normal[1]);
-      object.group.position.z = palm.position.z + (yDistance * hand.normal[2]);
-
-      object.group.updateMatrix();
+      object.positionRelativeToHand(hand);
     }
   } 
 
@@ -192,10 +184,6 @@ function determineIfObjectIsHeld(object) {
         object.group.position.y - palm.position.y,
         object.group.position.z - palm.position.z
       ];
-
-      object.group.position.x = palm.position.x + object.initialDistanceWhenHeld[0];
-      object.group.position.y = palm.position.y + object.initialDistanceWhenHeld[1];
-      object.group.position.z = palm.position.z + object.initialDistanceWhenHeld[2];
     }
   }
 

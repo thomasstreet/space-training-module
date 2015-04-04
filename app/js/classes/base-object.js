@@ -38,6 +38,19 @@ class BaseObject {
     );
   }
 
+  positionRelativeToHand(hand) {
+    var palm = hand.palm;
+
+    //var yDistance = object.initialDistanceWhenHeld[1];
+    var yDistance = 100;
+
+    this.group.position.x = palm.position.x + (yDistance * hand.normal[0]);
+    this.group.position.y = palm.position.y + (yDistance * hand.normal[1]);
+    this.group.position.z = palm.position.z + (yDistance * hand.normal[2]);
+
+    this.group.updateMatrix();
+  }
+
   rotate() {
     this.group.rotateY(-0.005);
   }

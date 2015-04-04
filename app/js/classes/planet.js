@@ -40,7 +40,7 @@ class Planet extends BaseObject {
       for (var i = 0; i < options.moons.count; i++) {
         var moon = new Moon({
           maxRadius: this.maxMoonRadius,
-          //orbitTarget: this.group
+          parentPlanetRadius: this.radius
         });
         this.moons.push(moon.group);
       }
