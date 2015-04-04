@@ -30,8 +30,8 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
   // Needed to show textures
-  var ambientLight = new THREE.AmbientLight(0x404040);
-  //var ambientLight = new THREE.AmbientLight(0xffffff);
+  //var ambientLight = new THREE.AmbientLight(0x404040);
+  var ambientLight = new THREE.AmbientLight(0xffffff);
   scene.add(ambientLight);
 
   var spotLight	= new THREE.SpotLight( 0xFFFFFF );
@@ -48,48 +48,10 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   setTimeout(addObjects, 5000);
 
   scene.add(skybox);
-  var manager = new THREE.LoadingManager();
-  manager.onProgress = function ( item, loaded, total ) {
-    console.log( item, loaded, total );
-  };
-
-    //THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
-  //var loader = new THREE.OBJMTLLoader();
-  //loader.load( 'assets/star-wars/ARC170/ARC170.obj', 'assets/star-wars/ARC170/ARC170.mtl', function ( object ) {
-    ////object.position.y = - 80;
-    //scene.add( object );
-  //}, onProgress, onError );
-
-  //var texture = new THREE.Texture();
-
-  //var loader = new THREE.ImageLoader( manager );
-  //loader.load( 'textures/UV_Grid_Sm.jpg', function ( image ) {
-    //texture.image = image;
-    //texture.needsUpdate = true;
-  //} );
-  //
-  //
-  //
-  //var loader = new THREE.OBJLoader( manager );
-  //loader.load('assets/star-wars/x-wing/star-wars-x-wing.obj', function (object) {
-  ////loader.load('assets/Charizard.obj', function (object) {
-    //object.scale.set(10, 10, 10);
-    //object.traverse(function (child) {
-      //if (child instanceof THREE.Mesh) {
-        ////child.material.map = texture;
-      //}
-    //});
-    //scene.add(object);
-  //}, onProgress, onError);
-
-  function onProgress() {
-  }
-  function onError() {
-  }
 
   render();
 
-  function render() {
+  function render(time) {
     rotateObjects();
 
     determineIfObjectsAreHeld();
@@ -119,7 +81,7 @@ loading(function() {
 
 
 function addObjects() {
-  objects.planets.forEach((planet, i) => {
+  objects.objects.forEach((planet, i) => {
     setTimeout(() => {
       planet.attachToScene(scene);
       planet.fadeIn(500);
@@ -131,14 +93,14 @@ function addObjects() {
 }
 
 function rotateObjects() {
-  objects.planets.forEach((obj) => {
+  objects.objects.forEach((obj) => {
     obj.rotate();
   });
 }
 
 function determineIfObjectsAreHeld() {
   if (scene.leapHandsAdded) {
-    objects.planets.forEach((obj) => {
+    objects.objects.forEach((obj) => {
       determineIfObjectIsHeld(obj);
     });
   }
@@ -157,7 +119,7 @@ function determineIfObjectIsHeld(object) {
     if (velocity && velocity[2] <= throwVelocityThreshold) {
       object.isHeldByLeapHands = false;
 
-      object.moveToInitialPosition();
+      object.moveToInitialPosition(1000);
       object.hideInfoViewImmediately();
 
       leapHands.holdingObjectWithId = null;

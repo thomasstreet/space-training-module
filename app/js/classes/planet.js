@@ -1,7 +1,7 @@
 require('traceur/bin/traceur-runtime');
 
-var Moon = require ('./moon');
-var BaseObject = require ('./base-object');
+var Moon = require ('./Moon');
+var BaseObject = require ('./BaseObject');
 
 class Planet extends BaseObject {
   constructor(options) {

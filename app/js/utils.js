@@ -4,6 +4,10 @@ function rotateAroundObjectAxis( object, axis, radians ) {
   object.rotation.setEulerFromRotationMatrix(object.matrix, object.order);
 }
 
+function animate(duration, callback) {
+
+}
+
 module.exports = {
   rotateAroundObjectAxis: rotateAroundObjectAxis
 };

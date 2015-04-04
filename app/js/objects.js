@@ -1,11 +1,12 @@
-var Planet = require('./classes/planet');
+var Planet = require('./classes/Planet');
+var BattleGroup = require('./classes/BattleGroup');
 
 var Tatooine = new Planet({
   id: "Tatooine",
   radius: 100,
   color: 0x000000,
   texture: 'assets/mars.jpg',
-  initialPosition: [-200, 0, 0],
+  initialPosition: new THREE.Vector3(-200, 0, 0),
   rotationSpeed: -0.005,
   moons: {
     count: 2
@@ -17,7 +18,7 @@ var Hoth = new Planet({
   radius: 70,
   color: 0x000000,
   texture: 'assets/planet_hoth.png',
-  initialPosition: [200, 0, 0],
+  initialPosition: new THREE.Vector3(200, 0, 0),
   rotationSpeed: -0.005,
   moons: {
     count: 4
@@ -30,11 +31,22 @@ var Crag = new Planet({
   radius: 50,
   color: 0x000000,
   texture: 'assets/planet_crag.jpg',
-  initialPosition: [0, 200, 0],
+  initialPosition: new THREE.Vector3(0, 200, 0),
   rotationSpeed: -0.005,
   moons: {
     count: 1
   }
+});
+
+
+var RebelAllianceBattleGroup = new BattleGroup({
+  id: "Rebal Alliance Battle Group",
+  obj: 'assets/star-wars/ARC170-2/Arc170.obj',
+  mtl: 'assets/star-wars/ARC170-2/Arc170.mtl',
+  initialPosition: new THREE.Vector3(0, -200, 0),
+  rotationSpeed: 0,
+  scale: 0.03,
+  count: 10
 });
 
 var sun = new THREE.Mesh(
@@ -43,8 +55,8 @@ var sun = new THREE.Mesh(
 );
 
 module.exports = {
-  planets: [
-    Hoth, Tatooine, Crag
+  objects: [
+    Hoth, Tatooine, Crag, RebelAllianceBattleGroup
   ],
   sun: sun
 };
