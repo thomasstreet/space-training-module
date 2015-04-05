@@ -1,6 +1,7 @@
 require('traceur/bin/traceur-runtime');
 
 var VideoController = require('./VideoController');
+var InfoView = require('./InfoView');
 
 class BaseObject {
   constructor(options) {
@@ -21,42 +22,21 @@ class BaseObject {
 
     this.videoController = new VideoController(options.videoId);
 
-    var texture = new THREE.VideoTexture(this.videoController.video);
-    texture.minFilter = THREE.LinearFilter;
-    texture.magFilter = THREE.LinearFilter;
-    texture.format = THREE.RGBFormat;
-
-    var chromaVertexShader = document.getElementById('chromaKeyVertexShader').innerHTML;
-    var chromaFragmentShader = document.getElementById('chromaKeyFragmentShader').innerHTML;
-
-    var videoMaterial = new THREE.ShaderMaterial({
-        vertexShader: chromaVertexShader,
-        fragmentShader: chromaFragmentShader,
-        uniforms: {
-          texture: { type: "t", value: texture },
-          color: { type: "c", value: new THREE.Color(0x00AFFF) },
-          opacity: { type: "f", value: 1 },
-        },
-        transparent: true,
+    this.infoView = new InfoView({
+      videoSource: this.videoController.video,
+      offset: new THREE.Vector3(
+        options.radius + 60,
+        0,
+        options.radius + 30
+      ) 
     });
-
-    this.infoView = new THREE.Mesh(
-      new THREE.BoxGeometry(160 * 0.8, 90 * 0.8, 2),
-      videoMaterial
-    );
-    this.infoViewVisible = false;
-    this.infoViewOffset = new THREE.Vector3(
-      options.radius + 60,
-      0,
-      options.radius + 30
-    );
 
     this.group.position.copy(this.homePosition);
   }
 
   attachToScene(scene) {
     scene.add(this.group);
-    scene.add(this.infoView);
+    scene.add(this.infoView.mesh);
   }
 
   moveToHomePosition(options) {
@@ -78,7 +58,7 @@ class BaseObject {
       t += deltaPercentPerTick;
 
       this.group.position.addVectors(startPosition, groupDistance.clone().multiplyScalar(t));
-      this.infoView.position.addVectors(this.group.position, this.infoViewOffset);
+      this.infoView.mesh.position.addVectors(this.group.position, this.infoView.offset);
 
       if (t >= 1) {
         clearInterval(interval);
@@ -93,15 +73,15 @@ class BaseObject {
     var yDistance = (this.radius || 100) + 30;
 
     this.group.position.addVectors(palm.position, hand.normal.multiplyScalar(yDistance));
-    this.infoView.position.addVectors(this.group.position, this.infoViewOffset);
+    this.infoView.mesh.position.addVectors(this.group.position, this.infoView.offset);
   }
 
   determineIfShowInfoView() {
     var showThreshold = 125;
     var zPosition = this.group.position.z;
-    if (zPosition >= showThreshold && !this.infoViewVisible) {
+    if (zPosition >= showThreshold && !this.infoView.visible) {
       this.animateInInfoView();
-    } else if (zPosition < showThreshold && this.infoViewVisible) {
+    } else if (zPosition < showThreshold && this.infoView.visible) {
       this.animateOutInfoView();
     }
   }
@@ -117,15 +97,15 @@ class BaseObject {
   }
 
   animateInInfoView() {
-    if (!this.infoViewVisible) {
-      this.infoViewVisible = true;
+    if (!this.infoView.visible) {
+      this.infoView.visible = true;
       this.videoController.play();
     }
   }
 
   animateOutInfoView() {
-    if (this.infoViewVisible) {
-      this.infoViewVisible = false;
+    if (this.infoView.visible) {
+      this.infoView.visible = false;
       this.videoController.goToStart();
     }
   }

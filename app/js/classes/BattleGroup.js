@@ -9,13 +9,11 @@ class BattleGroup extends BaseObject {
     super(options);
 
     // infoView should be offset further to the right for battle groups
-    this.infoViewOffset = new THREE.Vector3(
+    this.infoView.offset = new THREE.Vector3(
       this.radius * 3,
       0,
       this.radius + 20
     );
-    // Don't cast shadows for the infoView of BattleGroups
-    this.infoView.shouldCastShadow = false;
 
     this.laserColor = options.laserColor;
     this.timeOfLastLaserShot = 0;
