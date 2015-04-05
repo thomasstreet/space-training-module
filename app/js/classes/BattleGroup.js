@@ -50,8 +50,10 @@ class BattleGroup extends BaseObject {
 
       this.group.lookAt(otherObject.group.position);
 
-      this.shootLaserAt(otherObject);
-
+      var distanceFromObject = this.group.position.distanceTo(otherObject.group.position);
+      if (distanceFromObject <= 300) {
+        this.shootLaserAt(otherObject);
+      }
     } else {
       this.rotate();
     }
@@ -75,8 +77,9 @@ class BattleGroup extends BaseObject {
       ((Math.random() * 10) - 20) + this.radius
     );
 
-    var travelDistance = 400;
+    this.group.add(laser);
 
+    var travelDistance = 400;
     var t = 0;
     var interval = setInterval(() => {
       t += 0.01;
@@ -94,8 +97,6 @@ class BattleGroup extends BaseObject {
         clearInterval(interval);
       }
     }, 16);
-
-    this.group.add(laser);
   }
 }
 
