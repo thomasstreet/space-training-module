@@ -12,6 +12,9 @@ var right = new Hand("right", group);
 var loop = Leap.loop({background: true}, {
   hand: function (data) {
     var hand = data.type === 'left' ? left : right;
+    
+    if (!hand.isVisible) return;
+
     data.fingers.forEach(function (finger, i) {
       var sphere = hand.fingerTips[i];
       sphere.position.fromArray(finger.tipPosition);
@@ -37,8 +40,27 @@ var loop = Leap.loop({background: true}, {
 // Provides handFound/handLost events.
 .use('handEntry');
 
+function setUpHandEventHandlers() {
+  loop.on('handFound', function(data) {
+    var hand = data.type === 'left' ? left : right;
+    hand.showHand(data);
+  })
+  .on('handLost', function(data) {
+    var hand = data.type === 'left' ? left : right;
+    hand.resetRollingAverageSequences();
+
+    var heldObject = hand.getHeldObject();
+    if (heldObject) {
+      heldObject.moveToHomePosition({duration: 500});
+      heldObject.hideInfoViewImmediately();
+      hand.stopHoldingObject();
+    }
+
+    hand.hideHand(data);
+  });
+}
+
 module.exports = {
-  loop: loop,
   group: group,
   right: right,
   left: left,
@@ -46,5 +68,6 @@ module.exports = {
   isEitherHandHoldingObject(object) {
     return right.isHoldingThisObject(object) ||
       left.isHoldingThisObject(object);
-  }
+  },
+  setUpHandEventHandlers: setUpHandEventHandlers
 };

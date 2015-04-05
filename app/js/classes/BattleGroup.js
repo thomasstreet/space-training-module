@@ -51,7 +51,7 @@ class BattleGroup extends BaseObject {
       this.group.lookAt(otherObject.group.position);
 
       var distanceFromObject = this.group.position.distanceTo(otherObject.group.position);
-      if (distanceFromObject <= 300) {
+      if (distanceFromObject <= 250) {
         this.shootLaserAt(otherObject);
       }
     } else {

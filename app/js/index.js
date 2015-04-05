@@ -1,7 +1,5 @@
 'use strict';
 
-var utils = require('./utils');
-
 var leapHands = require('./leap-hands');
 var objects = require('./objects');
 var skybox = require('./skybox');
@@ -33,10 +31,6 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   var ambientLight = new THREE.AmbientLight(0x404040);
   scene.add(ambientLight);
 
- //var directionalLight = new THREE.DirectionalLight(0xffffff);
-      //directionalLight.position.set(1, 0, 2).normalize();
-      //scene.add(directionalLight);
-
   var spotLight	= new THREE.SpotLight( 0xFFFFFF );
   spotLight.target.position.set( 0, 0, -300 );
   spotLight.castShadow = true;
@@ -48,28 +42,11 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   sun.position.copy(spotLight.position);
   scene.add(sun);
 
-  setTimeout(addObjects, 5000);
-
   scene.add(skybox);
 
-
-  leapHands.loop.on('handFound', function(data) {
-    var hand = data.type === 'left' ? leapHands.left : leapHands.right;
-    hand.showHand(data);
-  })
-  .on('handLost', function(data) {
-    var hand = data.type === 'left' ? leapHands.left : leapHands.right;
-    hand.resetRollingAverageSequences();
-
-    var heldObject = hand.getHeldObject();
-    if (heldObject) {
-      heldObject.moveToHomePosition({duration: 500});
-      heldObject.hideInfoViewImmediately();
-      hand.stopHoldingObject();
-    }
-
-    hand.hideHand(data);
-  });
+  setTimeout(() => {
+    addObjects({ onComplete: leapHands.setUpHandEventHandlers });
+  }, 5000);
 
   render();
 
@@ -95,18 +72,21 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   }
 }
 
-
 loading(function() {
   vr.init(main);
   document.body.className = ('loaded');
 });
 
-
-function addObjects() {
-  objects.objects.forEach((planet, i) => {
+function addObjects(options) {
+  objects.objects.forEach((obj, i) => {
     setTimeout(() => {
-      planet.attachToScene(scene);
-      planet.fadeIn(500);
+      obj.attachToScene(scene);
+      obj.fadeIn(500);
+
+      // If last object, trigger callback
+      if (i === objects.objects.length - 1) {
+        options.onComplete();
+      }
     }, 500 * i);
   });
 
