@@ -10,9 +10,9 @@ class BattleGroup extends BaseObject {
 
     // infoView should be offset further to the right for battle groups
     this.infoViewOffset = new THREE.Vector3(
-      this.radius * 2.5,
+      this.radius * 3,
       0,
-      this.radius
+      this.radius + 20
     );
     // Don't cast shadows for the infoView of BattleGroups
     this.infoView.shouldCastShadow = false;
