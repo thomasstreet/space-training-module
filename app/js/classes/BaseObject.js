@@ -97,12 +97,12 @@ class BaseObject {
   }
 
   determineIfShowInfoView() {
-    var showThreshold = 50;
+    var showThreshold = 125;
     var zPosition = this.group.position.z;
     if (zPosition >= showThreshold && !this.infoViewVisible) {
-      this.animateInInfoView(200);
+      this.animateInInfoView();
     } else if (zPosition < showThreshold && this.infoViewVisible) {
-      this.animateOutInfoView(200);
+      this.animateOutInfoView();
     }
   }
 
