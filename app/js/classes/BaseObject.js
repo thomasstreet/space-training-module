@@ -25,9 +25,9 @@ class BaseObject {
     this.infoView = new InfoView({
       videoSource: this.videoController.video,
       offset: new THREE.Vector3(
-        options.radius + 60,
+        options.radius + 15,
         0,
-        options.radius + 30
+        options.radius + 10
       ) 
     });
 
