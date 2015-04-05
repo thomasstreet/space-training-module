@@ -43,6 +43,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   spotLight.castShadow = true;
   spotLight.position.z	= 500;		
   spotLight.position.x	= 500;
+  spotLight.intensity = 1.0;
   scene.add( spotLight );	
 
   var sun = objects.sun;
