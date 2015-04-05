@@ -8,7 +8,7 @@ class BaseObject {
 
     this.rotationSpeed = options.rotationSpeed;
 
-    this.isHeldByLeapHands = false;
+    this.heldByHand = null;
     this.initialDistanceWhenHeld = null;
 
     this.group = new THREE.Group();

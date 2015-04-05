@@ -3,39 +3,43 @@ var atmosphereGlowMaterial = require('./atmosphere-glow-material');
 var camera = require('./camera');
 
 class Hand {
-  constructor(group) {
-   var outer = new THREE.Mesh(
-     new THREE.TorusGeometry(25, 0.5, 32, 32),
-     new THREE.MeshBasicMaterial({ color: 0xffffff }) 
-   );
-   var inner = new THREE.Mesh(
-     new THREE.TorusGeometry(20, 0.5, 32, 32),
-     new THREE.MeshBasicMaterial({ color: 0xffffff }) 
-   );
-   inner.position.z = -3;
+  constructor(type, group) {
+    this.type = type;
+    this.holdingObjectWithId = null;
+    this.timeWhenLastThrownObject = 0;
 
-   this.palm = new THREE.Group();
-   this.palm.add(outer);
-   this.palm.add(inner);
-   this.palm.position.z = 200;
-   this.palm.posSequence = [];
-   this.palm.normalSequence = [];
+    var outer = new THREE.Mesh(
+      new THREE.TorusGeometry(25, 0.5, 32, 32),
+      new THREE.MeshBasicMaterial({ color: 0xffffff }) 
+    );
+    var inner = new THREE.Mesh(
+      new THREE.TorusGeometry(20, 0.5, 32, 32),
+      new THREE.MeshBasicMaterial({ color: 0xffffff }) 
+    );
+    inner.position.z = -3;
 
-   // Hide until active
-   hide(this.palm);
-   group.add(this.palm);
+    this.palm = new THREE.Group();
+    this.palm.add(outer);
+    this.palm.add(inner);
+    this.palm.position.z = 200;
+    this.palm.posSequence = [];
+    this.palm.normalSequence = [];
 
-   this.fingerTips = [];
-   this.velocity = null;
+    // Hide until active
+    hide(this.palm);
+    group.add(this.palm);
 
-   var geometry = new THREE.CylinderGeometry(10, 10, 1, 32, 32);
-   var material = new THREE.MeshBasicMaterial();
-   for (var i = 0; i < 5; i++) {
-     var sphere = new THREE.Mesh(geometry, material);
-     this.fingerTips.push(sphere);
-     hide(sphere);
-     group.add(sphere);
-   }
+    this.fingerTips = [];
+    this.velocity = null;
+
+    var geometry = new THREE.CylinderGeometry(10, 10, 1, 32, 32);
+    var material = new THREE.MeshBasicMaterial();
+    for (var i = 0; i < 5; i++) {
+      var sphere = new THREE.Mesh(geometry, material);
+      this.fingerTips.push(sphere);
+      hide(sphere);
+      group.add(sphere);
+    }
   }
   getRollingAverage(array, newPos) {
     var maxLength = 10;
@@ -64,8 +68,8 @@ var yOffset = -300;
 
 var group = new THREE.Group();
 
-var left = new Hand(group);
-var right = new Hand(group);
+var left = new Hand("left", group);
+var right = new Hand("right", group);
 
 Leap.loop({background: true}, {
   hand: function (data) {
@@ -126,33 +130,15 @@ function hide(mesh) {
   });
 }
 
-
-// from THREE.js examples
-function generateSprite() {
-    var canvas = document.createElement('canvas');
-    canvas.width = 128;
-    canvas.height = 128;
-
-    var context = canvas.getContext('2d');
-    var gradient = context.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 2);
-    gradient.addColorStop(0, 'rgba(255,255,255,1)');
-    gradient.addColorStop(0.2, 'rgba(0,255,255,1)');
-    gradient.addColorStop(0.4, 'rgba(0,0,64,1)');
-    gradient.addColorStop(1, 'rgba(0,0,0,1)');
-
-    context.fillStyle = gradient;
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    var texture = new THREE.Texture(canvas);
-    texture.needsUpdate = true;
-
-    return texture;
-}
-
 module.exports = {
-  timeWhenLastThrownObject: 0,
-  holdingObjectWithId: null,
   group: group,
   rightHand: right,
-  leftHand: left
+  leftHand: left,
+  hands: [right, left],
+  atLeastOneHandFree() {
+    return !right.holdingObjectWithId || !left.holdingObjectWithId;
+  },
+  isBothHandsHoldingObject() {
+    return right.holdingObjectWithId && left.holdingObjectWithId;
+  }
 };

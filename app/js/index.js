@@ -114,49 +114,48 @@ var throwVelocityThreshold = -850;
 var waitBeforeHoldingObjectAgain = 1000;
 
 function determineIfObjectIsHeld(object) {
-  var hand = leapHands.rightHand;
-  var palm = hand.palm;
-  var velocity = leapHands.rightHand.velocity;
+  if (leapHands.isBothHandsHoldingObject()) return;
 
-  // LeapHands are holding this object
-  if (leapHands.holdingObjectWithId === object.id) {
-    if (velocity && velocity[2] <= throwVelocityThreshold) {
-      object.isHeldByLeapHands = false;
+  leapHands.hands.forEach((hand) => {
+    var palm = hand.palm;
+    var velocity = hand.velocity;
 
-      object.moveToInitialPosition(500);
-      object.hideInfoViewImmediately();
+    // Hand is holding this object
+    if (object.heldByHand == hand.type) {
+      if (velocity && velocity[2] <= throwVelocityThreshold) {
+        object.heldByHand = null;
 
-      leapHands.holdingObjectWithId = null;
-      leapHands.timeWhenLastThrownObject = Date.now();
-    } else {
-      object.positionRelativeToHand(hand);
-      object.determineIfShowInfoView();
-    }
-  } 
+        object.moveToInitialPosition(500);
+        object.hideInfoViewImmediately();
 
-  // LeapHands are holding nothing, so check if object is close enough to be held
-  else if (!leapHands.holdingObjectWithId) {
-    if (object.isInRange(palm)) {
-
-      // If not enough time has elapsed since last held an object, don't hold
-      if (Date.now() - leapHands.timeWhenLastThrownObject < waitBeforeHoldingObjectAgain) {
-        return;
+        hand.holdingObjectWithId = null;
+        hand.timeWhenLastThrownObject = Date.now();
+      } else {
+        object.positionRelativeToHand(hand);
+        object.determineIfShowInfoView();
       }
+    } 
 
-      leapHands.holdingObjectWithId = object.id;
-      object.isHeldByLeapHands = true;
+    // Hand is holding nothing, object is not being held, so check if object is close enough to be held
+    else if (!hand.holdingObjectWithId && !object.heldByHand) {
+      if (object.isInRange(palm)) {
 
-      // Save the initial yDistance when reaching for the object
-      object.initialDistanceWhenHeld = [
-        object.group.position.x - palm.position.x,
-        object.group.position.y - palm.position.y,
-        object.group.position.z - palm.position.z
-      ];
+        // If not enough time has elapsed since last held an object, don't hold
+        if (Date.now() - hand.timeWhenLastThrownObject < waitBeforeHoldingObjectAgain) {
+          return;
+        }
+
+        hand.holdingObjectWithId = object.id;
+        object.heldByHand = hand.type;
+
+        // Save the initial yDistance when reaching for the object
+        object.initialDistanceWhenHeld = [
+          object.group.position.x - palm.position.x,
+          object.group.position.y - palm.position.y,
+          object.group.position.z - palm.position.z
+        ];
+      }
     }
-  }
 
-  // LeapHands are already holding an object, but not this one.
-  else {
-    // Do nothing
-  }
+  });
 }
