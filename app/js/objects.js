@@ -10,7 +10,7 @@ var Tatooine = new Planet({
   texture: 'assets/mars.jpg',
   homePosition: new THREE.Vector3(-350, 100, 0),
   autoRotationSpeed: -0.005,
-  videoId: 'video',
+  videoId: 'video-0',
   moonCount: 2
 });
 
@@ -23,7 +23,7 @@ var Hoth = new Planet({
   texture: 'assets/planet_hoth.png',
   homePosition: new THREE.Vector3(350, 100, 0),
   autoRotationSpeed: -0.005,
-  videoId: 'video',
+  videoId: 'video-1',
   moonCount: 4
 });
 
@@ -45,7 +45,7 @@ var RebelAllianceBattleGroup = new BattleGroup({
   ],
   autoRotationSpeed: -0.004,
   scale: 0.02,
-  videoId: 'video'
+  videoId: 'video-2'
 });
 
 var RepublicBattleGroup = new BattleGroup({
@@ -67,7 +67,7 @@ var RepublicBattleGroup = new BattleGroup({
   ],
   autoRotationSpeed: -0.004,
   scale: 0.02,
-  videoId: 'video'
+  videoId: 'video-3'
 });
 
 var sun = new THREE.Mesh(
