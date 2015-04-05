@@ -5,6 +5,6 @@ document.getElementById('reset-camera').onclick = () => {
 
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 100000);
 
-camera.position.z = 500;
+camera.position.z = 400;
 
 module.exports = camera;
