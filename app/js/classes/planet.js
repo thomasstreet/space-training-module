@@ -28,19 +28,16 @@ class Planet extends BaseObject {
 
     this.group.add(this.sphereMesh);
 
-    if (options.moons) {
-      this.moons = [];
-      for (var i = 0; i < options.moons.count; i++) {
-        var moon = new Moon({
-          maxRadius: this.maxMoonRadius,
-          parentPlanetRadius: this.radius
-        });
-        this.moons.push(moon.group);
-      }
+    this.moons = [];
+    for (var i = 0; i < options.moonCount; i++) {
+      var moon = new Moon({
+        maxRadius: this.maxMoonRadius,
+        moonColor: options.moonColor,
+        parentPlanetRadius: this.radius
+      });
+      this.moons.push(moon.group);
+      this.group.add(moon.group);
     }
-    this.moons.forEach(function(moon) {
-      this.group.add(moon);
-    }.bind(this));
   }
 
   fadeIn(duration) {

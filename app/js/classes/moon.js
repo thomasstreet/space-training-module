@@ -3,11 +3,15 @@ require('traceur/bin/traceur-runtime');
 class Moon {
   constructor(options) {
     this.radius = options.maxRadius * Math.max(0.7, Math.random());
-    this.color = 0xffffff;
+    this.color = options.moonColor;
+
+    var material = this.color === 0 ?
+      new THREE.MeshBasicMaterial({ color: 0x000000 }) :
+      new THREE.MeshPhongMaterial({ color: this.color }) ;
 
     this.sphereMesh = new THREE.Mesh(
       new THREE.SphereGeometry(this.radius, 32, 32),
-      new THREE.MeshPhongMaterial({ color: this.color })
+      material
     );
     this.sphereMesh.castShadow = true;
 
