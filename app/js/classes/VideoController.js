@@ -16,10 +16,12 @@ class VideoController {
   playFromStartToMiddle() {
     this.video.currentTime = 0;
     this.video.play();
-    console.log(this.video.duration);
+
+    var middlePoint = this.video.duration / 2;
+
     setTimeout(() => {
       this.video.pause();
-    }, (this.video.duration / 2) * 1000);
+    }, middlePoint * 1000);
   }
 
   playFromMiddleToEnd() {
