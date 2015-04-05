@@ -3,10 +3,11 @@ var BattleGroup = require('./classes/BattleGroup');
 
 var Tatooine = new Planet({
   id: "Tatooine",
+  type: "Planet",
   radius: 100,
   color: 0x000000,
   texture: 'assets/mars.jpg',
-  initialPosition: new THREE.Vector3(-200, 0, 0),
+  initialPosition: new THREE.Vector3(-300, 100, 0),
   autoRotationSpeed: -0.005,
   moons: {
     count: 2
@@ -15,10 +16,11 @@ var Tatooine = new Planet({
 
 var Hoth = new Planet({
   id: "Hoth",
+  type: "Planet",
   radius: 70,
   color: 0x000000,
   texture: 'assets/planet_hoth.png',
-  initialPosition: new THREE.Vector3(200, 0, 0),
+  initialPosition: new THREE.Vector3(300, 100, 0),
   autoRotationSpeed: -0.005,
   moons: {
     count: 4
@@ -28,6 +30,7 @@ var Hoth = new Planet({
 
 var Crag = new Planet({
   id: "Crag",
+  type: "Planet",
   radius: 50,
   color: 0x000000,
   texture: 'assets/planet_crag.jpg',
@@ -41,26 +44,55 @@ var Crag = new Planet({
 
 var RebelAllianceBattleGroup = new BattleGroup({
   id: "Rebal Alliance Battle Group",
+  type: "BattleGroup",
   obj: 'assets/star-wars/ARC170-2/Arc170.obj',
   mtl: 'assets/star-wars/ARC170-2/Arc170.mtl',
-  initialPosition: new THREE.Vector3(0, -200, 0),
+  initialPosition: new THREE.Vector3(200, -100, 0),
   radius: 80,
   shipPositions: [
     new THREE.Vector3(0, 40, 0),
     new THREE.Vector3(20, 20, 0),
     new THREE.Vector3(-20, 20, 0),
 
-    new THREE.Vector3(-80, 0, 0),
+    new THREE.Vector3(0, 0, 30),
+    new THREE.Vector3(0, 0, -30),
+
     new THREE.Vector3(-40, 0, 0),
     new THREE.Vector3(0, 0, 0),
     new THREE.Vector3(40, 0, 0),
-    new THREE.Vector3(80, 0, 0),
 
     new THREE.Vector3(20, -20, 0),
     new THREE.Vector3(-20, -20, 0),
     new THREE.Vector3(0, -40, 0),
   ],
-  autoRotationSpeed: -0.002,
+  autoRotationSpeed: -0.004,
+  scale: 0.02
+});
+
+var RepublicBattleGroup = new BattleGroup({
+  id: "Republic Battle Group",
+  type: "BattleGroup",
+  obj: 'assets/star-wars/ARC170-2/Arc170.obj',
+  mtl: 'assets/star-wars/ARC170-2/Arc170.mtl',
+  initialPosition: new THREE.Vector3(-200, -100, 0),
+  radius: 80,
+  shipPositions: [
+    new THREE.Vector3(0, 40, 0),
+    new THREE.Vector3(20, 20, 0),
+    new THREE.Vector3(-20, 20, 0),
+
+    new THREE.Vector3(0, 0, 30),
+    new THREE.Vector3(0, 0, -30),
+
+    new THREE.Vector3(-40, 0, 0),
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(40, 0, 0),
+
+    new THREE.Vector3(20, -20, 0),
+    new THREE.Vector3(-20, -20, 0),
+    new THREE.Vector3(0, -40, 0),
+  ],
+  autoRotationSpeed: -0.004,
   scale: 0.02
 });
 
@@ -73,7 +105,7 @@ var sun = new THREE.Mesh(
 
 module.exports = {
   objects: [
-    Hoth, Tatooine, Crag, RebelAllianceBattleGroup
+    Hoth, Tatooine, Crag, RebelAllianceBattleGroup, RepublicBattleGroup
   ],
   sun: sun
 };

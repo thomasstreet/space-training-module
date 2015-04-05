@@ -28,6 +28,17 @@ class BattleGroup extends BaseObject {
 
   fadeIn(duration) {
   }
+
+  update(options) {
+    if (options.isHoldingTwoBattleGroups) {
+    } else {
+      this.rotate();
+    }
+  }
+
+  faceObject() {
+  
+  }
 }
 
 function onProgress() { }

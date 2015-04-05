@@ -3,6 +3,7 @@ require('traceur/bin/traceur-runtime');
 class BaseObject {
   constructor(options) {
     this.id = options.id;
+    this.type = options.type;
 
     this.initialPosition = options.initialPosition;
 
@@ -108,6 +109,10 @@ class BaseObject {
       this.infoViewVisible = false;
       this.fadeOutInfoView(200);
     }
+  }
+
+  update() {
+    this.rotate();
   }
 
   rotate() {

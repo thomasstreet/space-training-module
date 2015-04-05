@@ -77,7 +77,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   render();
 
   function render() {
-    rotateObjects();
+    updateObjects();
 
     determineIfObjectsAreHeld();
 
@@ -117,9 +117,29 @@ function addObjects() {
   scene.leapHandsAdded = true;
 }
 
-function rotateObjects() {
+function isHoldingTwoBattleGroups() {
+  for (var i = 0; i < leapHands.hands.length; i++) {
+    var hand = leapHands.hands[i];
+
+    if (!hand.holdingObjectWithId) return false;
+
+    var heldObject = objects.objects.filter((obj) => {
+      return hand.holdingObjectWithId == obj.id;
+    })[0];
+
+    if (heldObject.type != "BattleGroup") return false;
+  }
+
+  return true;
+}
+
+function updateObjects() {
+  var options = {
+    isHoldingTwoBattleGroups: isHoldingTwoBattleGroups()
+  };
+
   objects.objects.forEach((obj) => {
-    obj.rotate();
+    obj.update(options);
   });
 }
 
