@@ -39,8 +39,6 @@ class BaseObject {
       this.initialPosition.y + this.infoViewOffset[1],
       this.initialPosition.z + this.infoViewOffset[2]
     );
-
-    //this.moveToInitialPosition();
   }
 
   attachToScene(scene) {
@@ -61,13 +59,13 @@ class BaseObject {
     return false;
   }
 
-  moveToInitialPosition(duration) {
+  moveToHomePosition(options) {
     var startPosition = new THREE.Vector3();
     startPosition.copy(this.group.position);
 
     var groupDistance = this.initialPosition.clone().sub(startPosition);
 
-    var deltaPercentPerTick = 1 / (duration / 16);
+    var deltaPercentPerTick = 1 / (options.duration / 16);
     var t = 0;
 
     var interval = setInterval(() => {
@@ -86,10 +84,6 @@ class BaseObject {
     var palm = hand.palm;
 
     var yDistance = (this.radius || 100) + 30;
-
-    if (!hand.normal) {
-      console.log("normal undefined, ", hand.type);
-    }
 
     this.group.position.x = palm.position.x + (yDistance * hand.normal[0]);
     this.group.position.y = palm.position.y + (yDistance * hand.normal[1]);

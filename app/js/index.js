@@ -53,9 +53,30 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
 
   scene.add(skybox);
 
+
+  leapHands.loop.on('handFound', function(data) {
+    var hand = data.type === 'left' ? leapHands.left : leapHands.right;
+    hand.showHand(data);
+  })
+  .on('handLost', function(data) {
+    var hand = data.type === 'left' ? leapHands.left : leapHands.right;
+
+    if (hand.holdingObjectWithId) {
+      var heldObject = objects.objects.filter((obj) => {
+        return hand.holdingObjectWithId == obj.id;
+      })[0];
+      heldObject.moveToHomePosition({duration: 500});
+      heldObject.hideInfoViewImmediately();
+
+      this.holdingObjectWithId = null;
+    }
+
+    hand.hideHand(data);
+  });
+
   render();
 
-  function render(time) {
+  function render() {
     rotateObjects();
 
     determineIfObjectsAreHeld();
@@ -124,7 +145,7 @@ function determineIfObjectIsHeld(object) {
     // Hand is holding this object
     if (hand.holdingObjectWithId === object.id) {
       if (velocity && velocity[2] <= throwVelocityThreshold) {
-        object.moveToInitialPosition(500);
+        object.moveToHomePosition({duration: 500});
         object.hideInfoViewImmediately();
 
         hand.holdingObjectWithId = null;

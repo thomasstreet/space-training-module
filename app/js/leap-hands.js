@@ -39,6 +39,7 @@ class Hand {
       group.add(sphere);
     }
   }
+
   getRollingAverage(array, newPos) {
     var maxLength = 10;
     array.push(newPos);
@@ -60,6 +61,26 @@ class Hand {
     ];
     return out;
   }
+
+  showHand(data) {
+    this.isVisible = true;
+
+    data.fingers.forEach((finger, i) => {
+      show(this.fingerTips[i]);
+    });
+
+    show(this.palm);
+  }
+
+  hideHand(data) {
+    this.isVisible = false;
+
+    data.fingers.forEach((finger, i) => {
+      hide(this.fingerTips[i]);
+    });
+
+    hide(this.palm);
+  }
 }
 
 var yOffset = -300;
@@ -69,7 +90,7 @@ var group = new THREE.Group();
 var left = new Hand("left", group);
 var right = new Hand("right", group);
 
-Leap.loop({background: true}, {
+var loop = Leap.loop({background: true}, {
   hand: function (data) {
     var hand = data.type === 'left' ? left : right;
     data.fingers.forEach(function (finger, i) {
@@ -96,32 +117,8 @@ Leap.loop({background: true}, {
   }
 })
 // Provides handFound/handLost events.
-.use('handEntry')
-.on('handFound', function(data) {
-  var hand = data.type === 'left' ? left : right;
-  hand.isVisible = true;
+.use('handEntry');
 
-  data.fingers.forEach(function (finger, i) {
-    var sphere = hand.fingerTips[i];
-    show(sphere);
-  });
-  var palm = hand.palm;
-  show(palm);
-})
-.on('handLost', function(data) {
-  var hand = data.type === 'left' ? left : right;
-  hand.isVisible = false;
-
-  hand.holdingObjectWithId = null;
-
-  data.fingers.forEach(function (finger, i) {
-    var sphere = hand.fingerTips[i];
-    hide(sphere);
-  });
-  var palm = hand.palm;
-
-  hide(palm);
-});
 
 function show(mesh) {
   mesh.traverse(function(child) {
@@ -136,9 +133,10 @@ function hide(mesh) {
 }
 
 module.exports = {
+  loop: loop,
   group: group,
-  rightHand: right,
-  leftHand: left,
+  right: right,
+  left: left,
   hands: [right, left],
   atLeastOneHandFree() {
     return !right.holdingObjectWithId || !left.holdingObjectWithId;
