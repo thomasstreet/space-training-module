@@ -1,12 +1,10 @@
 require('traceur/bin/traceur-runtime');
-var atmosphereGlowMaterial = require('./atmosphere-glow-material');
-var camera = require('./camera');
 
 class Hand {
   constructor(type, group) {
     this.type = type;
+    this.isVisible = false;
     this.holdingObjectWithId = null;
-    this.timeWhenLastThrownObject = 0;
 
     var outer = new THREE.Mesh(
       new THREE.TorusGeometry(25, 0.5, 32, 32),
@@ -101,6 +99,8 @@ Leap.loop({background: true}, {
 .use('handEntry')
 .on('handFound', function(data) {
   var hand = data.type === 'left' ? left : right;
+  hand.isVisible = true;
+
   data.fingers.forEach(function (finger, i) {
     var sphere = hand.fingerTips[i];
     show(sphere);
@@ -110,11 +110,16 @@ Leap.loop({background: true}, {
 })
 .on('handLost', function(data) {
   var hand = data.type === 'left' ? left : right;
+  hand.isVisible = false;
+
+  hand.holdingObjectWithId = null;
+
   data.fingers.forEach(function (finger, i) {
     var sphere = hand.fingerTips[i];
     hide(sphere);
   });
   var palm = hand.palm;
+
   hide(palm);
 });
 
@@ -140,5 +145,9 @@ module.exports = {
   },
   isBothHandsHoldingObject() {
     return right.holdingObjectWithId && left.holdingObjectWithId;
+  },
+  isObjectNotBeingHeld(object) {
+    return right.holdingObjectWithId == object.id ||
+      left.holdingObjectWithId == object.id;
   }
 };

@@ -6,10 +6,8 @@ class BaseObject {
 
     this.initialPosition = options.initialPosition;
 
-    this.rotationSpeed = options.rotationSpeed;
-
-    this.heldByHand = null;
-    this.initialDistanceWhenHeld = null;
+    this.shouldAutoRotate = options.shouldAutoRotate || true;
+    this.autoRotationSpeed = options.autoRotationSpeed || -0.005;
 
     this.group = new THREE.Group();
 
@@ -87,8 +85,11 @@ class BaseObject {
   positionRelativeToHand(hand) {
     var palm = hand.palm;
 
-    //var yDistance = object.initialDistanceWhenHeld[1];
     var yDistance = (this.radius || 100) + 30;
+
+    if (!hand.normal) {
+      console.log("normal undefined, ", hand.type);
+    }
 
     this.group.position.x = palm.position.x + (yDistance * hand.normal[0]);
     this.group.position.y = palm.position.y + (yDistance * hand.normal[1]);
@@ -116,7 +117,7 @@ class BaseObject {
   }
 
   rotate() {
-    this.group.rotateY(this.rotationSpeed);
+    this.group.rotateY(this.autoRotationSpeed);
   }
 
   fadeInInfoView(duration) {

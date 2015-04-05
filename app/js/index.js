@@ -34,16 +34,16 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   //var ambientLight = new THREE.AmbientLight(0xffffff);
   scene.add(ambientLight);
 
- var directionalLight = new THREE.DirectionalLight(0xffffff);
-      directionalLight.position.set(1, 0, 2).normalize();
-      scene.add(directionalLight);
+ //var directionalLight = new THREE.DirectionalLight(0xffffff);
+      //directionalLight.position.set(1, 0, 2).normalize();
+      //scene.add(directionalLight);
 
   var spotLight	= new THREE.SpotLight( 0xFFFFFF );
   spotLight.target.position.set( 0, 0, 100 );
   spotLight.castShadow = true;
   spotLight.position.z	= 500;		
   spotLight.position.x	= 100;
-  //scene.add( spotLight );	
+  scene.add( spotLight );	
 
   var sun = objects.sun;
   sun.position.copy(spotLight.position);
@@ -112,24 +112,23 @@ function determineIfObjectsAreHeld() {
 
 var throwVelocityThreshold = -850;
 var waitBeforeHoldingObjectAgain = 1000;
+var timeWhenLastThrownObject = Date.now();
 
 function determineIfObjectIsHeld(object) {
-  if (leapHands.isBothHandsHoldingObject()) return;
-
   leapHands.hands.forEach((hand) => {
+    if (!hand.isVisible) return;
+
     var palm = hand.palm;
     var velocity = hand.velocity;
 
     // Hand is holding this object
-    if (object.heldByHand == hand.type) {
+    if (hand.holdingObjectWithId === object.id) {
       if (velocity && velocity[2] <= throwVelocityThreshold) {
-        object.heldByHand = null;
-
         object.moveToInitialPosition(500);
         object.hideInfoViewImmediately();
 
         hand.holdingObjectWithId = null;
-        hand.timeWhenLastThrownObject = Date.now();
+        timeWhenLastThrownObject = Date.now();
       } else {
         object.positionRelativeToHand(hand);
         object.determineIfShowInfoView();
@@ -137,23 +136,15 @@ function determineIfObjectIsHeld(object) {
     } 
 
     // Hand is holding nothing, object is not being held, so check if object is close enough to be held
-    else if (!hand.holdingObjectWithId && !object.heldByHand) {
+    else if (!hand.holdingObjectWithId && !leapHands.isObjectNotBeingHeld(object)) {
       if (object.isInRange(palm)) {
 
         // If not enough time has elapsed since last held an object, don't hold
-        if (Date.now() - hand.timeWhenLastThrownObject < waitBeforeHoldingObjectAgain) {
+        if (Date.now() - timeWhenLastThrownObject < waitBeforeHoldingObjectAgain) {
           return;
         }
 
         hand.holdingObjectWithId = object.id;
-        object.heldByHand = hand.type;
-
-        // Save the initial yDistance when reaching for the object
-        object.initialDistanceWhenHeld = [
-          object.group.position.x - palm.position.x,
-          object.group.position.y - palm.position.y,
-          object.group.position.z - palm.position.z
-        ];
       }
     }
 

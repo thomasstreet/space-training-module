@@ -7,7 +7,7 @@ var Tatooine = new Planet({
   color: 0x000000,
   texture: 'assets/mars.jpg',
   initialPosition: new THREE.Vector3(-200, 0, 0),
-  rotationSpeed: -0.005,
+  autoRotationSpeed: -0.005,
   moons: {
     count: 2
   }
@@ -19,7 +19,7 @@ var Hoth = new Planet({
   color: 0x000000,
   texture: 'assets/planet_hoth.png',
   initialPosition: new THREE.Vector3(200, 0, 0),
-  rotationSpeed: -0.005,
+  autoRotationSpeed: -0.005,
   moons: {
     count: 4
   }
@@ -32,7 +32,7 @@ var Crag = new Planet({
   color: 0x000000,
   texture: 'assets/planet_crag.jpg',
   initialPosition: new THREE.Vector3(0, 200, 0),
-  rotationSpeed: -0.005,
+  autoRotationSpeed: -0.005,
   moons: {
     count: 1
   }
@@ -60,7 +60,7 @@ var RebelAllianceBattleGroup = new BattleGroup({
     new THREE.Vector3(-20, -20, 0),
     new THREE.Vector3(0, -40, 0),
   ],
-  rotationSpeed: -0.002,
+  autoRotationSpeed: -0.002,
   scale: 0.02
 });
 
