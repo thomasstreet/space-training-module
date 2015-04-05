@@ -59,6 +59,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   })
   .on('handLost', function(data) {
     var hand = data.type === 'left' ? leapHands.left : leapHands.right;
+    hand.resetRollingAverageSequences();
 
     var heldObject = hand.getHeldObject();
     if (heldObject) {

@@ -40,6 +40,11 @@ class Hand {
     }
   }
 
+  resetRollingAverageSequences() {
+    this.palm.posSequence = [];
+    this.palm.normalSequence = [];
+  }
+
   getRollingAverage(array, newPos) {
     var maxLength = 10;
     array.push(newPos);
