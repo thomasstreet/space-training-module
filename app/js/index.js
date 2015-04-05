@@ -34,7 +34,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   var spotLight	= new THREE.SpotLight( 0xFFFFFF );
   spotLight.target.position.set( 0, 0, -300 );
   spotLight.castShadow = true;
-  spotLight.position.z	= 500;		
+  spotLight.position.z	= 1000;
   spotLight.position.x	= 500;
   scene.add( spotLight );	
 
