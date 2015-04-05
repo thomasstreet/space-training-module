@@ -173,7 +173,7 @@ function determineIfObjectIsHeld(object) {
 
     // Hand is holding nothing, object is not being held, so check if object is close enough to be held
     else if (!hand.isHoldingAnyObject() && !leapHands.isEitherHandHoldingObject(object)) {
-      if (object.isInRange(palm)) {
+      if (hand.isInRangeOf(object)) {
 
         // If not enough time has elapsed since last held an object, don't hold
         if (Date.now() - timeWhenLastThrownObject < waitBeforeHoldingObjectAgain) {

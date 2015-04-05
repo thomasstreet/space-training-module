@@ -101,6 +101,19 @@ class Hand {
   getHeldObject() {
     return this.objectBeingHeld;
   }
+
+  isInRangeOf(obj) {
+    var minDistance = 100;
+    var dx = Math.abs(this.palm.position.x - obj.group.position.x);
+    var dy = Math.abs(this.palm.position.y - obj.group.position.y);
+    var dz = Math.abs(this.palm.position.z - obj.group.position.z);
+
+    // Require a closer distance for z
+    if (dx <= minDistance / 2 && dy <= minDistance / 2 && dz <= minDistance) {
+      return true;
+    }
+    return false;
+  }
 }
 
 function show(mesh) {

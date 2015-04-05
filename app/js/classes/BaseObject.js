@@ -45,19 +45,6 @@ class BaseObject {
     scene.add(this.infoView);
   }
 
-  isInRange(otherObject) {
-    var minDistance = 150;
-    var dx = Math.abs(this.group.position.x - otherObject.position.x);
-    var dy = Math.abs(this.group.position.y - otherObject.position.y);
-    var dz = Math.abs(this.group.position.z - otherObject.position.z);
-
-    // Require a closer distance for z
-    if (dx <= minDistance && dy <= minDistance && dz <= minDistance) {
-      return true;
-    }
-    return false;
-  }
-
   moveToHomePosition(options) {
     var startPosition = new THREE.Vector3();
     startPosition.copy(this.group.position);
