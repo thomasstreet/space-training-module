@@ -25,7 +25,7 @@ class BaseObject {
 
     this.infoView = new THREE.Mesh(
       new THREE.BoxGeometry(160 * 0.6, 90 * 0.8, 2),
-      new THREE.MeshLambertMaterial({color: 0xffffff, map: texture, transparent: true})
+      new THREE.MeshBasicMaterial({color: 0xffffff, map: texture, transparent: true})
     );
     this.infoView.shouldCastShadow = true;
     this.infoView.castShadow = false;
