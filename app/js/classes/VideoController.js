@@ -4,8 +4,6 @@ class VideoController {
   constructor(videoId) {
     this.video = document.getElementById(videoId);
 
-    //this.endTime = this.video.seekable.end();
-    //
     this.video.addEventListener('loadedmetadata', () => {
         //console.log(this.video.duration);
     });
@@ -17,6 +15,11 @@ class VideoController {
 
   playFromStartToMiddle() {
     this.video.currentTime = 0;
+    this.video.play();
+  }
+
+  playFromMiddleToEnd() {
+    this.video.currentTime = this.video.duration / 2;
     this.video.play();
   }
 
