@@ -9,6 +9,8 @@ class BaseObject {
     // The position that the object will always move back to once no longer
     // held/moved
     this.homePosition = options.homePosition;
+    // Set to true when moving back to home
+    this.movingHome = false;
 
     this.shouldAutoRotate = options.shouldAutoRotate || true;
     this.autoRotationSpeed = options.autoRotationSpeed || -0.005;
@@ -60,6 +62,12 @@ class BaseObject {
     var startPosition = new THREE.Vector3();
     startPosition.copy(this.group.position);
 
+    this.movingHome = true;
+
+    // Face the home destination while moving home
+    this.group.lookAt(startPosition);
+    this.group.rotateY(Math.PI);
+
     var groupDistance = this.homePosition.clone().sub(startPosition);
 
     var deltaPercentPerTick = 1 / (options.duration / 16);
@@ -73,6 +81,7 @@ class BaseObject {
 
       if (t >= 1) {
         clearInterval(interval);
+        this.movingHome = false;
       }
     }, 16);
   }
@@ -99,7 +108,9 @@ class BaseObject {
   }
 
   update() {
-    this.rotate();
+    if(!this.movingHome) {
+      this.rotate();
+    }
   }
 
   rotate() {

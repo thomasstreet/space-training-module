@@ -7,7 +7,7 @@ var Tatooine = new Planet({
   radius: 100,
   color: 0x000000,
   texture: 'assets/mars.jpg',
-  homePosition: new THREE.Vector3(-300, 100, 0),
+  homePosition: new THREE.Vector3(-350, 100, 0),
   autoRotationSpeed: -0.005,
   videoId: 'video',
   moons: {
@@ -21,7 +21,7 @@ var Hoth = new Planet({
   radius: 70,
   color: 0x000000,
   texture: 'assets/planet_hoth.png',
-  homePosition: new THREE.Vector3(300, 100, 0),
+  homePosition: new THREE.Vector3(350, 100, 0),
   autoRotationSpeed: -0.005,
   videoId: 'video',
   moons: {
