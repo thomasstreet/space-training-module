@@ -135,8 +135,21 @@ function isHoldingTwoBattleGroups() {
 
 function updateObjects() {
   var options = {
-    isHoldingTwoBattleGroups: isHoldingTwoBattleGroups()
+    isHoldingTwoBattleGroups: isHoldingTwoBattleGroups(),
   };
+
+  if (options.isHoldingTwoBattleGroups) {
+    var leftHandObject = objects.objects.filter((obj) => {
+      return leapHands.left.holdingObjectWithId == obj.id;
+    })[0];
+
+    var rightHandObject = objects.objects.filter((obj) => {
+      return leapHands.right.holdingObjectWithId == obj.id;
+    })[0];
+
+    options.leftHandObject =leftHandObject;
+    options.rightHandObject = rightHandObject;
+  }
 
   objects.objects.forEach((obj) => {
     obj.update(options);
