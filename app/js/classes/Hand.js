@@ -114,7 +114,9 @@ class Hand {
     var dz = Math.abs(this.palm.position.z - obj.group.position.z);
 
     // Require a closer distance for z
-    if (dx <= minDistance / 2 && dy <= minDistance / 2 && dz <= minDistance) {
+    if (dx <= minDistance / 2 + obj.radius && 
+        dy <= minDistance / 2 + obj.radius && 
+        dz <= minDistance) {
       return true;
     }
     return false;
