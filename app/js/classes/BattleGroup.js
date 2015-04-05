@@ -42,7 +42,7 @@ class BattleGroup extends BaseObject {
   update(options) {
     // How do I convert this options obj to vars?
     if (options.isHoldingTwoBattleGroups) {
-      this.hideInfoViewImmediately();
+      this.animateOutInfoView();
 
       var otherObject = options.leftHandObject === this ?
         options.rightHandObject :

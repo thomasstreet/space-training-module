@@ -145,7 +145,7 @@ function determineIfObjectIsHeld(object) {
     if (hand.isHoldingThisObject(object)) {
       if (velocity && velocity[2] <= throwVelocityThreshold) {
         object.moveToHomePosition({duration: 500});
-        object.hideInfoViewImmediately();
+        object.animateOutInfoView();
 
         hand.stopHoldingObject();
         timeWhenLastThrownObject = Date.now();

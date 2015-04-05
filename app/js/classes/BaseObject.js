@@ -1,5 +1,7 @@
 require('traceur/bin/traceur-runtime');
 
+var VideoController = require('./VideoController');
+
 class BaseObject {
   constructor(options) {
     this.id = options.id;
@@ -17,8 +19,9 @@ class BaseObject {
 
     this.group = new THREE.Group();
 
-    var video = document.getElementById(options.videoId);
-    var texture = new THREE.VideoTexture(video);
+    this.videoController = new VideoController(options.videoId);
+
+    var texture = new THREE.VideoTexture(this.videoController.video);
     texture.minFilter = THREE.LinearFilter;
     texture.magFilter = THREE.LinearFilter;
     texture.format = THREE.RGBFormat;
@@ -32,16 +35,15 @@ class BaseObject {
         uniforms: {
           texture: { type: "t", value: texture },
           color: { type: "c", value: new THREE.Color(0x00AFFF) },
-          opacity: { type: "f", value: 0 },
+          opacity: { type: "f", value: 1 },
         },
         transparent: true,
-    })
+    });
 
     this.infoView = new THREE.Mesh(
       new THREE.BoxGeometry(160 * 0.8, 90 * 0.8, 2),
       videoMaterial
     );
-    this.infoView.material.uniforms.opacity.value = 0;
     this.infoViewVisible = false;
     this.infoViewOffset = new THREE.Vector3(
       options.radius + 60,
@@ -98,11 +100,9 @@ class BaseObject {
     var showThreshold = 50;
     var zPosition = this.group.position.z;
     if (zPosition >= showThreshold && !this.infoViewVisible) {
-      this.infoViewVisible = true;
-      this.fadeInInfoView(200);
+      this.animateInInfoView(200);
     } else if (zPosition < showThreshold && this.infoViewVisible) {
-      this.infoViewVisible = false;
-      this.fadeOutInfoView(200);
+      this.animateOutInfoView(200);
     }
   }
 
@@ -116,34 +116,19 @@ class BaseObject {
     this.group.rotateY(this.autoRotationSpeed);
   }
 
-  fadeInInfoView(duration) {
-    if (this.infoView.material.uniforms.opacity.value >= 1) return;
-
-    var fade = setInterval(() => {
-      this.infoView.material.uniforms.opacity.value += 0.05;
-      if (this.infoView.material.uniforms.opacity.value >= 1) {
-        clearInterval(fade);
-      }
-    }, duration / 20);
+  animateInInfoView() {
+    if (!this.infoViewVisible) {
+      this.infoViewVisible = true;
+      this.videoController.play();
+    }
   }
 
-  fadeOutInfoView(duration) {
-    if (this.infoView.material.uniforms['opacity'] <= 0) return;
-
-    var fade = setInterval(() => {
-      this.infoView.material.uniforms['opacity'] -= 0.05;
-      if (this.infoView.material.uniforms['opacity'] <= 0) {
-        clearInterval(fade);
-      }
-    }, duration / 20);
+  animateOutInfoView() {
+    if (this.infoViewVisible) {
+      this.infoViewVisible = false;
+      this.videoController.goToStart();
+    }
   }
-
-  hideInfoViewImmediately() {
-    this.infoViewVisible = false;
-    this.infoView.material.opacity = 0;
-    this.infoView.castShadow = false;
-  }
-
 }
 
 module.exports = BaseObject;

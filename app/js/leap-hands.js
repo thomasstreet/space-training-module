@@ -38,7 +38,7 @@ function setUpHandEventHandlers() {
     var heldObject = hand.getHeldObject();
     if (heldObject) {
       heldObject.moveToHomePosition({duration: 500});
-      heldObject.hideInfoViewImmediately();
+      heldObject.animateOutInfoView();
       hand.stopHoldingObject();
     }
 
