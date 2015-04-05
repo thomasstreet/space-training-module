@@ -1,5 +1,7 @@
 require('traceur/bin/traceur-runtime');
 
+var yOffset = -300;
+
 class Hand {
   constructor(type, group) {
     this.type = type;
@@ -120,6 +122,26 @@ class Hand {
       return true;
     }
     return false;
+  }
+
+  updateFingers(fingersData) {
+    fingersData.forEach((finger, i) => {
+      var sphere = this.fingerTips[i];
+      sphere.position.fromArray(finger.tipPosition);
+      sphere.position.y += yOffset;
+      var n = finger.direction;
+      sphere.lookAt(new THREE.Vector3(n[0] * 1000, n[1] * 1000, n[2] * 1000));
+    });
+  }
+
+  updatePalm(palmPosition, palmNormal) {
+    var palm = this.palm;
+    var position = this.getRollingAverage(palm.posSequence, palmPosition);
+    palm.position.fromArray(position);
+    palm.position.y += yOffset;
+
+    var n = palmNormal;
+    palm.lookAt(new THREE.Vector3(n[0] * 1000, n[1] * 1000, n[2] * 1000));
   }
 }
 

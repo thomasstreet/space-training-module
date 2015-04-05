@@ -121,9 +121,7 @@ function updateObjects() {
 
 function determineIfObjectsAreHeld() {
   if (scene.leapHandsAdded) {
-    objects.objects.forEach((obj) => {
-      determineIfObjectIsHeld(obj);
-    });
+    objects.objects.forEach(determineIfObjectIsHeld);
   }
 }
 
@@ -135,7 +133,6 @@ function determineIfObjectIsHeld(object) {
   leapHands.hands.forEach((hand) => {
     if (!hand.isVisible) return;
 
-    var palm = hand.palm;
     var velocity = hand.velocity;
 
     // Hand is holding this object
