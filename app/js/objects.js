@@ -60,14 +60,6 @@ var RebelAllianceBattleGroup = new BattleGroup({
 
     new THREE.Vector3(0, 0, 30),
     new THREE.Vector3(0, 0, -30),
-
-    new THREE.Vector3(-40, 0, 0),
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(40, 0, 0),
-
-    new THREE.Vector3(20, -20, 0),
-    new THREE.Vector3(-20, -20, 0),
-    new THREE.Vector3(0, -40, 0),
   ],
   autoRotationSpeed: -0.004,
   scale: 0.02,
@@ -89,14 +81,6 @@ var RepublicBattleGroup = new BattleGroup({
 
     new THREE.Vector3(0, 0, 30),
     new THREE.Vector3(0, 0, -30),
-
-    new THREE.Vector3(-40, 0, 0),
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(40, 0, 0),
-
-    new THREE.Vector3(20, -20, 0),
-    new THREE.Vector3(-20, -20, 0),
-    new THREE.Vector3(0, -40, 0),
   ],
   autoRotationSpeed: -0.004,
   scale: 0.02,
