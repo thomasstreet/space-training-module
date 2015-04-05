@@ -99,7 +99,7 @@ class BaseObject {
   animateInInfoView() {
     if (!this.infoView.visible) {
       this.infoView.visible = true;
-      this.videoController.play();
+      this.videoController.playFromStartToMiddle();
     }
   }
 
