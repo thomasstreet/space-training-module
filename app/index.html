@@ -22,7 +22,7 @@
 
     <video id="video" autoplay loop style="display:none;">
 			<!--<source src="assets/video/alphatest.mov" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>-->
-			<source src="assets/video/alphatest.mov">
+			<source src="assets/video/alphatest-chroma.mp4">
 		</video>
 
     <script id="glowVertexShader" type="x-shader/x-vertex">
@@ -63,11 +63,33 @@
     <!-- fragment shader a.k.a. pixel shader -->
     <script id="fragmentAtmosphereGlow" type="x-shader/x-vertex"> 
     varying vec3 vNormal;
-    void main() 
+    void main()
     {
       float intensity = pow( 0.7 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) ), 4.0 ); 
         gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0 ) * intensity;
     }
+    </script>
+
+    <script id="chromaKeyVertexShader" type="x-shader/x-vertex">
+      varying vec2 vUv;
+      void main()
+      {
+        vUv = uv;
+        vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+        gl_Position = projectionMatrix * mvPosition;
+      }
+    </script>
+
+    <script id="chromaKeyFragmentShader" type="x-shader/x-fragment">
+      uniform sampler2D texture;
+      uniform vec3 color;
+      varying vec2 vUv;
+      void main()
+      {
+        vec3 tColor = texture2D( texture, vUv ).rgb;
+        float a = (length(tColor - color)) * 2.0;
+        gl_FragColor = vec4(tColor, a);
+      }
     </script>
 
     <script type="text/javascript" src="libs/tween.min.js"></script>

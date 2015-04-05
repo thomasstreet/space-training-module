@@ -23,9 +23,22 @@ class BaseObject {
     texture.magFilter = THREE.LinearFilter;
     texture.format = THREE.RGBFormat;
 
+    var chromaVertexShader = document.getElementById('chromaKeyVertexShader').innerHTML;
+    var chromaFragmentShader = document.getElementById('chromaKeyFragmentShader').innerHTML;
+
+    var videoMaterial = new THREE.ShaderMaterial({
+        vertexShader: chromaVertexShader,
+        fragmentShader: chromaFragmentShader,
+        uniforms: {
+          texture: { type: "t", value: texture },
+          color: { type: "c", value: new THREE.Color(0x00AFFF) }
+        },
+        transparent: true,
+    })
+
     this.infoView = new THREE.Mesh(
       new THREE.BoxGeometry(160 * 0.6, 90 * 0.8, 2),
-      new THREE.MeshLambertMaterial({color: 0xffffff, map: texture, transparent: true})
+      videoMaterial
     );
     this.infoView.shouldCastShadow = true;
     this.infoView.castShadow = false;
