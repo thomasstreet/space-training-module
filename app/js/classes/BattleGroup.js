@@ -2,16 +2,21 @@ require('traceur/bin/traceur-runtime');
 
 var BaseObject = require ('./BaseObject');
 
+var loader = new THREE.OBJMTLLoader();
+
 class BattleGroup extends BaseObject {
   constructor(options) {
     super(options);
 
-    this.radius = options.radius;
+    // infoView should be offset further to the right for battle groups
+    this.infoViewOffset = new THREE.Vector3(
+      options.radius * 2.5,
+      0,
+      options.radius
+    );
 
     this.laserColor = options.laserColor;
     this.timeOfLastLaserShot = 0;
-
-    var loader = new THREE.OBJMTLLoader();
 
     loader.load(options.obj, options.mtl, (originalObject) => {
       for (var i = 0; i < options.shipPositions.length; i++) {
@@ -22,8 +27,9 @@ class BattleGroup extends BaseObject {
           options.shipPositions[i].y,
           options.shipPositions[i].z
         );
-        //object.children[0].material.emissive = new THREE.Color({r: 255, g: 255, b: 255});
-        //object.children[0].material.emissive.setRGB;
+        object.children.forEach((child) => {
+          child.material.emissive = new THREE.Color({r: 255, g: 255, b: 255});
+        });
         this.group.add(object);
       }
     }, onProgress, onError);

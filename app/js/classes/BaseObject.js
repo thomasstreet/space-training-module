@@ -34,12 +34,6 @@ class BaseObject {
     );
 
     this.group.position.copy(this.initialPosition);
-
-    this.infoView.position.set(
-      this.initialPosition.x + this.infoViewOffset[0],
-      this.initialPosition.y + this.infoViewOffset[1],
-      this.initialPosition.z + this.infoViewOffset[2]
-    );
   }
 
   attachToScene(scene) {
@@ -90,13 +84,9 @@ class BaseObject {
     this.group.position.y = palm.position.y + (yDistance * hand.normal[1]);
     this.group.position.z = palm.position.z + (yDistance * hand.normal[2]);
 
-    this.group.updateMatrix();
-
     this.infoView.position.x = palm.position.x + (yDistance * hand.normal[0]) + this.infoViewOffset.x;
     this.infoView.position.y = palm.position.y + (yDistance * hand.normal[1]) + this.infoViewOffset.y;
     this.infoView.position.z = palm.position.z + (yDistance * hand.normal[2]) + this.infoViewOffset.z;
-
-    this.infoView.updateMatrix();
   }
 
   determineIfShowInfoView() {

@@ -31,7 +31,6 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
 
   // Needed to show textures
   var ambientLight = new THREE.AmbientLight(0x404040);
-  //var ambientLight = new THREE.AmbientLight(0xffffff);
   scene.add(ambientLight);
 
  //var directionalLight = new THREE.DirectionalLight(0xffffff);
@@ -43,7 +42,6 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   spotLight.castShadow = true;
   spotLight.position.z	= 500;		
   spotLight.position.x	= 500;
-  spotLight.intensity = 1.0;
   scene.add( spotLight );	
 
   var sun = objects.sun;
