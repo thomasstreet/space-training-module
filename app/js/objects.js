@@ -45,10 +45,11 @@ var Crag = new Planet({
 var RebelAllianceBattleGroup = new BattleGroup({
   id: "Rebal Alliance Battle Group",
   type: "BattleGroup",
+  laserColor: 0x3FFF00,
   obj: 'assets/star-wars/ARC170-2/Arc170.obj',
   mtl: 'assets/star-wars/ARC170-2/Arc170.mtl',
   initialPosition: new THREE.Vector3(200, -100, 0),
-  radius: 80,
+  radius: 40,
   shipPositions: [
     new THREE.Vector3(0, 40, 0),
     new THREE.Vector3(20, 20, 0),
@@ -72,10 +73,11 @@ var RebelAllianceBattleGroup = new BattleGroup({
 var RepublicBattleGroup = new BattleGroup({
   id: "Republic Battle Group",
   type: "BattleGroup",
+  laserColor: 0xDC143C,
   obj: 'assets/star-wars/ARC170-2/Arc170.obj',
   mtl: 'assets/star-wars/ARC170-2/Arc170.mtl',
   initialPosition: new THREE.Vector3(-200, -100, 0),
-  radius: 80,
+  radius: 40,
   shipPositions: [
     new THREE.Vector3(0, 40, 0),
     new THREE.Vector3(20, 20, 0),

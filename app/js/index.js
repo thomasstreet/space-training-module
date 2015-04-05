@@ -39,10 +39,10 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
       //scene.add(directionalLight);
 
   var spotLight	= new THREE.SpotLight( 0xFFFFFF );
-  spotLight.target.position.set( 0, 0, 100 );
+  spotLight.target.position.set( 0, 0, -300 );
   spotLight.castShadow = true;
   spotLight.position.z	= 500;		
-  spotLight.position.x	= 100;
+  spotLight.position.x	= 500;
   scene.add( spotLight );	
 
   var sun = objects.sun;
