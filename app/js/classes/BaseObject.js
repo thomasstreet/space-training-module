@@ -24,17 +24,15 @@ class BaseObject {
     texture.format = THREE.RGBFormat;
 
     this.infoView = new THREE.Mesh(
-      new THREE.BoxGeometry(160 * 0.6, 90 * 0.8, 2),
+      new THREE.BoxGeometry(160 * 0.8, 90 * 0.8, 2),
       new THREE.MeshBasicMaterial({color: 0xffffff, map: texture, transparent: true})
     );
-    this.infoView.shouldCastShadow = true;
-    this.infoView.castShadow = false;
     this.infoView.material.opacity = 0;
     this.infoViewVisible = false;
     this.infoViewOffset = new THREE.Vector3(
-      options.radius,
+      options.radius + 60,
       0,
-      options.radius + 10
+      options.radius + 30
     );
 
     this.group.position.copy(this.homePosition);
@@ -110,9 +108,6 @@ class BaseObject {
     var fade = setInterval(() => {
       this.infoView.material.opacity += 0.05;
       if (this.infoView.material.opacity >= 1) {
-        if (this.infoView.shouldCastShadow) {
-          this.infoView.castShadow = true;
-        }
         clearInterval(fade);
       }
     }, duration / 20);
@@ -124,7 +119,6 @@ class BaseObject {
     var fade = setInterval(() => {
       this.infoView.material.opacity -= 0.05;
       if (this.infoView.material.opacity <= 0) {
-        this.infoView.castShadow = false;
         clearInterval(fade);
       }
     }, duration / 20);
