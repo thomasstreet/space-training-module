@@ -29,22 +29,6 @@ var Hoth = new Planet({
   }
 });
 
-
-var Crag = new Planet({
-  id: "Crag",
-  type: "Planet",
-  radius: 50,
-  color: 0x000000,
-  texture: 'assets/planet_crag.jpg',
-  homePosition: new THREE.Vector3(0, 200, 0),
-  autoRotationSpeed: -0.005,
-  videoId: 'video',
-  moons: {
-    count: 1
-  }
-});
-
-
 var RebelAllianceBattleGroup = new BattleGroup({
   id: "Rebal Alliance Battle Group",
   type: "BattleGroup",
@@ -96,7 +80,7 @@ var sun = new THREE.Mesh(
 
 module.exports = {
   objects: [
-    Hoth, Tatooine, Crag, RebelAllianceBattleGroup, RepublicBattleGroup
+    Hoth, Tatooine, RebelAllianceBattleGroup, RepublicBattleGroup
   ],
   sun: sun
 };
