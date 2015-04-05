@@ -31,23 +31,22 @@ class BaseObject {
         fragmentShader: chromaFragmentShader,
         uniforms: {
           texture: { type: "t", value: texture },
-          color: { type: "c", value: new THREE.Color(0x00AFFF) }
+          color: { type: "c", value: new THREE.Color(0x00AFFF) },
+          opacity: { type: "f", value: 0 },
         },
         transparent: true,
     })
 
     this.infoView = new THREE.Mesh(
-      new THREE.BoxGeometry(160 * 0.6, 90 * 0.8, 2),
+      new THREE.BoxGeometry(160 * 0.8, 90 * 0.8, 2),
       videoMaterial
     );
-    this.infoView.shouldCastShadow = true;
-    this.infoView.castShadow = false;
-    this.infoView.material.opacity = 0;
+    this.infoView.material.uniforms.opacity.value = 0;
     this.infoViewVisible = false;
     this.infoViewOffset = new THREE.Vector3(
-      options.radius,
+      options.radius + 60,
       0,
-      options.radius + 10
+      options.radius + 30
     );
 
     this.group.position.copy(this.homePosition);
@@ -118,26 +117,22 @@ class BaseObject {
   }
 
   fadeInInfoView(duration) {
-    if (this.infoView.material.opacity >= 1) return;
+    if (this.infoView.material.uniforms.opacity.value >= 1) return;
 
     var fade = setInterval(() => {
-      this.infoView.material.opacity += 0.05;
-      if (this.infoView.material.opacity >= 1) {
-        if (this.infoView.shouldCastShadow) {
-          this.infoView.castShadow = true;
-        }
+      this.infoView.material.uniforms.opacity.value += 0.05;
+      if (this.infoView.material.uniforms.opacity.value >= 1) {
         clearInterval(fade);
       }
     }, duration / 20);
   }
 
   fadeOutInfoView(duration) {
-    if (this.infoView.material.opacity <= 0) return;
+    if (this.infoView.material.uniforms['opacity'] <= 0) return;
 
     var fade = setInterval(() => {
-      this.infoView.material.opacity -= 0.05;
-      if (this.infoView.material.opacity <= 0) {
-        this.infoView.castShadow = false;
+      this.infoView.material.uniforms['opacity'] -= 0.05;
+      if (this.infoView.material.uniforms['opacity'] <= 0) {
         clearInterval(fade);
       }
     }, duration / 20);

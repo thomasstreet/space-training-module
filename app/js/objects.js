@@ -6,13 +6,12 @@ var Tatooine = new Planet({
   type: "Planet",
   radius: 100,
   color: 0x000000,
+  moonColor: 0xffffff,
   texture: 'assets/mars.jpg',
   homePosition: new THREE.Vector3(-350, 100, 0),
   autoRotationSpeed: -0.005,
   videoId: 'video',
-  moons: {
-    count: 2
-  }
+  moonCount: 2
 });
 
 var Hoth = new Planet({
@@ -20,13 +19,12 @@ var Hoth = new Planet({
   type: "Planet",
   radius: 70,
   color: 0x000000,
+  moonColor: 0x000000,
   texture: 'assets/planet_hoth.png',
   homePosition: new THREE.Vector3(350, 100, 0),
   autoRotationSpeed: -0.005,
   videoId: 'video',
-  moons: {
-    count: 4
-  }
+  moonCount: 4
 });
 
 var RebelAllianceBattleGroup = new BattleGroup({
@@ -35,7 +33,7 @@ var RebelAllianceBattleGroup = new BattleGroup({
   laserColor: 0x3FFF00,
   obj: 'assets/star-wars/ARC170-2/Arc170.obj',
   mtl: 'assets/star-wars/ARC170-2/Arc170.mtl',
-  homePosition: new THREE.Vector3(200, -100, 0),
+  homePosition: new THREE.Vector3(-200, -100, 0),
   radius: 30,
   shipPositions: [
     new THREE.Vector3(20, 20, 0),
@@ -56,7 +54,7 @@ var RepublicBattleGroup = new BattleGroup({
   laserColor: 0xDC143C,
   obj: 'assets/star-wars/ARC170-2/Arc170.obj',
   mtl: 'assets/star-wars/ARC170-2/Arc170.mtl',
-  homePosition: new THREE.Vector3(-200, -100, 0),
+  homePosition: new THREE.Vector3(200, -100, 0),
   radius: 30,
   shipPositions: [
     new THREE.Vector3(20, 20, 0),

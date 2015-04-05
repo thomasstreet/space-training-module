@@ -21,7 +21,6 @@
     </div>
 
     <video id="video" autoplay loop style="display:none;">
-			<!--<source src="assets/video/alphatest.mov" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>-->
 			<source src="assets/video/alphatest-chroma.mp4">
 		</video>
 
@@ -83,12 +82,13 @@
     <script id="chromaKeyFragmentShader" type="x-shader/x-fragment">
       uniform sampler2D texture;
       uniform vec3 color;
+      uniform float opacity;
       varying vec2 vUv;
       void main()
       {
         vec3 tColor = texture2D( texture, vUv ).rgb;
         float a = (length(tColor - color)) * 2.0;
-        gl_FragColor = vec4(tColor, a);
+        gl_FragColor = vec4(tColor, a * opacity);
       }
     </script>
 
