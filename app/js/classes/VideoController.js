@@ -15,6 +15,11 @@ class VideoController {
     this.video.play();
   }
 
+  playFromStartToMiddle() {
+    this.video.currentTime = 0;
+    this.video.play();
+  }
+
   pause() {
     this.video.pause();
   }

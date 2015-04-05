@@ -15,7 +15,7 @@ class InfoView {
         fragmentShader: chromaFragmentShader,
         uniforms: {
           texture: { type: "t", value: texture },
-          color: { type: "c", value: new THREE.Color(0x00AFFF) },
+          color: { type: "c", value: new THREE.Color(0x1e2841) },
           opacity: { type: "f", value: 1 },
         },
         transparent: true,
