@@ -22,7 +22,7 @@ var Hoth = new Planet({
   moonColor: 0x000000,
   texture: 'assets/planet_hoth.png',
   homePosition: new THREE.Vector3(350, 100, 0),
-  autoRotationSpeed: -0.005,
+  autoRotationSpeed: 0.005,
   videoId: 'video-1',
   moonCount: 4
 });
@@ -52,8 +52,8 @@ var RepublicBattleGroup = new BattleGroup({
   id: "Republic Battle Group",
   type: "BattleGroup",
   laserColor: 0xDC143C,
-  obj: 'assets/star-wars/ARC170-2/Arc170.obj',
-  mtl: 'assets/star-wars/ARC170-2/Arc170.mtl',
+  obj: 'assets/gunship/gunship.obj',
+  mtl: 'assets/gunship/gunship.mtl',
   homePosition: new THREE.Vector3(200, -100, 0),
   radius: 30,
   shipPositions: [
@@ -65,8 +65,8 @@ var RepublicBattleGroup = new BattleGroup({
 
     new THREE.Vector3(0, -20, 0),
   ],
-  autoRotationSpeed: -0.004,
-  scale: 0.02,
+  autoRotationSpeed: 0.004,
+  scale: 1,
   videoId: 'video-3'
 });
 

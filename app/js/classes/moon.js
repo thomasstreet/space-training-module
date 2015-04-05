@@ -23,7 +23,7 @@ class Moon {
     var distanceFromPlanet = maxDistanceFromPlanetSurface + options.parentPlanetRadius;
 
     // Random velocity from [0.001, 0.006];
-    var velocity = (Math.random() * 0.005) + 0.001;
+    var velocity = (Math.random() * -options.rotationSpeed) + 0.001;
 
     // Determine position.y based upon random angle with range of
     // [-maxYangle / 2, maxYAngle / 2].  To keep the yPosition following

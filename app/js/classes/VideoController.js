@@ -7,7 +7,7 @@ class VideoController {
     //this.endTime = this.video.seekable.end();
     //
     this.video.addEventListener('loadedmetadata', () => {
-        console.log(this.video.duration);
+        //console.log(this.video.duration);
     });
   }
 

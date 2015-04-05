@@ -33,6 +33,7 @@ class Planet extends BaseObject {
       var moon = new Moon({
         maxRadius: this.maxMoonRadius,
         moonColor: options.moonColor,
+        rotationSpeed: options.autoRotationSpeed,
         parentPlanetRadius: this.radius
       });
       this.moons.push(moon.group);
