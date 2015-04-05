@@ -60,14 +60,11 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   .on('handLost', function(data) {
     var hand = data.type === 'left' ? leapHands.left : leapHands.right;
 
-    if (hand.holdingObjectWithId) {
-      var heldObject = objects.objects.filter((obj) => {
-        return hand.holdingObjectWithId == obj.id;
-      })[0];
+    var heldObject = hand.getHeldObject();
+    if (heldObject) {
       heldObject.moveToHomePosition({duration: 500});
       heldObject.hideInfoViewImmediately();
-
-      this.holdingObjectWithId = null;
+      hand.stopHoldingObject();
     }
 
     hand.hideHand(data);
@@ -119,14 +116,8 @@ function addObjects() {
 function isHoldingTwoBattleGroups() {
   for (var i = 0; i < leapHands.hands.length; i++) {
     var hand = leapHands.hands[i];
-
-    if (!hand.holdingObjectWithId) return false;
-
-    var heldObject = objects.objects.filter((obj) => {
-      return hand.holdingObjectWithId == obj.id;
-    })[0];
-
-    if (heldObject.type != "BattleGroup") return false;
+    var heldObject = hand.getHeldObject();
+    if (!heldObject || heldObject.type !== "BattleGroup") return false;
   }
 
   return true;
@@ -138,16 +129,8 @@ function updateObjects() {
   };
 
   if (options.isHoldingTwoBattleGroups) {
-    var leftHandObject = objects.objects.filter((obj) => {
-      return leapHands.left.holdingObjectWithId == obj.id;
-    })[0];
-
-    var rightHandObject = objects.objects.filter((obj) => {
-      return leapHands.right.holdingObjectWithId == obj.id;
-    })[0];
-
-    options.leftHandObject =leftHandObject;
-    options.rightHandObject = rightHandObject;
+    options.leftHandObject = leapHands.left.getHeldObject();
+    options.rightHandObject = leapHands.right.getHeldObject();
   }
 
   objects.objects.forEach((obj) => {
@@ -175,12 +158,12 @@ function determineIfObjectIsHeld(object) {
     var velocity = hand.velocity;
 
     // Hand is holding this object
-    if (hand.holdingObjectWithId === object.id) {
+    if (hand.isHoldingThisObject(object)) {
       if (velocity && velocity[2] <= throwVelocityThreshold) {
         object.moveToHomePosition({duration: 500});
         object.hideInfoViewImmediately();
 
-        hand.holdingObjectWithId = null;
+        hand.stopHoldingObject();
         timeWhenLastThrownObject = Date.now();
       } else {
         object.positionRelativeToHand(hand);
@@ -189,7 +172,7 @@ function determineIfObjectIsHeld(object) {
     } 
 
     // Hand is holding nothing, object is not being held, so check if object is close enough to be held
-    else if (!hand.holdingObjectWithId && !leapHands.isObjectNotBeingHeld(object)) {
+    else if (!hand.isHoldingAnyObject() && !leapHands.isEitherHandHoldingObject(object)) {
       if (object.isInRange(palm)) {
 
         // If not enough time has elapsed since last held an object, don't hold
@@ -197,7 +180,7 @@ function determineIfObjectIsHeld(object) {
           return;
         }
 
-        hand.holdingObjectWithId = object.id;
+        hand.holdObject(object);
       }
     }
 

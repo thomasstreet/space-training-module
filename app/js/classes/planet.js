@@ -7,7 +7,6 @@ class Planet extends BaseObject {
   constructor(options) {
     super(options);
 
-    this.radius = options.radius;
     this.maxMoonRadius = this.radius * 0.05;
 
     this.color = options.color;

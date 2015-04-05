@@ -10,10 +10,12 @@ class BattleGroup extends BaseObject {
 
     // infoView should be offset further to the right for battle groups
     this.infoViewOffset = new THREE.Vector3(
-      options.radius * 2.5,
+      this.radius * 2.5,
       0,
-      options.radius
+      this.radius
     );
+    // Don't cast shadows for the infoView of BattleGroups
+    this.infoView.shouldCastShadow = false;
 
     this.laserColor = options.laserColor;
     this.timeOfLastLaserShot = 0;
@@ -22,13 +24,10 @@ class BattleGroup extends BaseObject {
       for (var i = 0; i < options.shipPositions.length; i++) {
         var object = originalObject.clone();
         object.scale.set(options.scale, options.scale, options.scale);
-        object.position.set(
-          options.shipPositions[i].x,
-          options.shipPositions[i].y,
-          options.shipPositions[i].z
-        );
+        object.position.copy(options.shipPositions[i]);
         object.children.forEach((child) => {
           child.material.emissive = new THREE.Color({r: 255, g: 255, b: 255});
+          child.castShadow = true;
         });
         this.group.add(object);
       }
@@ -36,6 +35,8 @@ class BattleGroup extends BaseObject {
   }
 
   fadeIn(duration) {
+    // Don't implement fade for battle groups to save performance.
+    // Instead do some sort of translation animation.
   }
 
   update(options) {
@@ -43,7 +44,7 @@ class BattleGroup extends BaseObject {
     if (options.isHoldingTwoBattleGroups) {
       this.hideInfoViewImmediately();
 
-      var otherObject = options.leftHandObject.id === this.id ?
+      var otherObject = options.leftHandObject === this ?
         options.rightHandObject :
         options.leftHandObject;
 
@@ -67,10 +68,6 @@ class BattleGroup extends BaseObject {
     );
 
     laser.rotateY(Math.PI / 2);
-
-    //var thisEdgeOfSphere = this.group.position.z + this.radius;
-    //var otherEdgeOfSphere = otherObject.group.position.z + otherObject.radius;
-    //var zDistance = Math.abs(this.group.position.z - otherObject.group.position.z);
 
     laser.position.set(
       (Math.random() * otherObject.radius * 2) - otherObject.radius,

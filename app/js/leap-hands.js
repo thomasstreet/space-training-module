@@ -4,7 +4,7 @@ class Hand {
   constructor(type, group) {
     this.type = type;
     this.isVisible = false;
-    this.holdingObjectWithId = null;
+    this.objectBeingHeld = null;
 
     var outer = new THREE.Mesh(
       new THREE.TorusGeometry(25, 0.5, 32, 32),
@@ -81,6 +81,26 @@ class Hand {
 
     hide(this.palm);
   }
+
+  isHoldingThisObject(object) {
+    return this.objectBeingHeld === object;
+  }
+
+  isHoldingAnyObject() {
+    return !!this.objectBeingHeld;
+  }
+
+  stopHoldingObject() {
+    this.objectBeingHeld = null;
+  }
+
+  holdObject(object) {
+    this.objectBeingHeld = object; 
+  }
+
+  getHeldObject() {
+    return this.objectBeingHeld;
+  }
 }
 
 var yOffset = -300;
@@ -108,17 +128,15 @@ var loop = Leap.loop({background: true}, {
     palm.position.y += yOffset;
 
     hand.velocity = data.palmVelocity;
-    var normal = hand.getRollingAverage(palm.normalSequence, data.palmNormal);
-    hand.normal = normal;
+    var normalArray = hand.getRollingAverage(palm.normalSequence, data.palmNormal);
+    hand.normal = new THREE.Vector3(normalArray[0], normalArray[1], normalArray[2]);
 
     var n = data.palmNormal;
     hand.palm.lookAt(new THREE.Vector3(n[0] * 1000, n[1] * 1000, n[2] * 1000));
-    hand.palm.updateMatrix();
   }
 })
 // Provides handFound/handLost events.
 .use('handEntry');
-
 
 function show(mesh) {
   mesh.traverse(function(child) {
@@ -138,14 +156,8 @@ module.exports = {
   right: right,
   left: left,
   hands: [right, left],
-  atLeastOneHandFree() {
-    return !right.holdingObjectWithId || !left.holdingObjectWithId;
-  },
-  isBothHandsHoldingObject() {
-    return right.holdingObjectWithId && left.holdingObjectWithId;
-  },
-  isObjectNotBeingHeld(object) {
-    return right.holdingObjectWithId == object.id ||
-      left.holdingObjectWithId == object.id;
+  isEitherHandHoldingObject(object) {
+    return right.isHoldingThisObject(object) ||
+      left.isHoldingThisObject(object);
   }
 };

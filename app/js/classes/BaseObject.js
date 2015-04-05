@@ -4,17 +4,19 @@ class BaseObject {
   constructor(options) {
     this.id = options.id;
     this.type = options.type;
+    this.radius = options.radius;
 
-    this.initialPosition = options.initialPosition;
+    // The position that the object will always move back to once no longer
+    // held/moved
+    this.homePosition = options.homePosition;
 
     this.shouldAutoRotate = options.shouldAutoRotate || true;
     this.autoRotationSpeed = options.autoRotationSpeed || -0.005;
 
     this.group = new THREE.Group();
 
-    var video = document.getElementById( 'video' );
-
-    var texture = new THREE.VideoTexture( video );
+    var video = document.getElementById(options.videoId);
+    var texture = new THREE.VideoTexture(video);
     texture.minFilter = THREE.LinearFilter;
     texture.magFilter = THREE.LinearFilter;
     texture.format = THREE.RGBFormat;
@@ -23,17 +25,17 @@ class BaseObject {
       new THREE.BoxGeometry(160 * 0.6, 90 * 0.8, 2),
       new THREE.MeshLambertMaterial({color: 0xffffff, map: texture, transparent: true})
     );
+    this.infoView.shouldCastShadow = true;
     this.infoView.castShadow = false;
     this.infoView.material.opacity = 0;
     this.infoViewVisible = false;
-
     this.infoViewOffset = new THREE.Vector3(
       options.radius,
       0,
       options.radius + 10
     );
 
-    this.group.position.copy(this.initialPosition);
+    this.group.position.copy(this.homePosition);
   }
 
   attachToScene(scene) {
@@ -58,7 +60,7 @@ class BaseObject {
     var startPosition = new THREE.Vector3();
     startPosition.copy(this.group.position);
 
-    var groupDistance = this.initialPosition.clone().sub(startPosition);
+    var groupDistance = this.homePosition.clone().sub(startPosition);
 
     var deltaPercentPerTick = 1 / (options.duration / 16);
     var t = 0;
@@ -80,13 +82,8 @@ class BaseObject {
 
     var yDistance = (this.radius || 100) + 30;
 
-    this.group.position.x = palm.position.x + (yDistance * hand.normal[0]);
-    this.group.position.y = palm.position.y + (yDistance * hand.normal[1]);
-    this.group.position.z = palm.position.z + (yDistance * hand.normal[2]);
-
-    this.infoView.position.x = palm.position.x + (yDistance * hand.normal[0]) + this.infoViewOffset.x;
-    this.infoView.position.y = palm.position.y + (yDistance * hand.normal[1]) + this.infoViewOffset.y;
-    this.infoView.position.z = palm.position.z + (yDistance * hand.normal[2]) + this.infoViewOffset.z;
+    this.group.position.addVectors(palm.position, hand.normal.multiplyScalar(yDistance));
+    this.infoView.position.addVectors(this.group.position, this.infoViewOffset);
   }
 
   determineIfShowInfoView() {
@@ -115,7 +112,9 @@ class BaseObject {
     var fade = setInterval(() => {
       this.infoView.material.opacity += 0.05;
       if (this.infoView.material.opacity >= 1) {
-        this.infoView.castShadow = true;
+        if (this.infoView.shouldCastShadow) {
+          this.infoView.castShadow = true;
+        }
         clearInterval(fade);
       }
     }, duration / 20);
