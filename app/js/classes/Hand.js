@@ -3,10 +3,12 @@ require('traceur/bin/traceur-runtime');
 var yOffset = -300;
 
 class Hand {
-  constructor(type, group) {
+  constructor(type) {
     this.type = type;
     this.isVisible = false;
     this.objectBeingHeld = null;
+
+    this.group = new THREE.Group();
 
     var outer = new THREE.Mesh(
       new THREE.TorusGeometry(25, 0.5, 32, 32),
@@ -27,7 +29,7 @@ class Hand {
 
     // Hide until active
     hide(this.palm);
-    group.add(this.palm);
+    this.group.add(this.palm);
 
     this.fingerTips = [];
     this.velocity = null;
@@ -38,7 +40,7 @@ class Hand {
       var sphere = new THREE.Mesh(geometry, material);
       this.fingerTips.push(sphere);
       hide(sphere);
-      group.add(sphere);
+      this.group.add(sphere);
     }
   }
 

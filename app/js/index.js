@@ -45,7 +45,16 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   scene.add(skybox);
 
   setTimeout(() => {
-    addObjects({ onComplete: leapHands.setUpHandEventHandlers });
+    addObjects({ 
+      onComplete() {
+        scene.add(leapHands.right.group);
+        scene.add(leapHands.left.group);
+
+        scene.leapHandsAdded = true;
+
+        leapHands.setUpHandEventHandlers();
+      }
+    });
   }, 5000);
 
   render();
@@ -89,9 +98,6 @@ function addObjects(options) {
       }
     }, 500 * i);
   });
-
-  scene.add(leapHands.group);
-  scene.leapHandsAdded = true;
 }
 
 function isHoldingTwoBattleGroups() {

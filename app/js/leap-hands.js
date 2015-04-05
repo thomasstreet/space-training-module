@@ -2,10 +2,8 @@ require('traceur/bin/traceur-runtime');
 
 var Hand = require("./classes/Hand");
 
-var group = new THREE.Group();
-
-var left = new Hand("left", group);
-var right = new Hand("right", group);
+var left = new Hand("left");
+var right = new Hand("right");
 
 var loop = Leap.loop({background: true}, {
   hand: function (data) {
@@ -49,7 +47,6 @@ function setUpHandEventHandlers() {
 }
 
 module.exports = {
-  group: group,
   right: right,
   left: left,
   hands: [right, left],
