@@ -60,7 +60,7 @@ class BattleGroup extends BaseObject {
 
   update(options) {
     // How do I convert this options obj to vars?
-    if (options.isHoldingTwoBattleGroups) {
+    if (options.leftHandObject && options.rightHandObject) {
       var otherObject = options.leftHandObject === this ?
         options.rightHandObject :
         options.leftHandObject;
@@ -68,7 +68,10 @@ class BattleGroup extends BaseObject {
       this.group.lookAt(otherObject.group.position);
 
       var distanceFromObject = this.group.position.distanceTo(otherObject.group.position);
-      if (distanceFromObject <= 250) {
+      if (distanceFromObject <= 250 &&
+         options.rightHandObject.type === "BattleGroup" &&
+         options.leftHandObject.type === "BattleGroup"
+       ) {
         this.shootLaserAt(otherObject);
       }
     } else {

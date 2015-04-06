@@ -100,25 +100,11 @@ function addObjects(options) {
   });
 }
 
-function isHoldingTwoBattleGroups() {
-  for (var i = 0; i < leapHands.hands.length; i++) {
-    var hand = leapHands.hands[i];
-    var heldObject = hand.getHeldObject();
-    if (!heldObject || heldObject.type !== "BattleGroup") return false;
-  }
-
-  return true;
-}
-
 function updateObjects() {
   var options = {
-    isHoldingTwoBattleGroups: isHoldingTwoBattleGroups(),
+    leftHandObject: leapHands.left.getHeldObject(),
+    rightHandObject: leapHands.right.getHeldObject()
   };
-
-  if (options.isHoldingTwoBattleGroups) {
-    options.leftHandObject = leapHands.left.getHeldObject();
-    options.rightHandObject = leapHands.right.getHeldObject();
-  }
 
   objects.objects.forEach((obj) => {
     obj.update(options);
