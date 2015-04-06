@@ -8,12 +8,21 @@ var OBJLoader = new THREE.OBJLoader();
 
 
 var defaultOBJMaterial = new THREE.MeshBasicMaterial({
-  color: 0x111111
+  //color: 0x111111
 });
 
 class BattleGroup extends BaseObject {
   constructor(options) {
     super(options);
+
+    this.group.add(new THREE.Mesh(
+      new THREE.SphereGeometry(this.radius, 64, 64),
+      new THREE.MeshBasicMaterial({
+        color: 0xff0000,
+        transparent: true,
+        opacity: 0.3
+      }) 
+    ));
 
     // infoView should be offset further to the right for battle groups
     this.infoView.offset = new THREE.Vector3(
@@ -25,6 +34,8 @@ class BattleGroup extends BaseObject {
     this.laserColor = options.laserColor;
     this.timeOfLastLaserShot = 0;
 
+    this.isInteractingWithPlanet = false;
+
     this.ships = [];
 
     if (options.mtl) {
@@ -34,11 +45,11 @@ class BattleGroup extends BaseObject {
     }
     else {
       OBJLoader.load(options.obj, (loadedObject) => {
-        loadedObject.traverse( function ( child ) {
-          if ( child instanceof THREE.Mesh ) {
+        loadedObject.traverse(function (child) {
+          if (child instanceof THREE.Mesh) {
             child.material = defaultOBJMaterial;
           }
-        } );
+        });
         generateShips.call(this, loadedObject);
       }, onProgress, onError);
     }
@@ -71,21 +82,59 @@ class BattleGroup extends BaseObject {
         objectInRightHand :
         objectInLeftHand;
 
-      this.group.lookAt(otherObject.group.position);
+      var isTwoBattleGroups = otherObject.type === "BattleGroup";
+      var isBattleGroupAndPlanet = otherObject.type === "Planet";
+
+      if (isTwoBattleGroups) {
+        //this.group.lookAt(otherObject.group.position);
+      }
 
       var distanceFromObject = this.group.position.distanceTo(otherObject.group.position);
-      if (distanceFromObject <= 250 &&
-          objectInRightHand.type === "BattleGroup" &&
-          objectInLeftHand.type === "BattleGroup") {
-         this.shootLaserAt(otherObject);
+
+      if (distanceFromObject <= 250) {
+        if (isTwoBattleGroups) {
+          this.shootLaserAt(otherObject);
+        }
+        else if (isBattleGroupAndPlanet) {
+          this.interactWithPlanet(otherObject);
+        }
       }
     } else {
-      this.rotate();
+      if (!this.isInteractingWithPlanet) {
+        //this.rotate();
+      }
+    }
+
+    if (!bothHandsHoldingAnObject) {
+      this.stopInteractingWithPlanet();
     }
 
     this.ships.forEach((ship) => {
       ship.update();
     });
+  }
+
+  positionRelativeToHand(hand) {
+    super(hand);
+    if (this.isInteractingWithPlanet) {
+      var planet = this.isInteractingWithPlanet;
+
+      console.log("this group:", this.group.position);
+      console.log("planet group:", planet.group.position);
+
+      var offset = new THREE.Vector3(
+        this.group.position.x - planet.group.position.x,
+        this.group.position.y - planet.group.position.y,
+        this.group.position.z - planet.group.position.z
+      );
+
+      offset.negate();
+
+      this.ships.forEach((ship) => {
+        //ship.moveToPlanet(offset);
+        ship.moveToPlanet(new THREE.Vector3(-100, 0, 0));
+      });
+    }
   }
 
   fadeIn() {
@@ -132,6 +181,28 @@ class BattleGroup extends BaseObject {
       }
     }, 16);
   }
+
+  interactWithPlanet(planet) {
+    if (!this.isInteractingWithPlanet) {
+      this.isInteractingWithPlanet = planet;
+    }
+  }
+
+  stopInteractingWithPlanet() {
+    if (this.isInteractingWithPlanet) {
+      this.isInteractingWithPlanet = false;
+
+      this.ships.forEach((ship) => {
+        console.log("move to home");
+        ship.moveToHomePosition();
+      });
+    }
+  }
+
+  releaseFromHand() {
+    this.stopInteractingWithPlanet();
+  }
+
 }
 
 

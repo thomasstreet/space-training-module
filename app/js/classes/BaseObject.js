@@ -109,6 +109,11 @@ class BaseObject {
       this.videoController.playFromMiddleToEnd();
     }
   }
+
+  // Abstract method
+  releaseFromHand() {
+    // Implement on subclass basis
+  }
 }
 
 module.exports = BaseObject;

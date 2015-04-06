@@ -44,7 +44,7 @@ class Planet extends BaseObject {
   fadeIn(duration) {
     var fade = setInterval(() => {
       this.sphereMesh.material.opacity += 0.01;
-      if (this.sphereMesh.material.opacity >= 1) {
+      if (this.sphereMesh.material.opacity >= 0.5) {
         clearInterval(fade);
       }
     }, duration / 100);
