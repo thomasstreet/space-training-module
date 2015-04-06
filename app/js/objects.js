@@ -4,7 +4,7 @@ var BattleGroup = require('./classes/BattleGroup');
 var Tatooine = new Planet({
   id: "Tatooine",
   type: "Planet",
-  radius: 100,
+  radius: 70,
   color: 0x000000,
   moonColor: 0xffffff,
   texture: 'assets/mars.jpg',
@@ -17,7 +17,7 @@ var Tatooine = new Planet({
 var Hoth = new Planet({
   id: "Hoth",
   type: "Planet",
-  radius: 70,
+  radius: 100,
   color: 0x000000,
   moonColor: 0x000000,
   texture: 'assets/planet_hoth.png',
