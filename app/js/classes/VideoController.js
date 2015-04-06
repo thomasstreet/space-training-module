@@ -30,7 +30,6 @@ class VideoController {
   }
 
   playFromMiddleToEnd() {
-    console.log(this.timeouts.length);
     this.timeouts.forEach((timeout) => {
       clearTimeout(timeout);
     });
