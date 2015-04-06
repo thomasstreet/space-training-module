@@ -8,21 +8,12 @@ var OBJLoader = new THREE.OBJLoader();
 
 
 var defaultOBJMaterial = new THREE.MeshBasicMaterial({
-  //color: 0x111111
+  color: 0x111111
 });
 
 class BattleGroup extends BaseObject {
   constructor(options) {
     super(options);
-
-    this.group.add(new THREE.Mesh(
-      new THREE.SphereGeometry(this.radius, 64, 64),
-      new THREE.MeshBasicMaterial({
-        color: 0xff0000,
-        transparent: true,
-        opacity: 0.3
-      }) 
-    ));
 
     // infoView should be offset further to the right for battle groups
     this.infoView.offset = new THREE.Vector3(
@@ -34,7 +25,7 @@ class BattleGroup extends BaseObject {
     this.laserColor = options.laserColor;
     this.timeOfLastLaserShot = 0;
 
-    this.isInteractingWithPlanet = false;
+    this.interactingWithPlanet = null;
 
     this.ships = [];
 
@@ -85,9 +76,7 @@ class BattleGroup extends BaseObject {
       var isTwoBattleGroups = otherObject.type === "BattleGroup";
       var isBattleGroupAndPlanet = otherObject.type === "Planet";
 
-      if (isTwoBattleGroups) {
-        //this.group.lookAt(otherObject.group.position);
-      }
+      this.group.lookAt(otherObject.group.position);
 
       var distanceFromObject = this.group.position.distanceTo(otherObject.group.position);
 
@@ -95,19 +84,19 @@ class BattleGroup extends BaseObject {
         if (isTwoBattleGroups) {
           this.shootLaserAt(otherObject);
         }
-        else if (isBattleGroupAndPlanet) {
-          this.interactWithPlanet(otherObject);
-        }
+        //else if (isBattleGroupAndPlanet) {
+          //this.interactWithPlanet(otherObject);
+        //}
       }
     } else {
-      if (!this.isInteractingWithPlanet) {
-        //this.rotate();
+      if (!this.interactingWithPlanet) {
+        this.rotate();
       }
     }
 
-    if (!bothHandsHoldingAnObject) {
-      this.stopInteractingWithPlanet();
-    }
+    //if (!bothHandsHoldingAnObject) {
+      //this.stopInteractingWithPlanet();
+    //}
 
     this.ships.forEach((ship) => {
       ship.update();
@@ -116,25 +105,27 @@ class BattleGroup extends BaseObject {
 
   positionRelativeToHand(hand) {
     super(hand);
-    if (this.isInteractingWithPlanet) {
-      var planet = this.isInteractingWithPlanet;
 
-      console.log("this group:", this.group.position);
-      console.log("planet group:", planet.group.position);
+    //if (this.interactingWithPlanet) {
+      //this.moveShipsToOtherPlanet;
+    //}
+  }
 
-      var offset = new THREE.Vector3(
-        this.group.position.x - planet.group.position.x,
-        this.group.position.y - planet.group.position.y,
-        this.group.position.z - planet.group.position.z
-      );
+  moveShipsToOtherPlanet() {
+    var planet = this.interactingWithPlanet;
 
-      offset.negate();
+    var offset = new THREE.Vector3(
+      this.group.position.x - planet.group.position.x,
+      this.group.position.y - planet.group.position.y,
+      this.group.position.z - planet.group.position.z
+    );
 
-      this.ships.forEach((ship) => {
-        //ship.moveToPlanet(offset);
-        ship.moveToPlanet(new THREE.Vector3(-100, 0, 0));
-      });
-    }
+    offset.negate();
+
+    this.ships.forEach((ship) => {
+      //ship.moveToPlanet(offset);
+      ship.moveToPlanet(new THREE.Vector3(-100, 0, 0));
+    });
   }
 
   fadeIn() {
@@ -183,14 +174,14 @@ class BattleGroup extends BaseObject {
   }
 
   interactWithPlanet(planet) {
-    if (!this.isInteractingWithPlanet) {
-      this.isInteractingWithPlanet = planet;
+    if (!this.interactingWithPlanet) {
+      this.interactingWithPlanet = planet;
     }
   }
 
   stopInteractingWithPlanet() {
-    if (this.isInteractingWithPlanet) {
-      this.isInteractingWithPlanet = false;
+    if (this.interactingWithPlanet) {
+      this.interactingWithPlanet = null;
 
       this.ships.forEach((ship) => {
         console.log("move to home");
