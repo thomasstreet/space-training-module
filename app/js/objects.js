@@ -52,7 +52,6 @@ var RepublicBattleGroup = new BattleGroup({
   type: "BattleGroup",
   laserColor: 0xDC143C,
   obj: 'assets/gunship/gunship.obj',
-  mtl: 'assets/gunship/gunship.mtl',
   homePosition: new THREE.Vector3(200, -100, 0),
   radius: 30,
   shipPositions: [

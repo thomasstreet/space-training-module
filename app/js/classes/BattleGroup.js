@@ -3,7 +3,13 @@ require('traceur/bin/traceur-runtime');
 var BaseObject = require ('./BaseObject');
 var Ship = require ('./Ship');
 
-var loader = new THREE.OBJMTLLoader();
+var OBJMTLLoader = new THREE.OBJMTLLoader();
+var OBJLoader = new THREE.OBJLoader();
+
+
+var defaultOBJMaterial = new THREE.MeshBasicMaterial({
+  color: 0x111111
+});
 
 class BattleGroup extends BaseObject {
   constructor(options) {
@@ -21,7 +27,23 @@ class BattleGroup extends BaseObject {
 
     this.ships = [];
 
-    loader.load(options.obj, options.mtl, (originalObject) => {
+    if (options.mtl) {
+      OBJMTLLoader.load(options.obj, options.mtl, (loadedObject) => {
+        generateShips.call(this, loadedObject);
+      }, onProgress, onError);
+    }
+    else {
+      OBJLoader.load(options.obj, (loadedObject) => {
+        loadedObject.traverse( function ( child ) {
+          if ( child instanceof THREE.Mesh ) {
+            child.material = defaultOBJMaterial;
+          }
+        } );
+        generateShips.call(this, loadedObject);
+      }, onProgress, onError);
+    }
+
+    function generateShips(originalObject) {
       for (var i = 0; i < options.shipPositions.length; i++) {
         var ship = new Ship({
           mesh: originalObject.clone(),
@@ -33,7 +55,7 @@ class BattleGroup extends BaseObject {
 
         this.group.add(ship.mesh);
       }
-    }, onProgress, onError);
+    }
   }
 
   update(options) {
@@ -103,6 +125,7 @@ class BattleGroup extends BaseObject {
     }, 16);
   }
 }
+
 
 function onProgress() { }
 function onError(e) { console.log(e); }
