@@ -19,6 +19,8 @@ class BattleGroup extends BaseObject {
     this.laserColor = options.laserColor;
     this.timeOfLastLaserShot = 0;
 
+    this.ships = [];
+
     loader.load(options.obj, options.mtl, (originalObject) => {
       for (var i = 0; i < options.shipPositions.length; i++) {
         var ship = new Ship({
@@ -27,14 +29,11 @@ class BattleGroup extends BaseObject {
           position: options.shipPositions[i]
         });
 
+        this.ships.push(ship);
+
         this.group.add(ship.mesh);
       }
     }, onProgress, onError);
-  }
-
-  fadeIn(duration) {
-    // Don't implement fade for battle groups to save performance.
-    // Instead do some sort of translation animation.
   }
 
   update(options) {
@@ -53,6 +52,15 @@ class BattleGroup extends BaseObject {
     } else {
       this.rotate();
     }
+
+    this.ships.forEach((ship) => {
+      ship.update();
+    });
+  }
+
+  fadeIn(duration) {
+    // Don't implement fade for battle groups to save performance.
+    // Instead do some sort of translation animation.
   }
 
   shootLaserAt(otherObject) {

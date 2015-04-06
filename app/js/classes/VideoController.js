@@ -17,7 +17,8 @@ class VideoController {
     this.video.currentTime = 0;
     this.video.play();
 
-    var middlePoint = this.video.duration / 2;
+    // Set the middlePoint to slightly before the true middle point
+    var middlePoint = (this.video.duration / 2) - (this.video.duration / 10);
 
     setTimeout(() => {
       this.video.pause();
