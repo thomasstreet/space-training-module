@@ -32,6 +32,22 @@ class BaseObject {
     });
 
     this.group.position.copy(this.homePosition);
+    this.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, 0, 0), options.radius);
+  }
+
+  raycast(raycaster, intersects) {
+
+    var sphere = new THREE.Sphere();
+
+    sphere.copy(this.boundingSphere);
+    sphere.applyMatrix4(this.group.matrixWorld);
+
+    if (raycaster.ray.isIntersectionSphere(sphere) === false) {
+        return;
+    }
+    else {
+      intersects.push(this)
+    }
   }
 
   attachToScene(scene) {
@@ -44,10 +60,6 @@ class BaseObject {
     startPosition.copy(this.group.position);
 
     this.movingHome = true;
-
-    // Face the home destination while moving home
-    this.group.lookAt(startPosition);
-    this.group.rotateY(Math.PI);
 
     var groupDistance = this.homePosition.clone().sub(startPosition);
 
@@ -63,6 +75,29 @@ class BaseObject {
       if (t >= 1) {
         clearInterval(interval);
         this.movingHome = false;
+      }
+    }, 16);
+  }
+
+  moveToPosition(options, callback) {
+    var startPosition = new THREE.Vector3();
+    startPosition.copy(this.group.position);
+
+    var groupDistance = options.destination.clone().sub(startPosition);
+
+    var deltaPercentPerTick = 1 / (options.duration / 16);
+    var t = 0;
+
+    var interval = setInterval(() => {
+      t += deltaPercentPerTick;
+
+      this.group.position.addVectors(startPosition, groupDistance.clone().multiplyScalar(t));
+      this.infoView.mesh.position.addVectors(this.group.position, this.infoView.offset);
+
+      if (t >= 1) {
+        clearInterval(interval);
+        this.movingHome = false;
+        callback()
       }
     }, 16);
   }

@@ -59,6 +59,25 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
 
   render();
 
+  // set up click handling
+
+  var projector = new THREE.Projector();
+  var mouseVector = new THREE.Vector3();
+
+  function onMouseDown(e) {
+    var vector = new THREE.Vector3();
+    var raycaster = new THREE.Raycaster();
+
+    vector.set( (event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
+    vector.unproject( camera );
+    raycaster.set( camera.position, vector.sub( camera.position ).normalize() )
+    var intersects = raycaster.intersectObjects(objects.objects);
+
+    manualDisplayToggle(intersects[0]);
+  }
+
+  window.addEventListener( 'mousedown', onMouseDown, false );
+
   function render() {
     updateObjects();
 
@@ -85,6 +104,28 @@ loading(function() {
   vr.init(main);
   document.body.className = ('loaded');
 });
+
+var manualDisplaySlots = {
+  left: null,
+  right: null
+};
+
+var manualDisplaySlotPositions = {
+  left: new THREE.Vector3(-100, 0, 200),
+  right: new THREE.Vector3(100, 0, 0)
+};
+
+function manualDisplayToggle(object) {
+  if (manualDisplaySlots.left === object) {
+    object.moveToHomePosition({duration: 300});
+    manualDisplaySlots.left = null
+    object.animateOutInfoView();
+  }
+  else if (!manualDisplaySlots.left) {
+    object.moveToPosition({destination: manualDisplaySlotPositions.left, duration: 300}, () => object.animateInInfoView());
+    manualDisplaySlots.left = object
+  }
+};
 
 function addObjectsToScene(options) {
   objects.objects.forEach((obj, i) => {
