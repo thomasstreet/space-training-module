@@ -1,6 +1,7 @@
 require('traceur/bin/traceur-runtime');
 
 var BaseObject = require ('./BaseObject');
+var Ship = require ('./Ship');
 
 var loader = new THREE.OBJMTLLoader();
 
@@ -20,14 +21,13 @@ class BattleGroup extends BaseObject {
 
     loader.load(options.obj, options.mtl, (originalObject) => {
       for (var i = 0; i < options.shipPositions.length; i++) {
-        var object = originalObject.clone();
-        object.scale.set(options.scale, options.scale, options.scale);
-        object.position.copy(options.shipPositions[i]);
-        object.children.forEach((child) => {
-          child.material.emissive = new THREE.Color({r: 255, g: 255, b: 255});
-          child.castShadow = true;
+        var ship = new Ship({
+          mesh: originalObject.clone(),
+          scale: options.scale,
+          position: options.shipPositions[i]
         });
-        this.group.add(object);
+
+        this.group.add(ship.mesh);
       }
     }, onProgress, onError);
   }
