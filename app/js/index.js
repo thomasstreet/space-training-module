@@ -45,7 +45,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   scene.add(skybox);
 
   setTimeout(() => {
-    addObjects({ 
+    addObjectsToScene({
       onComplete() {
         scene.add(leapHands.right.group);
         scene.add(leapHands.left.group);
@@ -86,7 +86,7 @@ loading(function() {
   document.body.className = ('loaded');
 });
 
-function addObjects(options) {
+function addObjectsToScene(options) {
   objects.objects.forEach((obj, i) => {
     setTimeout(() => {
       obj.attachToScene(scene);
@@ -102,8 +102,8 @@ function addObjects(options) {
 
 function updateObjects() {
   var options = {
-    leftHandObject: leapHands.left.getHeldObject(),
-    rightHandObject: leapHands.right.getHeldObject()
+    objectInLeftHand: leapHands.left.getHeldObject(),
+    objectInRightHand: leapHands.right.getHeldObject(),
   };
 
   objects.objects.forEach((obj) => {

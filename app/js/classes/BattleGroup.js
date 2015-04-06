@@ -59,20 +59,25 @@ class BattleGroup extends BaseObject {
   }
 
   update(options) {
-    // How do I convert this options obj to vars?
-    if (options.leftHandObject && options.rightHandObject) {
-      var otherObject = options.leftHandObject === this ?
-        options.rightHandObject :
-        options.leftHandObject;
+    var {objectInLeftHand, objectInRightHand} = options;
+
+    var isOneOfTheHeldObjects = objectInLeftHand === this ||
+      objectInRightHand === this;
+
+    var bothHandsHoldingAnObject = objectInLeftHand && objectInRightHand;
+
+    if (isOneOfTheHeldObjects && bothHandsHoldingAnObject) {
+      var otherObject = objectInLeftHand === this ?
+        objectInRightHand :
+        objectInLeftHand;
 
       this.group.lookAt(otherObject.group.position);
 
       var distanceFromObject = this.group.position.distanceTo(otherObject.group.position);
       if (distanceFromObject <= 250 &&
-         options.rightHandObject.type === "BattleGroup" &&
-         options.leftHandObject.type === "BattleGroup"
-       ) {
-        this.shootLaserAt(otherObject);
+          objectInRightHand.type === "BattleGroup" &&
+          objectInLeftHand.type === "BattleGroup") {
+         this.shootLaserAt(otherObject);
       }
     } else {
       this.rotate();
@@ -83,7 +88,7 @@ class BattleGroup extends BaseObject {
     });
   }
 
-  fadeIn(duration) {
+  fadeIn() {
     // Don't implement fade for battle groups to save performance.
     // Instead do some sort of translation animation.
   }
