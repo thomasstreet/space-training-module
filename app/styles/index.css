@@ -11,7 +11,7 @@ html, body, #viewport  {
 }
 
 #loading {
-  background: black;
+  background: #202640;
   color: white;
   text-align: center;
   font-size: 36px;
@@ -22,6 +22,22 @@ html, body, #viewport  {
   position: absolute;
   opacity: 1;
   transition: opacity 3s;
+}
+
+#video-container {
+  position: relative;
+  top: 50%;
+  width: 720px;
+  height: 720px;
+  margin: auto;
+  transform: translateY(-50%);
+}
+
+.loading-videos {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 body.loaded #loading {
