@@ -14,6 +14,7 @@ var IMAGES = [
 ];
 
 
+var backgroundMusic = document.getElementById("background-music");
 var loadingVideo = document.getElementById("loading-entrance");
 var loopVideo = document.getElementById("loading-loop");
 var exitVideo = document.getElementById("loading-exit");
@@ -66,6 +67,7 @@ function initializeApp(callback) {
 
 function startExitVideo() {
   exitVideo.play();
+  backgroundMusic.play();
 
   setTimeout(() => {
     hide(exitVideo);
