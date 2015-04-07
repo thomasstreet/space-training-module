@@ -1,5 +1,3 @@
-require('traceur/bin/traceur-runtime');
-
 class VideoController {
   constructor(videoId) {
     this.video = document.getElementById(videoId);

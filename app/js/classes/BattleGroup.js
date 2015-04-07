@@ -1,5 +1,3 @@
-require('traceur/bin/traceur-runtime');
-
 var BaseObject = require ('./BaseObject');
 var Ship = require ('./Ship');
 

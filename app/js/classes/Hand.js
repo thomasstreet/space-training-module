@@ -1,5 +1,3 @@
-require('traceur/bin/traceur-runtime');
-
 var yOffset = -300;
 
 class Hand {

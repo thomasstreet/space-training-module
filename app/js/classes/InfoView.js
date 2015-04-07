@@ -1,5 +1,3 @@
-require('traceur/bin/traceur-runtime');
-
 class InfoView {
   constructor(options) {
     var texture = new THREE.VideoTexture(options.videoSource);

@@ -1,5 +1,3 @@
-require('traceur/bin/traceur-runtime');
-
 var Moon = require ('./Moon');
 var BaseObject = require ('./BaseObject');
 

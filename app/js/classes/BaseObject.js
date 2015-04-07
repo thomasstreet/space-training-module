@@ -1,5 +1,3 @@
-require('traceur/bin/traceur-runtime');
-
 var VideoController = require('./VideoController');
 var InfoView = require('./InfoView');
 

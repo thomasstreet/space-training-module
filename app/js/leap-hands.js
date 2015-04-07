@@ -1,5 +1,3 @@
-require('traceur/bin/traceur-runtime');
-
 var Hand = require("./classes/Hand");
 
 var left = new Hand("left");

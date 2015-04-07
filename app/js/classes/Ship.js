@@ -1,5 +1,3 @@
-require('traceur/bin/traceur-runtime');
-
 var states = {
   resting: "resting",
   inFlight: "inFlight"

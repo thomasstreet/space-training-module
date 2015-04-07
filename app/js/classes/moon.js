@@ -1,5 +1,3 @@
-require('traceur/bin/traceur-runtime');
-
 class Moon {
   constructor(options) {
     this.radius = options.maxRadius * Math.max(0.7, Math.random());
