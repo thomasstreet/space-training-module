@@ -34,13 +34,12 @@ var ErdaneseBattleGroup = new BattleGroup({
   obj: 'assets/star-wars/ARC170-2/Arc170.obj',
   mtl: 'assets/star-wars/ARC170-2/Arc170.mtl',
   homePosition: new THREE.Vector3(-200, -100, -50),
-  manualDisplayPositionOffset: new THREE.Vector3(0, 0, 50),
+  manualDisplayPositionOffset: new THREE.Vector3(40, 0, 50),
   radius: 30,
   shipPositions: [
-    new THREE.Vector3(20, 20, 0),
-    new THREE.Vector3(-20, 20, 0),
-
-    new THREE.Vector3(0, 0, 30),
+    new THREE.Vector3(0, 20, 30),
+    new THREE.Vector3(20, 0, 0),
+    new THREE.Vector3(-20, 0, 0),
     new THREE.Vector3(0, -20, 0),
   ],
   autoRotationSpeed: -0.002,
