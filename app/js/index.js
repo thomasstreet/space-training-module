@@ -1,6 +1,7 @@
 'use strict';
 
 var leapHands = require('./leap-hands');
+var chromeLeapPopup = require('./chrome-leap-popup');
 var objects = require('./objects');
 var skybox = require('./skybox');
 var vr = require('./vr');
@@ -98,6 +99,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
 
 loading(function() {
   vr.init(main);
+  chromeLeapPopup.determineIfShouldShowPopup();
 });
 
 var manualDisplaySlots = {

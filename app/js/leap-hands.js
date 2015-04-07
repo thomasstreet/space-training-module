@@ -1,3 +1,5 @@
+var chromeLeapPopup = require('./chrome-leap-popup');
+
 var Hand = require("./classes/Hand");
 
 var left = new Hand("left");
@@ -26,6 +28,7 @@ var loop = Leap.loop({background: true}, {
 
 function setUpHandEventHandlers() {
   loop.on('handFound', function(data) {
+    chromeLeapPopup.leapDetected();
     var hand = data.type === 'left' ? left : right;
     hand.showHand(data);
   })

@@ -40,8 +40,6 @@ function load(callback) {
     img.onload = function() {
       loaded.push(img);
       if (loaded.length === IMAGES.length) {
-        console.log('loaded all images');
-        //setTimeout(initializeApp.bind(null, callback), loopVideo.duration * 1000);
         initializeApp(callback);
       }
     };
@@ -86,6 +84,8 @@ function startExitVideo() {
 
   setTimeout(() => {
     hide(exitVideo);
+    hide(loadingVideo);
+    hide(loopVideo);
     document.body.className = ('loaded');
   }, exitVideo.duration * 1000);
 }
