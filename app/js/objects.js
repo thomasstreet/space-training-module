@@ -51,7 +51,12 @@ var RepublicBattleGroup = new BattleGroup({
   id: "Republic Battle Group",
   type: "BattleGroup",
   laserColor: 0xDC143C,
-  obj: 'assets/gunship/gunship.obj',
+  obj: 'assets/drone/light_drone_2.obj',
+  texture: {
+    map: THREE.ImageUtils.loadTexture('assets/drone/light_drone_2_color.png'),
+    specularMap: THREE.ImageUtils.loadTexture('assets/drone/light_drone_2_specular.png'),
+    lightMap: THREE.ImageUtils.loadTexture('assets/drone/light_drone_2_illumination.png'),
+  },
   homePosition: new THREE.Vector3(200, -100, 0),
   radius: 30,
   shipPositions: [
@@ -63,7 +68,7 @@ var RepublicBattleGroup = new BattleGroup({
     new THREE.Vector3(0, -20, 0),
   ],
   autoRotationSpeed: 0.002,
-  scale: 1,
+  scale: 0.5,
   videoId: 'video-3'
 });
 
