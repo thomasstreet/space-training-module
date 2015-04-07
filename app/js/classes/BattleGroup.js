@@ -132,11 +132,6 @@ class BattleGroup extends BaseObject {
     });
   }
 
-  fadeIn() {
-    // Don't implement fade for battle groups to save performance.
-    // Instead do some sort of translation animation.
-  }
-
   shootLaserAt(otherObject) {
     if (Date.now() - this.timeOfLastLaserShot < 100) return;
 

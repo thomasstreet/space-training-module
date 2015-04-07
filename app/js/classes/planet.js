@@ -15,10 +15,9 @@ class Planet extends BaseObject {
       ambient		: 0xFFFFFF,
       shininess	: 10, 
       shading		: THREE.SmoothShading,
-      transparent: true,
       map: THREE.ImageUtils.loadTexture(options.texture),
       normalMap: THREE.ImageUtils.loadTexture(options.normalMap),
-      opacity: 0
+      opacity: 1
     });
 
     this.sphereMesh = new THREE.Mesh(
@@ -40,15 +39,6 @@ class Planet extends BaseObject {
       this.moons.push(moon.group);
       this.group.add(moon.group);
     }
-  }
-
-  fadeIn(duration) {
-    var fade = setInterval(() => {
-      this.sphereMesh.material.opacity += 0.01;
-      if (this.sphereMesh.material.opacity >= 1.0) {
-        clearInterval(fade);
-      }
-    }, duration / 100);
   }
 }
 

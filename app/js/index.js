@@ -45,19 +45,16 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
 
   scene.add(skybox);
 
-  setTimeout(() => {
-    addObjectsToScene({
-      onComplete() {
-        scene.add(leapHands.right.group);
-        scene.add(leapHands.left.group);
+  addObjectsToScene({
+    onComplete() {
+      scene.add(leapHands.right.group);
+      scene.add(leapHands.left.group);
 
-        scene.leapHandsAdded = true;
+      scene.leapHandsAdded = true;
 
-        leapHands.setUpHandEventHandlers();
-      }
-    });
-  }, 5000);
-
+      leapHands.setUpHandEventHandlers();
+    }
+  });
   render();
 
   // set up click handling
@@ -129,15 +126,12 @@ function manualDisplayToggle(object) {
 
 function addObjectsToScene(options) {
   objects.objects.forEach((obj, i) => {
-    setTimeout(() => {
-      obj.attachToScene(scene);
-      obj.fadeIn(500);
+    obj.attachToScene(scene);
 
-      // If last object, trigger callback
-      if (i === objects.objects.length - 1) {
-        options.onComplete();
-      }
-    }, 500 * i);
+    // If last object, trigger callback
+    if (i === objects.objects.length - 1) {
+      options.onComplete();
+    }
   });
 }
 
