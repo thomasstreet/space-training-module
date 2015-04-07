@@ -14,40 +14,17 @@ var IMAGES = [
 ];
 
 
+var loadingEl = document.getElementById("loading");
+var loadingVideo = document.getElementById("loading-entrance");
+var loopVideo = document.getElementById("loading-loop");
+var exitVideo = document.getElementById("loading-exit");
+
+var waitBeforePlayingLoadingVideos = 1000;
+
 function load(callback) {
   var loaded = [];
 
-  var loadingVideo = document.getElementById("loading-entrance");
-  var loopVideo = document.getElementById("loading-loop");
-  var exitVideo = document.getElementById("loading-exit");
-
-  setTimeout(() => {
-    show(loadingVideo);
-    loadingVideo.play();
-
-    setTimeout(() => {
-      hide(loadingVideo);
-
-      show(loopVideo);
-      loopVideo.play();
-
-      console.log(loopVideo.duration * 1000);
-
-      setTimeout(() => {
-        hide(loadingVideo);
-        loopVideo.pause();
-
-        show(exitVideo);
-        exitVideo.play();
-
-        setTimeout(() => {
-          callback();
-        }, exitVideo.duration * 1000);
-
-      }, loopVideo.duration * 1000);
-
-    }, loadingVideo.duration * 1000);
-  }, 1000);
+  setTimeout(startEntranceVideo.bind(null, callback), waitBeforePlayingLoadingVideos);
 
   IMAGES.forEach(function(imageSrc) {
     var img = new Image();
@@ -55,9 +32,44 @@ function load(callback) {
     img.onload = function() {
       loaded.push(img);
       if (loaded.length === IMAGES.length) {
+        //setTimeout(startExitVideo, loopVideo.duration * 1000);
       }
     };
   });
+}
+
+function startEntranceVideo(callback) {
+  show(loadingVideo);
+  loadingVideo.play();
+
+  setTimeout(startLoopVideo.bind(null, callback), loadingVideo.duration * 1000);
+}
+
+function startLoopVideo(callback) {
+  show(loopVideo);
+  loopVideo.play();
+
+  setTimeout(() => {
+    loopVideo.loop = false;
+    loopVideo.pause();
+    hide(loopVideo);
+    callback();
+
+    setTimeout(startExitVideo, 2000);
+  }, loopVideo.duration * 1000);
+}
+
+function startExitVideo() {
+  hide(loadingVideo);
+
+  document.body.className = ('loaded');
+  show(exitVideo);
+  exitVideo.play();
+
+  setTimeout(() => {
+    hide(exitVideo);
+    exitVideo.pause();
+  }, exitVideo.duration * 1000);
 }
 
 function show(el) {

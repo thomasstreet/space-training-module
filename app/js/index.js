@@ -103,7 +103,6 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
 
 loading(function() {
   vr.init(main);
-  document.body.className = ('loaded');
 });
 
 var manualDisplaySlots = {
@@ -119,14 +118,14 @@ var manualDisplaySlotPositions = {
 function manualDisplayToggle(object) {
   if (manualDisplaySlots.left === object) {
     object.moveToHomePosition({duration: 300});
-    manualDisplaySlots.left = null
+    manualDisplaySlots.left = null;
     object.animateOutInfoView();
   }
   else if (!manualDisplaySlots.left) {
     object.moveToPosition({destination: manualDisplaySlotPositions.left, duration: 300}, () => object.animateInInfoView());
-    manualDisplaySlots.left = object
+    manualDisplaySlots.left = object;
   }
-};
+}
 
 function addObjectsToScene(options) {
   objects.objects.forEach((obj, i) => {
