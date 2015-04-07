@@ -67,7 +67,9 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
     raycaster.set(camera.position, vector.sub( camera.position ).normalize());
     var intersects = raycaster.intersectObjects(objects.objects);
 
-    manualDisplayToggle(intersects[0]);
+    if (intersects[0]) {
+      manualDisplayToggle(intersects[0]);
+    }
   }
 
   window.addEventListener( 'mousedown', onMouseDown, false );
@@ -109,6 +111,7 @@ var manualDisplaySlotPositions = {
 };
 
 function manualDisplayToggle(object) {
+  console.log(object);
   if (manualDisplaySlots.left === object) {
     object.moveToHomePosition({duration: 300});
     manualDisplaySlots.left = null;
