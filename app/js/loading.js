@@ -17,9 +17,37 @@ var IMAGES = [
 function load(callback) {
   var loaded = [];
 
-  var loadingVideo = document.getElementById("loading-video");
+  var loadingVideo = document.getElementById("loading-entrance");
+  var loopVideo = document.getElementById("loading-loop");
+  var exitVideo = document.getElementById("loading-exit");
 
-  //loadingVideo.
+  setTimeout(() => {
+    show(loadingVideo);
+    loadingVideo.play();
+
+    setTimeout(() => {
+      hide(loadingVideo);
+
+      show(loopVideo);
+      loopVideo.play();
+
+      console.log(loopVideo.duration * 1000);
+
+      setTimeout(() => {
+        hide(loadingVideo);
+        loopVideo.pause();
+
+        show(exitVideo);
+        exitVideo.play();
+
+        setTimeout(() => {
+          callback();
+        }, exitVideo.duration * 1000);
+
+      }, loopVideo.duration * 1000);
+
+    }, loadingVideo.duration * 1000);
+  }, 1000);
 
   IMAGES.forEach(function(imageSrc) {
     var img = new Image();
@@ -27,10 +55,17 @@ function load(callback) {
     img.onload = function() {
       loaded.push(img);
       if (loaded.length === IMAGES.length) {
-        //callback();
       }
     };
   });
+}
+
+function show(el) {
+  el.style.display = "block";
+}
+
+function hide(el) {
+  el.style.display = "none";
 }
 
 module.exports = load;
