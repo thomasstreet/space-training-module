@@ -115,14 +115,13 @@ class Hand {
   }
 
   isInRangeOf(obj) {
-    var minDistance = 100;
+    var minDistance = 50;
     var dx = Math.abs(this.palm.position.x - obj.group.position.x);
     var dy = Math.abs(this.palm.position.y - obj.group.position.y);
     var dz = Math.abs(this.palm.position.z - obj.group.position.z);
 
-    // Require a closer distance for z
-    if (dx <= minDistance / 2 + obj.radius && 
-        dy <= minDistance / 2 + obj.radius && 
+    if (dx <= minDistance + obj.radius && 
+        dy <= minDistance + obj.radius && 
         dz <= minDistance) {
       return true;
     }
