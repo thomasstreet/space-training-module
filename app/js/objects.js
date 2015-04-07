@@ -1,34 +1,34 @@
 var Planet = require('./classes/Planet');
 var BattleGroup = require('./classes/BattleGroup');
 
-var Tatooine = new Planet({
-  id: "Tatooine",
+var Planet2432 = new Planet({
+  id: "Planet2432",
   type: "Planet",
   radius: 70,
   color: 0x000000,
   moonColor: 0xffffff,
-  texture: 'assets/mars.jpg',
+  texture: 'assets/planet2432.jpg',
   homePosition: new THREE.Vector3(-250, 100, 0),
   autoRotationSpeed: -0.005,
   videoId: 'video-0',
   moonCount: 2
 });
 
-var Hoth = new Planet({
-  id: "Hoth",
+var NewSedna = new Planet({
+  id: "NewSedna",
   type: "Planet",
   radius: 100,
   color: 0x000000,
   moonColor: 0x000000,
-  texture: 'assets/planet_hoth.png',
+  texture: 'assets/new_sedna.png',
   homePosition: new THREE.Vector3(250, 100, 0),
   autoRotationSpeed: 0.005,
   videoId: 'video-1',
   moonCount: 4
 });
 
-var RebelAllianceBattleGroup = new BattleGroup({
-  id: "Rebal Alliance Battle Group",
+var ErdaneseBattleGroup = new BattleGroup({
+  id: "Erdanese Battle Group",
   type: "BattleGroup",
   laserColor: 0x3FFF00,
   obj: 'assets/star-wars/ARC170-2/Arc170.obj',
@@ -48,8 +48,8 @@ var RebelAllianceBattleGroup = new BattleGroup({
   videoId: 'video-2'
 });
 
-var RepublicBattleGroup = new BattleGroup({
-  id: "Republic Battle Group",
+var SedneseBattleGroup = new BattleGroup({
+  id: "Sednese Battle Group",
   type: "BattleGroup",
   laserColor: 0xDC143C,
   obj: 'assets/drone/light_drone_2.obj',
@@ -84,7 +84,7 @@ var sun = new THREE.Mesh(
 
 module.exports = {
   objects: [
-    Hoth, Tatooine, RebelAllianceBattleGroup, RepublicBattleGroup
+    Planet2432, NewSedna, ErdaneseBattleGroup, SedneseBattleGroup
   ],
   sun: sun
 };

@@ -8,8 +8,8 @@ var IMAGES = [
   'assets/omxos/Back.png',
 
   // Planet textures
-  'assets/mars.jpg',
-  'assets/planet_hoth.png',
+  'assets/planet2432.jpg',
+  'assets/new_sedna.png',
   "assets/texture_sun.jpg",
 ];
 
