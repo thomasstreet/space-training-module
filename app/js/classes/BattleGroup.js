@@ -1,7 +1,6 @@
 var BaseObject = require ('./BaseObject');
 var Ship = require ('./Ship');
 
-var OBJMTLLoader = new THREE.OBJMTLLoader();
 var OBJLoader = new THREE.OBJLoader();
 
 class BattleGroup extends BaseObject {
@@ -22,32 +21,22 @@ class BattleGroup extends BaseObject {
 
     this.ships = [];
 
-    if (options.mtl) {
-      OBJMTLLoader.load(options.obj, options.mtl, (loadedObject) => {
-        generateShips.call(this, loadedObject);
-      }, onProgress, onError);
-    }
-    else {
-      OBJLoader.load(options.obj, (loadedObject) => {
-        loadedObject.traverse( function (child) {
-          if ( child instanceof THREE.Mesh ) {
-            var material = new THREE.MeshPhongMaterial({
-              map: options.texture.map,
-              ambient: 0xFFFFFF,
-              shading: THREE.SmoothShading,
-              specularMap: options.texture.specularMap,
-            });
-            child.material = material;
-          }
-        });
-        generateShips.call(this, loadedObject);
-      }, onProgress, onError);
-    }
+    OBJLoader.load(options.obj, (loadedObject) => {
+      loadedObject.traverse(function (child) {
+        if (child instanceof THREE.Mesh) {
+          var material = new THREE.MeshPhongMaterial({
+            map: options.texture.map,
+            ambient: 0xFFFFFF,
+            shading: THREE.SmoothShading,
+            specularMap: options.texture.specularMap,
+          });
+          child.material = material;
+        }
+      });
 
-    function generateShips(originalObject) {
       for (var i = 0; i < options.shipPositions.length; i++) {
         var ship = new Ship({
-          mesh: originalObject.clone(),
+          mesh: loadedObject.clone(),
           scale: options.scale,
           rotateY: options.rotateY || 0,
           position: options.shipPositions[i],
@@ -58,7 +47,7 @@ class BattleGroup extends BaseObject {
 
         this.group.add(ship.mesh);
       }
-    }
+    }, onProgress, onError);
   }
 
   update(options) {
