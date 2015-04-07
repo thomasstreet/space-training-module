@@ -74,7 +74,7 @@ var RepublicBattleGroup = new BattleGroup({
 });
 
 var sun = new THREE.Mesh(
-  new THREE.SphereGeometry(50, 64, 64),
+  new THREE.SphereGeometry(50, 16, 16),
   new THREE.MeshBasicMaterial({
     map: THREE.ImageUtils.loadTexture("assets/texture_sun.jpg")
   }) 
