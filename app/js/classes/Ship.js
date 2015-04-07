@@ -14,9 +14,9 @@ class Ship {
       child.material.emissive = new THREE.Color({r: 255, g: 255, b: 255});
       child.castShadow = true;
       //child.material.color.setHex(0x555555);
-      child.material.emissive.setHex(0x111111);
-      child.material.specular.setHex(0xffffff);
-      child.material.shininess = 10;
+      //child.material.emissive.setHex(0x111111);
+      //child.material.specular.setHex(0xffffff);
+      //child.material.shininess = 10;
     });
 
     this.restingPosition();
