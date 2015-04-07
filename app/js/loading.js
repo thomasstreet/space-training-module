@@ -10,7 +10,15 @@ var IMAGES = [
   // Planet textures
   'assets/planet2432.jpg',
   'assets/new_sedna.png',
-  "assets/texture_sun.jpg",
+  'assets/texture_sun.jpg',
+
+  // Model textures
+  'assets/alien_fighter_1/color_1.jpg',
+  'assets/alien_fighter_1/specular_1.jpg',
+  'assets/alien_fighter_1/illumination_1.jpg',
+  'assets/drone/light_drone_2_color.png',
+  'assets/drone/light_drone_2_specular.png',
+  'assets/drone/light_drone_2_illumination.png'
 ];
 
 
