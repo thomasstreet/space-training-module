@@ -14,7 +14,6 @@ var IMAGES = [
 ];
 
 
-var loadingEl = document.getElementById("loading");
 var loadingVideo = document.getElementById("loading-entrance");
 var loopVideo = document.getElementById("loading-loop");
 var exitVideo = document.getElementById("loading-exit");
@@ -46,23 +45,26 @@ function startEntranceVideo(callback) {
 }
 
 function startLoopVideo(callback) {
+  hide(loadingVideo);
+
   show(loopVideo);
   loopVideo.play();
 
-  setTimeout(() => {
-    loopVideo.loop = false;
-    loopVideo.pause();
-    hide(loopVideo);
-    callback();
+  setTimeout(initializeApp.bind(null, callback), loopVideo.duration * 1000);
+}
 
-    setTimeout(startExitVideo, 2000);
-  }, loopVideo.duration * 1000);
+function initializeApp(callback) {
+  loopVideo.loop = null;
+  hide(loopVideo);
+  loopVideo.pause();
+  show(exitVideo);
+
+  setTimeout(callback, 1);
+
+  setTimeout(startExitVideo, 2000);
 }
 
 function startExitVideo() {
-  hide(loadingVideo);
-
-  show(exitVideo);
   exitVideo.play();
 
   setTimeout(() => {
