@@ -36,6 +36,7 @@ html, body, #viewport  {
 
   margin: auto;
   transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
 }
 
 .loading-videos {
