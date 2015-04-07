@@ -40,7 +40,9 @@ function load(callback) {
     img.onload = function() {
       loaded.push(img);
       if (loaded.length === IMAGES.length) {
-        //setTimeout(startExitVideo, loopVideo.duration * 1000);
+        console.log('loaded all images');
+        //setTimeout(initializeApp.bind(null, callback), loopVideo.duration * 1000);
+        initializeApp(callback);
       }
     };
   });
@@ -58,22 +60,27 @@ function startLoopVideo(callback) {
 
   show(loopVideo);
   loopVideo.play();
-
-  setTimeout(initializeApp.bind(null, callback), loopVideo.duration * 1000);
 }
 
 function initializeApp(callback) {
-  loopVideo.loop = null;
   hide(loopVideo);
-  loopVideo.pause();
   show(exitVideo);
 
+  loopVideo.loop = null;
+  loopVideo.pause();
+
+  // Fire the callback that initializes the ThreeJS logic
   setTimeout(callback, 1);
 
+  // Give the app js some time to execute before playing the exit video
   setTimeout(startExitVideo, 2000);
 }
 
 function startExitVideo() {
+  // Hide all other videos, just incase they didn't get hidden before
+  hide(loadingVideo);
+  hide(loopVideo);
+
   exitVideo.play();
   backgroundMusic.play();
 
