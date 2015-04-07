@@ -11,7 +11,7 @@ html, body, #viewport  {
 }
 
 #loading {
-  background: #202640;
+  background: black;
   color: white;
   text-align: center;
   font-size: 36px;
