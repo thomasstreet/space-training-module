@@ -48,6 +48,7 @@ var ErdaneseBattleGroup = new BattleGroup({
   ],
   autoRotationSpeed: -0.002,
   scale: 0.4,
+  rotateY: Math.PI / 2,
   videoId: 'video-2'
 });
 
