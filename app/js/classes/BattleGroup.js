@@ -3,10 +3,9 @@ require('traceur/bin/traceur-runtime');
 var BaseObject = require ('./BaseObject');
 var Ship = require ('./Ship');
 
+THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
 var OBJMTLLoader = new THREE.OBJMTLLoader();
 var OBJLoader = new THREE.OBJLoader();
-
-
 
 class BattleGroup extends BaseObject {
   constructor(options) {
