@@ -8,15 +8,15 @@
     "traceur": "0.0.79"
   },
   "devDependencies": {
+    "babelify": "^6.0.1",
     "browserify": "^7.0.3",
     "serve": "^1.4.0",
-    "traceurify": "0.0.6",
     "watchify": "^2.2.1"
   },
   "scripts": {
-    "watch-scripts": "node_modules/watchify/bin/cmd.js app/js/index.js -t traceurify -o app/bundle.js --debug --verbose",
+    "watch-scripts": "node_modules/watchify/bin/cmd.js app/js/index.js -t babelify -o app/bundle.js --debug --verbose",
     "watch": "npm run watch-scripts",
-    "build-scripts": "node_modules/browserify/bin/cmd.js app/js/index.js -t traceurify  -o app/bundle.js --debug --verbose",
+    "build-scripts": "node_modules/browserify/bin/cmd.js app/js/index.js -t babelify  -o app/bundle.js --debug --verbose",
     "build": "npm run build-scripts",
     "serve": "node_modules/serve/bin/serve app -p 1315",
     "start-dev": "npm run build & npm run watch & npm run serve"

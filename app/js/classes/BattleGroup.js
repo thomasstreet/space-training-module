@@ -108,7 +108,7 @@ class BattleGroup extends BaseObject {
   }
 
   positionRelativeToHand(hand) {
-    super(hand);
+    super.positionRelativeToHand(hand);
 
     //if (this.interactingWithPlanet) {
       //this.moveShipsToOtherPlanet;
