@@ -4,12 +4,10 @@
     <meta charset="utf-8">
     <title>Training Module v542.238.125 | Holocorp</title>
     <meta name="description" content="WebGL Demo - Space combat training simular. Click to inspect objects or use Leap Motion to grab them.">
+    <meta name="keywords" content="webgl, leap motion, webvr, oculus rift, virtual reality, erdan, erdanese, sedna, sedanese">
     <link rel="stylesheet" href="styles/index.css">
   </head>
   <body>
-
-    <audio src="assets/Space Ambient (Bismuth - Fouram intro).mp3" loop="true" id="background-music"></audio>
-
     <div id="loading">
       <div id="video-container">
         <video id="loading-entrance" class="loading-videos">
@@ -23,7 +21,9 @@
         </video>
       </div>
     </div>
+
     <div id="viewport"></div>
+
     <div id="hud">
       <button id="vr-toggle">Toggle VR</button>
       <button id="reset-camera">Reset Camera</button>
@@ -44,6 +44,8 @@
     <video id="video-3" style="display:none;">
 			<source src="assets/video/Fleet_Sednese.mp4">
 		</video>
+
+    <audio src="assets/Space Ambient (Bismuth - Fouram intro).mp3" loop="true" id="background-music"></audio>
 
     <script id="chromaKeyVertexShader" type="x-shader/x-vertex">
       varying vec2 vUv;
