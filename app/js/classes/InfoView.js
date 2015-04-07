@@ -36,6 +36,10 @@ class InfoView {
       cubeMaterials
     );
 
+    // Set the initial position to be way off the screen, so that a black box
+    // doesn't show while waiting for the video texture to load
+    this.mesh.position.set(9999, 9999, 9999);
+
     this.offset = options.offset;
 
     this.visible = false;
