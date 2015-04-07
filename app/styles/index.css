@@ -46,7 +46,7 @@ html, body, #viewport  {
   top: 0;
 }
 
-#warning-toast {
+#warning-popup {
   z-index: 0;
   position: absolute;
   color: lightgray;
@@ -57,15 +57,18 @@ html, body, #viewport  {
   border: 1px solid white;
   padding: 40px;
   font-size: 20px;
+
   top: 50%;
   transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+
   left: calc(50% - 360px);
   transition: opacity 1s;
   opacity: 0;
   pointer-events: none;
 }
 
-#warning-toast.active {
+#warning-popup.active {
   opacity: 0.6;
   pointer-events: auto;
   z-index: 999;
