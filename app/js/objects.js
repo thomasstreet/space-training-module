@@ -31,8 +31,12 @@ var ErdaneseBattleGroup = new BattleGroup({
   id: "Erdanese Battle Group",
   type: "BattleGroup",
   laserColor: 0x3FFF00,
-  obj: 'assets/star-wars/ARC170-2/Arc170.obj',
-  mtl: 'assets/star-wars/ARC170-2/Arc170.mtl',
+  obj: 'assets/alien_fighter_1/alien_fighter_1.obj',
+  texture: {
+    map: THREE.ImageUtils.loadTexture('assets/alien_fighter_1/color_1.jpg'),
+    specularMap: THREE.ImageUtils.loadTexture('assets/alien_fighter_1/specular_1.jpg'),
+    lightMap: THREE.ImageUtils.loadTexture('assets/alien_fighter_1/illumination_1.jpg'),
+  },
   homePosition: new THREE.Vector3(-200, -100, -50),
   manualDisplayPositionOffset: new THREE.Vector3(40, 0, 50),
   radius: 30,
@@ -43,7 +47,7 @@ var ErdaneseBattleGroup = new BattleGroup({
     new THREE.Vector3(0, -20, 0),
   ],
   autoRotationSpeed: -0.002,
-  scale: 0.02,
+  scale: 0.4,
   videoId: 'video-2'
 });
 
