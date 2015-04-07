@@ -62,13 +62,12 @@ function startLoopVideo(callback) {
 function startExitVideo() {
   hide(loadingVideo);
 
-  document.body.className = ('loaded');
   show(exitVideo);
   exitVideo.play();
 
   setTimeout(() => {
     hide(exitVideo);
-    exitVideo.pause();
+    document.body.className = ('loaded');
   }, exitVideo.duration * 1000);
 }
 
