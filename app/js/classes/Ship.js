@@ -13,10 +13,6 @@ class Ship {
     this.mesh.children.forEach((child) => {
       child.material.emissive = new THREE.Color({r: 255, g: 255, b: 255});
       child.castShadow = true;
-      //child.material.color.setHex(0x555555);
-      //child.material.emissive.setHex(0x111111);
-      //child.material.specular.setHex(0xffffff);
-      //child.material.shininess = 10;
     });
 
     this.autoRotationSpeed = options.autoRotationSpeed;
@@ -41,14 +37,6 @@ class Ship {
       // Move between range [-5, 5]
       (t * 10) - 5
     );
-  }
-
-  moveToPlanet(offset) {
-    this.mesh.position.copy(offset);
-  }
-
-  moveToHomePosition() {
-    this.mesh.position.copy(this.homePosition);
   }
 
   update() {

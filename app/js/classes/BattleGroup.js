@@ -17,8 +17,6 @@ class BattleGroup extends BaseObject {
     this.laserColor = options.laserColor;
     this.timeOfLastLaserShot = 0;
 
-    this.interactingWithPlanet = null;
-
     this.ships = [];
 
     OBJLoader.load(options.obj, (loadedObject) => {
@@ -64,7 +62,6 @@ class BattleGroup extends BaseObject {
         objectInLeftHand;
 
       var isTwoBattleGroups = otherObject.type === "BattleGroup";
-      var isBattleGroupAndPlanet = otherObject.type === "Planet";
 
       this.group.lookAt(otherObject.group.position);
 
@@ -74,47 +71,13 @@ class BattleGroup extends BaseObject {
         if (isTwoBattleGroups) {
           this.shootLaserAt(otherObject);
         }
-        //else if (isBattleGroupAndPlanet) {
-          //this.interactWithPlanet(otherObject);
-        //}
       }
     } else {
-      if (!this.interactingWithPlanet) {
-        this.rotate();
-      }
+      this.rotate();
     }
-
-    //if (!bothHandsHoldingAnObject) {
-      //this.stopInteractingWithPlanet();
-    //}
 
     this.ships.forEach((ship) => {
       ship.update();
-    });
-  }
-
-  positionRelativeToHand(hand) {
-    super.positionRelativeToHand(hand);
-
-    //if (this.interactingWithPlanet) {
-      //this.moveShipsToOtherPlanet;
-    //}
-  }
-
-  moveShipsToOtherPlanet() {
-    var planet = this.interactingWithPlanet;
-
-    var offset = new THREE.Vector3(
-      this.group.position.x - planet.group.position.x,
-      this.group.position.y - planet.group.position.y,
-      this.group.position.z - planet.group.position.z
-    );
-
-    offset.negate();
-
-    this.ships.forEach((ship) => {
-      //ship.moveToPlanet(offset);
-      ship.moveToPlanet(new THREE.Vector3(-100, 0, 0));
     });
   }
 
@@ -158,25 +121,7 @@ class BattleGroup extends BaseObject {
     }, 16);
   }
 
-  interactWithPlanet(planet) {
-    if (!this.interactingWithPlanet) {
-      this.interactingWithPlanet = planet;
-    }
-  }
-
-  stopInteractingWithPlanet() {
-    if (this.interactingWithPlanet) {
-      this.interactingWithPlanet = null;
-
-      this.ships.forEach((ship) => {
-        console.log("move to home");
-        ship.moveToHomePosition();
-      });
-    }
-  }
-
   releaseFromHand() {
-    this.stopInteractingWithPlanet();
   }
 
 }
