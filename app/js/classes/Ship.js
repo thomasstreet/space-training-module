@@ -9,6 +9,7 @@ class Ship {
   constructor(options) {
     this.mesh = options.mesh;
     this.mesh.scale.set(options.scale, options.scale, options.scale);
+    this.mesh.rotateY(options.rotateY);
     this.homePosition = options.position.clone();
     this.mesh.position.copy(this.homePosition.clone());
     this.mesh.children.forEach((child) => {

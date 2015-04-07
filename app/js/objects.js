@@ -69,6 +69,7 @@ var RepublicBattleGroup = new BattleGroup({
   ],
   autoRotationSpeed: 0.002,
   scale: 0.5,
+  rotateY: Math.PI / 2,
   videoId: 'video-3'
 });
 

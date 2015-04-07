@@ -53,6 +53,7 @@ class BattleGroup extends BaseObject {
         var ship = new Ship({
           mesh: originalObject.clone(),
           scale: options.scale,
+          rotateY: options.rotateY || 0,
           position: options.shipPositions[i]
         });
 
