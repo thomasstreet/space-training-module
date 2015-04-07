@@ -47,20 +47,28 @@ html, body, #viewport  {
 }
 
 #warning-toast {
-  z-index: 999;
+  z-index: 0;
   position: absolute;
-  width: 300px;
-  height: 150px;
-  background: red;
+  color: lightgray;
+  width: 720px;
+  height: 540px;
+  background: black;
   text-align: center;
-  top: 0;
-  left: calc(50% - 150px);
-  transition: transform 1s;
-  transform: translateY(-160px);
+  border: 1px solid white;
+  padding: 40px;
+  font-size: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  left: calc(50% - 360px);
+  transition: opacity 1s;
+  opacity: 0;
+  pointer-events: none;
 }
 
 #warning-toast.active {
-  transform: translateY(0);
+  opacity: 0.6;
+  pointer-events: auto;
+  z-index: 999;
 }
 
 body.loaded #loading {
@@ -88,4 +96,11 @@ body.loaded #loading {
 
 #hud #vr-toggle.active {
   display: block !important;
+}
+
+#reset-camera {
+  padding: 7px;
+  border-radius: 0;
+  background: black;
+  color: white;
 }
