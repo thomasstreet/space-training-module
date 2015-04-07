@@ -7,9 +7,6 @@ var OBJMTLLoader = new THREE.OBJMTLLoader();
 var OBJLoader = new THREE.OBJLoader();
 
 
-var defaultOBJMaterial = new THREE.MeshBasicMaterial({
-  color: 0x111111
-});
 
 class BattleGroup extends BaseObject {
   constructor(options) {
@@ -36,9 +33,15 @@ class BattleGroup extends BaseObject {
     }
     else {
       OBJLoader.load(options.obj, (loadedObject) => {
-        loadedObject.traverse(function (child) {
-          if (child instanceof THREE.Mesh) {
-            child.material = defaultOBJMaterial;
+        loadedObject.traverse( function (child) {
+          if ( child instanceof THREE.Mesh ) {
+            var material = new THREE.MeshPhongMaterial({
+              map: options.texture.map,
+              ambient: 0xFFFFFF,
+              shading: THREE.SmoothShading,
+              specularMap: options.texture.specularMap,
+            });
+            child.material = material;
           }
         });
         generateShips.call(this, loadedObject);

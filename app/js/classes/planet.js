@@ -17,6 +17,7 @@ class Planet extends BaseObject {
       shading		: THREE.SmoothShading,
       transparent: true,
       map: THREE.ImageUtils.loadTexture(options.texture),
+      normalMap: THREE.ImageUtils.loadTexture(options.normalMap),
       opacity: 0
     });
 
