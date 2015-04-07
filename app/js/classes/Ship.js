@@ -19,6 +19,8 @@ class Ship {
       //child.material.shininess = 10;
     });
 
+    this.autoRotationSpeed = options.autoRotationSpeed;
+
     this.restingPosition();
 
     this.startTime = Date.now() + (Math.random() * 2000);
@@ -52,6 +54,10 @@ class Ship {
   update() {
     if (this.state === states.resting) {
       this.hover();
+    }
+
+    if (this.autoRotationSpeed) {
+      this.mesh.rotateX(this.autoRotationSpeed.x);
     }
   }
 }

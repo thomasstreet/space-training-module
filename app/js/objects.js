@@ -30,7 +30,7 @@ var NewSedna = new Planet({
 var ErdaneseBattleGroup = new BattleGroup({
   id: "Erdanese Battle Group",
   type: "BattleGroup",
-  laserColor: 0x3FFF00,
+  laserColor: 0xEE1A26,
   obj: 'assets/alien_fighter_1/alien_fighter_1.obj',
   texture: {
     map: THREE.ImageUtils.loadTexture('assets/alien_fighter_1/color_1.jpg'),
@@ -47,6 +47,10 @@ var ErdaneseBattleGroup = new BattleGroup({
     new THREE.Vector3(0, -20, 0),
   ],
   autoRotationSpeed: -0.002,
+  shipAutoRotationSpeed: {
+    x: 0.01,
+    y: 0
+  },
   scale: 0.4,
   rotateY: Math.PI / 2,
   videoId: 'video-2'
@@ -55,7 +59,7 @@ var ErdaneseBattleGroup = new BattleGroup({
 var SedneseBattleGroup = new BattleGroup({
   id: "Sednese Battle Group",
   type: "BattleGroup",
-  laserColor: 0xDC143C,
+  laserColor: 0x04ADC3,
   obj: 'assets/drone/light_drone_2.obj',
   texture: {
     map: THREE.ImageUtils.loadTexture('assets/drone/light_drone_2_color.png'),

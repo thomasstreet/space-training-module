@@ -4,8 +4,6 @@ var Ship = require ('./Ship');
 var OBJMTLLoader = new THREE.OBJMTLLoader();
 var OBJLoader = new THREE.OBJLoader();
 
-
-
 class BattleGroup extends BaseObject {
   constructor(options) {
     super(options);
@@ -52,7 +50,8 @@ class BattleGroup extends BaseObject {
           mesh: originalObject.clone(),
           scale: options.scale,
           rotateY: options.rotateY || 0,
-          position: options.shipPositions[i]
+          position: options.shipPositions[i],
+          autoRotationSpeed: options.shipAutoRotationSpeed
         });
 
         this.ships.push(ship);
