@@ -3,10 +3,7 @@
   "version": "1.0.0",
   "description": "## Getting Started",
   "main": "index.js",
-  "dependencies": {
-    "serve": "^1.4.0",
-    "traceur": "0.0.79"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babelify": "^6.0.1",
     "browserify": "^7.0.3",
