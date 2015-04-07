@@ -15,9 +15,7 @@ class Planet extends BaseObject {
       ambient		: 0xFFFFFF,
       shininess	: 10, 
       shading		: THREE.SmoothShading,
-      map: THREE.ImageUtils.loadTexture(options.texture),
-      normalMap: THREE.ImageUtils.loadTexture(options.normalMap),
-      opacity: 1
+      map: THREE.ImageUtils.loadTexture(options.texture)
     });
 
     this.sphereMesh = new THREE.Mesh(
