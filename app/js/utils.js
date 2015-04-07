@@ -14,9 +14,39 @@ function deactivate(el) {
   el.className = "";
 }
 
+function animate(options) {
+  var { duration, onUpdate, onFinish } = options;
+
+  if (isNaN(duration)) {
+    throw "duration is not a number";
+  }
+
+  var start = null;
+
+  requestAnimationFrame(loop);
+
+  function loop(timestamp) {
+    if (!start) start = timestamp;
+
+    var progress = timestamp - start;
+
+    var t = Math.min(progress / duration , 1);
+    onUpdate(t);
+
+    if (progress < duration) {
+      requestAnimationFrame(loop);
+    } else {
+      if (onFinish) {
+        onFinish();
+      }
+    }
+  }
+}
+
 module.exports = {
-  show,
-  hide,
-  activate,
-  deactivate
+  show: show,
+  hide: hide,
+  activate: activate,
+  deactivate: deactivate,
+  animate: animate
 };
