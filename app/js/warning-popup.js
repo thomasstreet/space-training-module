@@ -1,3 +1,5 @@
+var $ = require('./utils');
+
 var isLeapConnected = false;
 
 var isChrome = !!window.chrome;
@@ -14,7 +16,7 @@ module.exports = {
   leapDetected() {
     if (!isLeapConnected) {
       isLeapConnected = true;
-      this.hide();
+      $.deactivate(warningPopupEl);
     }
   },
   notChromeOrFirefox() {
@@ -24,17 +26,14 @@ module.exports = {
     // Show if leap is not connected OR the browser is not chrome or firefox
     return !isLeapConnected || this.notChromeOrFirefox();
   },
-  show() {
-    warningPopupEl.className = "active";
-  },
-  hide() {
-    warningPopupEl.className = "none";
-  },
   determineIfShouldShowPopup() {
     setTimeout(() => {
       if (this.shouldShow()) {
-        this.show();
-        setTimeout(this.hide, 8000);
+        $.activate(warningPopupEl);
+
+        setTimeout(() => {
+          $.deactivate(warningPopupEl);
+        }, 8000);
       }
     }, waitBeforeShowingPopup);
   }

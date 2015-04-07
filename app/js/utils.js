@@ -1,13 +1,22 @@
-function rotateAroundObjectAxis( object, axis, radians ) {
-  var rotationMatrix = new THREE.Matrix4(); rotationMatrix.makeRotationAxis( axis.normalize(), radians );
-  object.matrix.multiplySelf( rotationMatrix );                       // post-multiply
-  object.rotation.setEulerFromRotationMatrix(object.matrix, object.order);
+function show(el) {
+  el.style.display = "block";
 }
 
-function animate(duration, callback) {
+function hide(el) {
+  el.style.display = "none";
+}
 
+function activate(el) {
+  el.className = "active";
+}
+
+function deactivate(el) {
+  el.className = "";
 }
 
 module.exports = {
-  rotateAroundObjectAxis: rotateAroundObjectAxis
+  show,
+  hide,
+  activate,
+  deactivate
 };

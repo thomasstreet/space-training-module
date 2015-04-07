@@ -1,3 +1,5 @@
+var $ = require('./utils');
+
 var IMAGES = [
   // Skybox textures
   'assets/omxos/Left.png',
@@ -47,22 +49,22 @@ function load(callback) {
 }
 
 function startEntranceVideo(callback) {
-  show(loadingVideo);
+  $.show(loadingVideo);
   loadingVideo.play();
 
   setTimeout(startLoopVideo.bind(null, callback), loadingVideo.duration * 1000);
 }
 
-function startLoopVideo(callback) {
-  hide(loadingVideo);
+function startLoopVideo() {
+  $.hide(loadingVideo);
 
-  show(loopVideo);
+  $.show(loopVideo);
   loopVideo.play();
 }
 
 function initializeApp(callback) {
-  hide(loopVideo);
-  show(exitVideo);
+  $.hide(loopVideo);
+  $.show(exitVideo);
 
   loopVideo.loop = null;
   loopVideo.pause();
@@ -76,26 +78,18 @@ function initializeApp(callback) {
 
 function startExitVideo() {
   // Hide all other videos, just incase they didn't get hidden before
-  hide(loadingVideo);
-  hide(loopVideo);
+  $.hide(loadingVideo);
+  $.hide(loopVideo);
 
   exitVideo.play();
   backgroundMusic.play();
 
   setTimeout(() => {
-    hide(exitVideo);
-    hide(loadingVideo);
-    hide(loopVideo);
+    $.hide(exitVideo);
+    $.hide(loadingVideo);
+    $.hide(loopVideo);
     document.body.className = ('loaded');
   }, exitVideo.duration * 1000);
-}
-
-function show(el) {
-  el.style.display = "block";
-}
-
-function hide(el) {
-  el.style.display = "none";
 }
 
 module.exports = load;
