@@ -32,9 +32,16 @@ class Planet extends BaseObject {
         rotationSpeed: options.autoRotationSpeed,
         parentPlanetRadius: this.radius
       });
-      this.moons.push(moon.group);
+      this.moons.push(moon);
       this.group.add(moon.group);
     }
+  }
+
+  update() {
+    super.update();
+    this.moons.forEach((moon) => {
+      moon.update();
+    });
   }
 }
 
