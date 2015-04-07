@@ -1,3 +1,5 @@
+var $ = require('../utils');
+
 var VideoController = require('./VideoController');
 var InfoView = require('./InfoView');
 
@@ -64,20 +66,15 @@ class BaseObject {
 
     var groupDistance = this.homePosition.clone().sub(startPosition);
 
-    var deltaPercentPerTick = 1 / (options.duration / 16);
-    var t = 0;
-
-    var interval = setInterval(() => {
-      t += deltaPercentPerTick;
-
-      this.group.position.addVectors(startPosition, groupDistance.clone().multiplyScalar(t));
-      this.infoView.mesh.position.addVectors(this.group.position, this.infoView.offset);
-
-      if (t >= 1) {
-        clearInterval(interval);
+    $.animate({duration: options.duration,
+      onUpdate: (t) => {
+        this.group.position.addVectors(startPosition, groupDistance.clone().multiplyScalar(t));
+        this.infoView.mesh.position.addVectors(this.group.position, this.infoView.offset);
+      },
+      onFinish: () => {
         this.movingHome = false;
       }
-    }, 16);
+    });
   }
 
   moveToPosition(options, callback) {
@@ -86,21 +83,15 @@ class BaseObject {
 
     var groupDistance = options.destination.clone().sub(startPosition);
 
-    var deltaPercentPerTick = 1 / (options.duration / 16);
-    var t = 0;
-
-    var interval = setInterval(() => {
-      t += deltaPercentPerTick;
-
-      this.group.position.addVectors(startPosition, groupDistance.clone().multiplyScalar(t));
-      this.infoView.mesh.position.addVectors(this.group.position, this.infoView.offset);
-
-      if (t >= 1) {
-        clearInterval(interval);
-        this.movingHome = false;
-        callback()
+    $.animate({duration: options.duration,
+      onUpdate: (t) => {
+        this.group.position.addVectors(startPosition, groupDistance.clone().multiplyScalar(t));
+        this.infoView.mesh.position.addVectors(this.group.position, this.infoView.offset);
+      },
+      onFinish: () => {
+        callback();
       }
-    }, 16);
+    });
   }
 
   positionRelativeToHand(hand) {
