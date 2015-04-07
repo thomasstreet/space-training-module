@@ -58,17 +58,13 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   render();
 
   // set up click handling
-
-  var projector = new THREE.Projector();
-  var mouseVector = new THREE.Vector3();
-
-  function onMouseDown(e) {
+  function onMouseDown(event) {
     var vector = new THREE.Vector3();
     var raycaster = new THREE.Raycaster();
 
     vector.set( (event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
-    vector.unproject( camera );
-    raycaster.set( camera.position, vector.sub( camera.position ).normalize() )
+    vector.unproject(camera);
+    raycaster.set(camera.position, vector.sub( camera.position ).normalize());
     var intersects = raycaster.intersectObjects(objects.objects);
 
     manualDisplayToggle(intersects[0]);
