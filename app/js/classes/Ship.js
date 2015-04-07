@@ -11,6 +11,7 @@ class Ship {
     this.homePosition = options.position.clone();
     this.mesh.position.copy(this.homePosition.clone());
     this.mesh.children.forEach((child) => {
+      child.material.emissive = new THREE.Color({r: 255, g: 255, b: 255});
       child.castShadow = true;
       //child.material.color.setHex(0x555555);
       child.material.emissive.setHex(0x111111);
