@@ -34,6 +34,7 @@ var RebelAllianceBattleGroup = new BattleGroup({
   obj: 'assets/star-wars/ARC170-2/Arc170.obj',
   mtl: 'assets/star-wars/ARC170-2/Arc170.mtl',
   homePosition: new THREE.Vector3(-200, -100, -50),
+  manualDisplayPositionOffset: new THREE.Vector3(0, 0, 50),
   radius: 30,
   shipPositions: [
     new THREE.Vector3(20, 20, 0),
@@ -58,6 +59,7 @@ var RepublicBattleGroup = new BattleGroup({
     lightMap: THREE.ImageUtils.loadTexture('assets/drone/light_drone_2_illumination.png'),
   },
   homePosition: new THREE.Vector3(200, -100, -50),
+  manualDisplayPositionOffset: new THREE.Vector3(50, 0, 50),
   radius: 30,
   shipPositions: [
     new THREE.Vector3(20, 20, 0),

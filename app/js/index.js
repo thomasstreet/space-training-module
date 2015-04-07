@@ -111,14 +111,16 @@ var manualDisplaySlotPositions = {
 };
 
 function manualDisplayToggle(object) {
-  console.log(object);
   if (manualDisplaySlots.left === object) {
     object.moveToHomePosition({duration: 300});
     manualDisplaySlots.left = null;
     object.animateOutInfoView();
   }
   else if (!manualDisplaySlots.left) {
-    object.moveToPosition({destination: manualDisplaySlotPositions.left, duration: 300}, () => object.animateInInfoView());
+    var destination = manualDisplaySlotPositions.left.clone();
+    destination.add(object.manualDisplayPositionOffset);
+
+    object.moveToPosition({destination: destination, duration: 300}, () => object.animateInInfoView());
     manualDisplaySlots.left = object;
   }
 }

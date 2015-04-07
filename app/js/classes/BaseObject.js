@@ -9,6 +9,9 @@ class BaseObject {
     this.type = options.type;
     this.radius = options.radius;
 
+    this.manualDisplayPositionOffset = options.manualDisplayPositionOffset ||
+      new THREE.Vector3(0, 0, 0);
+
     // The position that the object will always move back to once no longer
     // held/moved
     this.homePosition = options.homePosition;
