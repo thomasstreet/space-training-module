@@ -6,10 +6,11 @@ var skybox = require('./skybox');
 var vr = require('./vr');
 var loading = require('./loading');
 
-var scene = require('./scene');
 var camera = require('./camera');
 
 var viewport = document.getElementById('viewport');
+
+var scene = new THREE.Scene();
 
 function main(vrEnabled, vrHMD, vrHMDSensor) {
   var renderer = new THREE.WebGLRenderer();
@@ -182,7 +183,7 @@ function determineIfObjectIsHeld(object) {
       }
     } 
 
-    // Hand is holding nothing, object is not being held, so check if object is close enough to be held
+    // Hand is holding nothing, neither hand is holding object, so check if object is close enough to be held
     else if (!hand.isHoldingAnyObject() && !leapHands.isEitherHandHoldingObject(object)) {
       if (hand.isInRangeOf(object)) {
 

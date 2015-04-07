@@ -9,7 +9,8 @@ class Ship {
   constructor(options) {
     this.mesh = options.mesh;
     this.mesh.scale.set(options.scale, options.scale, options.scale);
-    this.mesh.position.copy(options.position);
+    this.homePosition = options.position.clone();
+    this.mesh.position.copy(this.homePosition.clone());
     this.mesh.children.forEach((child) => {
       child.material.emissive = new THREE.Color({r: 255, g: 255, b: 255});
       child.castShadow = true;
@@ -35,6 +36,14 @@ class Ship {
       // Move between range [-5, 5]
       (t * 10) - 5
     );
+  }
+
+  moveToPlanet(offset) {
+    this.mesh.position.copy(offset);
+  }
+
+  moveToHomePosition() {
+    this.mesh.position.copy(this.homePosition);
   }
 
   update() {

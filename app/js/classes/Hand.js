@@ -100,7 +100,10 @@ class Hand {
   }
 
   stopHoldingObject() {
-    this.objectBeingHeld = null;
+    if (this.objectBeingHeld) {
+      this.objectBeingHeld.releaseFromHand();
+      this.objectBeingHeld = null;
+    }
   }
 
   holdObject(object) {

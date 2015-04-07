@@ -7,6 +7,8 @@ class VideoController {
     this.video.addEventListener('loadedmetadata', () => {
         //console.log(this.video.duration);
     });
+
+    this.timeouts = [];
   }
 
   play() {
@@ -17,15 +19,21 @@ class VideoController {
     this.video.currentTime = 0;
     this.video.play();
 
-    // Set the middlePoint to slightly before the true middle point
-    var middlePoint = (this.video.duration / 2) - (this.video.duration / 10);
+    var middlePoint = (this.video.duration / 2);
 
-    setTimeout(() => {
+    var timeout = setTimeout(() => {
+      this.video.currentTime = middlePoint;
       this.video.pause();
     }, middlePoint * 1000);
+
+    this.timeouts.push(timeout);
   }
 
   playFromMiddleToEnd() {
+    this.timeouts.forEach((timeout) => {
+      clearTimeout(timeout);
+    });
+
     this.video.currentTime = this.video.duration / 2;
     this.video.play();
   }
