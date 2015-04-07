@@ -12,6 +12,10 @@ class Ship {
     this.mesh.position.copy(this.homePosition.clone());
     this.mesh.children.forEach((child) => {
       child.castShadow = true;
+      //child.material.color.setHex(0x555555);
+      child.material.emissive.setHex(0x111111);
+      child.material.specular.setHex(0xffffff);
+      child.material.shininess = 10;
     });
 
     this.restingPosition();
