@@ -20,7 +20,8 @@ var IMAGES = [
   'assets/alien_fighter_1/illumination_1.jpg',
   'assets/drone/light_drone_2_color.png',
   'assets/drone/light_drone_2_specular.png',
-  'assets/drone/light_drone_2_illumination.png'
+  'assets/drone/light_drone_2_illumination.png',
+  'assets/warning-popup.png'
 ];
 
 
