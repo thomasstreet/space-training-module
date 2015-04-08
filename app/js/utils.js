@@ -31,7 +31,7 @@ function animate(options) {
     var progress = timestamp - start;
 
     var t = Math.min(progress / duration , 1);
-    onUpdate(t);
+    onUpdate(t, progress);
 
     if (progress < duration) {
       requestAnimationFrame(loop);

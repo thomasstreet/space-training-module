@@ -1,5 +1,6 @@
-var BaseObject = require ('./BaseObject');
-var Ship = require ('./Ship');
+var BaseObject = require('./BaseObject');
+var Ship = require('./Ship');
+var $ = require('../utils');
 
 var OBJLoader = new THREE.OBJLoader();
 
@@ -101,24 +102,23 @@ class BattleGroup extends BaseObject {
 
     this.group.add(laser);
 
-    var travelDistance = 400;
-    var t = 0;
-    var interval = setInterval(() => {
-      t += 0.01;
+    var group = this.group;
 
-      var travelZVector = new THREE.Vector3(
-        0,
-        0,
-        travelDistance * 0.01
-      );
+    $.animate({
+      duration: 1000,
+      onUpdate() {
+        var travelZVector = new THREE.Vector3(
+          0,
+          0,
+          5
+        );
 
-      laser.position.add(travelZVector);
-
-      if (t >= 1) {
-        this.group.remove(laser);
-        clearInterval(interval);
+        laser.position.add(travelZVector);
+      },
+      onFinish() {
+        group.remove(laser);
       }
-    }, 16);
+    });
   }
 
   releaseFromHand() {
