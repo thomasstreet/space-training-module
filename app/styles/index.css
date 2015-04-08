@@ -67,12 +67,15 @@ body.loaded #loading {
   transition: opacity 1s;
   opacity: 0;
   pointer-events: none;
+
+  cursor: default;
 }
 
 #warning-popup.active {
   opacity: 0.6;
   pointer-events: auto;
   z-index: 999;
+  cursor: pointer;
 }
 
 #hud {
