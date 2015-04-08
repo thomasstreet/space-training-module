@@ -49,14 +49,10 @@ html, body, #viewport  {
 #warning-popup {
   z-index: 0;
   position: absolute;
-  color: lightgray;
   width: 720px;
   height: 540px;
-  background: black;
   text-align: center;
-  border: 1px solid white;
-  padding: 40px;
-  font-size: 20px;
+  background-image: url("/assets/warning-popup.png");
 
   top: 50%;
   transform: translateY(-50%);
