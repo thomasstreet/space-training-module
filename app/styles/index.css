@@ -6,8 +6,9 @@ html, body, #viewport  {
   overflow: hidden;
 }
 
-#viewport {
-  z-index: 10;
+body.loaded #loading {
+  opacity: 0;
+  pointer-events: none;
 }
 
 #loading {
@@ -22,6 +23,10 @@ html, body, #viewport  {
   position: absolute;
   opacity: 1;
   transition: opacity 2s;
+  z-index: 10;
+}
+
+#viewport {
   z-index: 10;
 }
 
@@ -70,11 +75,6 @@ html, body, #viewport  {
   z-index: 999;
 }
 
-body.loaded #loading {
-  opacity: 0;
-  pointer-events: none;
-}
-
 #hud {
   opacity: 0.6;
   border-radius 5px;
@@ -102,4 +102,6 @@ body.loaded #loading {
   border-radius: 0;
   background: black;
   color: white;
+  outline: none;
+
 }
