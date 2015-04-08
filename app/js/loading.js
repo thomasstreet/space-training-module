@@ -58,6 +58,8 @@ function load(callback) {
       loaded.push(video.id);
       determineIfAllMediaLoaded(callback);
     }, false);
+
+    video.load();
   });
 }
 
