@@ -13,10 +13,6 @@ body.loaded #loading {
 
 #loading {
   background: black;
-  color: white;
-  text-align: center;
-  font-size: 36px;
-  font-family: Monospace;
   margin: auto;
   height: 100%;
   width: 100%;
@@ -31,17 +27,13 @@ body.loaded #loading {
 }
 
 #video-container {
-  position: relative;
-  top: 50%;
+  position: absolute;
   width: 720px;
-
   /* Make height of container slightly shorter to crop green bar bug */
   height: 539px;
   overflow: hidden;
-
-  margin: auto;
-  transform: translateY(-50%);
-  -webkit-transform: translateY(-50%);
+  top: calc(50% - 270px);
+  left: calc(50% - 360px);
 }
 
 .loading-videos {
