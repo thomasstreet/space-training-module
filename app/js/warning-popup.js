@@ -5,7 +5,8 @@ var isLeapConnected = false;
 var isChrome = !!window.chrome;
 var isFirefox = typeof InstallTrigger !== 'undefined';
 
-var waitBeforeShowingPopup = 7000;
+var waitBeforeShowingPopup = 3000;
+var waitBeforeDismissingPopup = 5000;
 
 var warningPopupEl = document.getElementById('warning-popup');
 warningPopupEl.addEventListener('click', () => {
@@ -33,7 +34,7 @@ module.exports = {
 
         setTimeout(() => {
           $.deactivate(warningPopupEl);
-        }, 8000);
+        }, waitBeforeDismissingPopup);
       }
     }, waitBeforeShowingPopup);
   }
