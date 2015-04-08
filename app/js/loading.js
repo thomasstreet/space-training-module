@@ -1,6 +1,8 @@
 var $ = require('./utils');
 
-var IMAGES = [
+var loaded = [];
+
+var imageSrcs = [
   // Skybox textures
   'assets/omxos/Left.png',
   'assets/omxos/Right.png',
@@ -24,29 +26,46 @@ var IMAGES = [
   'assets/warning-popup.png'
 ];
 
+var videoEls = [
+  document.getElementById('video-0'),
+  document.getElementById('video-1'),
+  document.getElementById('video-2'),
+  document.getElementById('video-3')
+];
 
-var backgroundMusic = document.getElementById("background-music");
-var loadingVideo = document.getElementById("loading-entrance");
-var loopVideo = document.getElementById("loading-loop");
-var exitVideo = document.getElementById("loading-exit");
+var backgroundMusic = document.getElementById('background-music');
+var loadingVideo = document.getElementById('loading-entrance');
+var loopVideo = document.getElementById('loading-loop');
+var exitVideo = document.getElementById('loading-exit');
 
 var waitBeforePlayingLoadingVideos = 1000;
 
 function load(callback) {
-  var loaded = [];
-
   setTimeout(startEntranceVideo.bind(null, callback), waitBeforePlayingLoadingVideos);
 
-  IMAGES.forEach(function(imageSrc) {
+  imageSrcs.forEach(function(imageSrc) {
     var img = new Image();
     img.src = imageSrc;
     img.onload = function() {
-      loaded.push(img);
-      if (loaded.length === IMAGES.length) {
-        initializeApp(callback);
-      }
+      loaded.push(img.src);
+      determineIfAllMediaLoaded(callback);
     };
   });
+
+  videoEls.forEach((video) => {
+    video.addEventListener('loadeddata', () => {
+      // Can populate the loaded array with anything. Just need to get the count up
+      loaded.push(video.id);
+      determineIfAllMediaLoaded(callback);
+    }, false);
+  });
+}
+
+function determineIfAllMediaLoaded(callback) {
+  var isEverythingLoaded = loaded.length === imageSrcs.length + videoEls.length;
+  if (isEverythingLoaded) {
+    initializeApp(callback);
+  }
 }
 
 function startEntranceVideo(callback) {
