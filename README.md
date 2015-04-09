@@ -1,5 +1,5 @@
 # Space Training Module
-Designed for use with the Leap Motion.  Google Chrome is suggested.
+Designed for use with the **Leap Motion**.  **Google Chrome** is suggested.
 
 ## Getting Started
 
