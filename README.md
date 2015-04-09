@@ -2,7 +2,7 @@
 
 Designed for use with the **Leap Motion**.  **Google Chrome** is suggested.
 
-See it live: [thomasstreet.com/projects/space-training-module](thomasstreet.com/projects/space-training-module)
+**See it live**: [www.thomasstreet.com/projects/space-training-module](http://thomasstreet.com/projects/space-training-module)
 
 ## Run it Locally
 
