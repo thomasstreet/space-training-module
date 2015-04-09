@@ -18,8 +18,9 @@ class Moon {
     this.group = new THREE.Group();
     this.group.add(this.sphereMesh);
 
-    var minDistanceFromPlanetSurface = 20;
-    var maxDistanceFromPlanetSurface = (Math.random() * 20) + minDistanceFromPlanetSurface;
+    var distanceIncrement = options.parentPlanetRadius * 0.6;
+    var minDistanceFromPlanetSurface = distanceIncrement;
+    var maxDistanceFromPlanetSurface = (Math.random() * distanceIncrement) + minDistanceFromPlanetSurface;
 
     this.distanceFromPlanet = maxDistanceFromPlanetSurface + options.parentPlanetRadius;
 
