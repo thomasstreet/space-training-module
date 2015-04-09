@@ -13,10 +13,11 @@ class InfoView {
         fragmentShader: chromaFragmentShader,
         uniforms: {
           texture: { type: "t", value: texture },
-          color: { type: "c", value: new THREE.Color(0x1e2841) },
+          color: { type: "c", value: new THREE.Color(0x000000) },
           opacity: { type: "f", value: 1 },
         },
         transparent: true,
+        blending: THREE.AdditiveBlending,
     });
 
     var invisibleMaterial = new THREE.MeshBasicMaterial({opacity: 0, transparent: true});

@@ -22,14 +22,14 @@
   <body>
     <div id="loading">
       <div id="video-container">
-        <video id="loading-entrance" class="loading-videos">
+        <video id="loading-entrance" preload class="loading-videos">
           <source src="assets/video/Loading_01_BLK_IN-720p.mp4">
         </video>
-        <video id="loading-loop" class="loading-videos" loop>
-          <source src="assets/video/Loading_01_BLK_LOOP-720p.mp4">
+        <video id="loading-loop" preload class="loading-videos" loop>
+          <source type="video/mp4" src="assets/video/Loading_01_BLK_LOOP-720p.mp4">
         </video>
-        <video id="loading-exit" class="loading-videos">
-          <source src="assets/video/Loading_01_BLK_OUT-720p.mp4">
+        <video id="loading-exit" preload class="loading-videos">
+          <source type="video/mp4" src="assets/video/Loading_01_BLK_OUT-720p.mp4">
         </video>
       </div>
     </div>
@@ -43,7 +43,7 @@
       <button id="reset-camera">Reset Camera</button>
     </div>
 
-    <video id="video-0" style="display:none;">
+    <video id="video-0">
 			<source src="assets/video/Planet_2432.mp4">
 		</video>
 
@@ -76,11 +76,12 @@
       uniform vec3 color;
       uniform float opacity;
       varying vec2 vUv;
+      vec3 white = vec3(1.0, 1.0, 1.0);
       void main()
       {
         vec3 tColor = texture2D( texture, vUv ).rgb;
-        float a = (length(tColor - color)) * 2.0;
-        gl_FragColor = vec4(tColor, a * opacity);
+        float distance = pow(tColor.r, 2.0);
+        gl_FragColor = vec4(white, distance);
       }
     </script>
 

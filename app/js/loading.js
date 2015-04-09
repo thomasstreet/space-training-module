@@ -52,10 +52,12 @@ function load(callback) {
     };
   });
 
+  console.log("setting up video listeners");
   videoEls.forEach((video) => {
-    video.addEventListener('loadeddata', () => {
+    video.addEventListener('loadedmetadata', () => {
       // Can populate the loaded array with anything. Just need to get the count up
       loaded.push(video.id);
+      console.log("loaded video", video.id);
       determineIfAllMediaLoaded(callback);
     }, false);
 
@@ -64,7 +66,8 @@ function load(callback) {
 }
 
 function determineIfAllMediaLoaded(callback) {
-  var isEverythingLoaded = loaded.length === imageSrcs.length + videoEls.length;
+  //console.log("loaded", loaded.length, "out of", imageSrcs.length + videoEls.length);
+  var isEverythingLoaded = loaded.length === imageSrcs.length;
   if (isEverythingLoaded) {
     initializeApp(callback);
   }
