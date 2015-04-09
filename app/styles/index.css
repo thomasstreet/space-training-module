@@ -49,7 +49,7 @@ body.loaded #loading {
   width: 720px;
   height: 540px;
   text-align: center;
-  background-image: url("../assets/warning-popup.png");
+  background-image: url("../assets/warning-popup-chrome.png");
 
   top: 50%;
   transform: translateY(-50%);

@@ -1,4 +1,5 @@
-# Virtual Reality UI Experiment
+# Space Training Module
+Designed for use with the **Leap Motion**.  **Google Chrome** is suggested.
 
 ## Getting Started
 
