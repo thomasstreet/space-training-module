@@ -46,16 +46,9 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
 
   scene.add(skybox);
 
-  addObjectsToScene({
-    onComplete() {
-      scene.add(leapHands.right.group);
-      scene.add(leapHands.left.group);
+  addObjectsToScene();
+  addLeapHandsToScene();
 
-      scene.leapHandsAdded = true;
-
-      leapHands.setUpHandEventHandlers();
-    }
-  });
   render();
 
   // set up click handling
@@ -127,15 +120,19 @@ function manualDisplayToggle(object) {
   }
 }
 
-function addObjectsToScene(options) {
-  objects.objects.forEach((obj, i) => {
+function addObjectsToScene() {
+  objects.objects.forEach((obj) => {
     obj.attachToScene(scene);
-
-    // If last object, trigger callback
-    if (i === objects.objects.length - 1) {
-      options.onComplete();
-    }
   });
+}
+
+function addLeapHandsToScene() {
+  scene.add(leapHands.right.group);
+  scene.add(leapHands.left.group);
+
+  scene.leapHandsAdded = true;
+
+  leapHands.setUpHandEventHandlers();
 }
 
 function updateObjects() {
@@ -165,7 +162,6 @@ function determineIfObjectIsHeld(object) {
 
     var velocity = hand.velocity;
 
-    // Hand is holding this object
     if (hand.isHoldingThisObject(object)) {
       if (velocity && velocity[2] <= throwVelocityThreshold) {
         object.moveToHomePosition({duration: 500});
@@ -191,6 +187,5 @@ function determineIfObjectIsHeld(object) {
         hand.holdObject(object);
       }
     }
-
   });
 }
