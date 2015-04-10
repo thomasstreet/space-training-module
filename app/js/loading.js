@@ -38,7 +38,7 @@ var loadingVideo = document.getElementById('loading-entrance');
 var loopVideo = document.getElementById('loading-loop');
 var exitVideo = document.getElementById('loading-exit');
 
-var waitBeforePlayingLoadingVideos = 2000;
+var waitBeforePlayingLoadingVideos = 1000;
 
 function load(callback) {
   setTimeout(startEntranceVideo.bind(null, callback), waitBeforePlayingLoadingVideos);
@@ -114,7 +114,7 @@ function startExitVideo() {
   $.hide(loopVideo);
 
   exitVideo.play();
-  backgroundMusic.play();
+  //backgroundMusic.play();
 
   setTimeout(() => {
     $.hide(exitVideo);
