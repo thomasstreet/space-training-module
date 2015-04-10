@@ -38,11 +38,13 @@ var loadingVideo = document.getElementById('loading-entrance');
 var loopVideo = document.getElementById('loading-loop');
 var exitVideo = document.getElementById('loading-exit');
 
-var waitBeforePlayingLoadingVideos = 1000;
+var waitBeforePlayingLoadingVideos = 2000;
 
 function load(callback) {
   setTimeout(startEntranceVideo.bind(null, callback), waitBeforePlayingLoadingVideos);
+}
 
+function initLoaders(callback) {
   imageSrcs.forEach(function(imageSrc) {
     var img = new Image();
     img.src = imageSrc;
@@ -52,12 +54,10 @@ function load(callback) {
     };
   });
 
-  console.log("setting up video listeners");
   videoEls.forEach((video) => {
     video.addEventListener('loadedmetadata', () => {
       // Can populate the loaded array with anything. Just need to get the count up
       loaded.push(video.id);
-      console.log("loaded video", video.id);
       determineIfAllMediaLoaded(callback);
     }, false);
 
@@ -66,12 +66,31 @@ function load(callback) {
 }
 
 function determineIfAllMediaLoaded(callback) {
-  //console.log("loaded", loaded.length, "out of", imageSrcs.length + videoEls.length);
   var isEverythingLoaded = loaded.length === imageSrcs.length;
   if (isEverythingLoaded) {
-    initializeApp(callback);
+    // Ensure that that the loading videos have had a chance to play before
+    // initializing app.  Necessary when for all assets are cached, and
+    // loading is immediate.
+    setTimeout(initApp.bind(null, callback), loopVideo.duration * 1000);
   }
 }
+
+function initApp(callback) {
+  $.hide(loopVideo);
+  $.show(exitVideo);
+
+  loopVideo.loop = null;
+  loopVideo.pause();
+
+  // Fire the callback that initializes the ThreeJS logic. Wrap in a setTimeout
+  // so that calls to HTML5 Video api don't get blocked
+  setTimeout(callback, 1);
+
+  // Give the app js some time to execute before playing the exit video
+  setTimeout(startExitVideo, 2000);
+}
+
+
 
 function startEntranceVideo(callback) {
   $.show(loadingVideo);
@@ -80,25 +99,13 @@ function startEntranceVideo(callback) {
   setTimeout(startLoopVideo.bind(null, callback), loadingVideo.duration * 1000);
 }
 
-function startLoopVideo() {
+function startLoopVideo(callback) {
   $.hide(loadingVideo);
 
   $.show(loopVideo);
   loopVideo.play();
-}
 
-function initializeApp(callback) {
-  $.hide(loopVideo);
-  $.show(exitVideo);
-
-  loopVideo.loop = null;
-  loopVideo.pause();
-
-  // Fire the callback that initializes the ThreeJS logic
-  setTimeout(callback, 1);
-
-  // Give the app js some time to execute before playing the exit video
-  setTimeout(startExitVideo, 2000);
+  initLoaders(callback);
 }
 
 function startExitVideo() {
