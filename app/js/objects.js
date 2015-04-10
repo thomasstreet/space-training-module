@@ -9,6 +9,7 @@ var Planet2432 = new Planet({
   moonColor: 0xffffff,
   texture: 'assets/planet2432.jpg',
   homePosition: new THREE.Vector3(-250, 100, 0),
+  manualDisplayPosition: new THREE.Vector3(-100, 0, 200),
   autoRotationSpeed: -0.005,
   videoId: 'video-0',
   moonCount: 2
@@ -22,6 +23,7 @@ var NewSedna = new Planet({
   moonColor: 0x000000,
   texture: 'assets/new_sedna.png',
   homePosition: new THREE.Vector3(250, 100, 0),
+  manualDisplayPosition: new THREE.Vector3(-100, 0, 200),
   autoRotationSpeed: 0.005,
   videoId: 'video-1',
   moonCount: 4
@@ -38,7 +40,7 @@ var ErdaneseBattleGroup = new BattleGroup({
     lightMap: THREE.ImageUtils.loadTexture('assets/alien_fighter_1/illumination_1.jpg'),
   },
   homePosition: new THREE.Vector3(-200, -100, -50),
-  manualDisplayPositionOffset: new THREE.Vector3(40, 0, 50),
+  manualDisplayPosition: new THREE.Vector3(-60, 0, 250),
   radius: 30,
   shipPositions: [
     new THREE.Vector3(0, 20, 30),
@@ -67,7 +69,7 @@ var SedneseBattleGroup = new BattleGroup({
     lightMap: THREE.ImageUtils.loadTexture('assets/drone/light_drone_2_illumination.png'),
   },
   homePosition: new THREE.Vector3(200, -100, -50),
-  manualDisplayPositionOffset: new THREE.Vector3(50, 0, 50),
+  manualDisplayPosition: new THREE.Vector3(-50, 0, 250),
   radius: 30,
   shipPositions: [
     new THREE.Vector3(20, 20, 0),

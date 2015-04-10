@@ -1,14 +1,19 @@
-var slotPositions = {
-  left: new THREE.Vector3(-100, 0, 200),
-  right: new THREE.Vector3(100, 0, 200)
-};
-
 var _slots = {
   left: null,
   right: null
 };
 
 function toggleSlotForObject(obj) {
+  if (obj.type === "BattleGroup") {
+    toggleSlotForBattleGroup(obj);
+  }
+  else if (obj.type === "Planet") {
+    toggleSlotForPlanet(obj);
+  }
+}
+
+function toggleSlotForBattleGroup(obj) {
+  var destination;
   if (_slots.left === obj) {
     obj.moveToHomePosition({duration: 300});
     _slots.left = null;
@@ -16,9 +21,7 @@ function toggleSlotForObject(obj) {
     return;
   }
   else if (!_slots.left) {
-    var destination = slotPositions.left.clone();
-    destination.add(obj.manualDisplayPositionOffset);
-
+    destination = obj.manualDisplayPosition;
     obj.moveToPosition({destination: destination, duration: 300}, () => obj.animateInInfoView());
     _slots.left = obj;
     return;
@@ -30,11 +33,24 @@ function toggleSlotForObject(obj) {
     obj.animateOutInfoView();
   }
   else if (!_slots.right) {
-    var destination = slotPositions.right.clone();
-    destination.add(obj.manualDisplayPositionOffset);
-
+    destination = obj.manualDisplayPosition;
     obj.moveToPosition({destination: destination, duration: 300}, () => obj.animateInInfoView());
     _slots.right = obj;
+  }
+}
+
+function toggleSlotForPlanet(obj) {
+  if (_slots.left === obj) {
+    obj.moveToHomePosition({duration: 300});
+    _slots.left = null;
+    obj.animateOutInfoView();
+    return;
+  }
+  else if (!_slots.left) {
+    var destination = obj.manualDisplayPosition;
+    obj.moveToPosition({destination: destination, duration: 300}, () => obj.animateInInfoView());
+    _slots.left = obj;
+    return;
   }
 }
 
