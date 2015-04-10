@@ -13,9 +13,9 @@ function onMouseDown(event) {
   raycaster.set(camera.position, vector.sub( camera.position ).normalize());
   var intersects = raycaster.intersectObjects(objects.objects);
 
-  if (intersects[0]) {
-    manualDisplaySlots.toggleSlotForObject(intersects[0]);
-  }
+  intersects.forEach((intersect) => {
+    manualDisplaySlots.toggleSlotForObject(intersect);
+  });
 }
 
 module.exports = {
