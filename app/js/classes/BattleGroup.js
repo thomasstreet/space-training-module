@@ -61,11 +61,12 @@ class BattleGroup extends BaseObject {
     if (leftSlot === this && rightSlot && rightSlot.type === "BattleGroup") {
       this.group.lookAt(rightSlot.group.position);
       this.shootLaserAt(rightSlot);
+      return;
     }
-
     else if (rightSlot === this && leftSlot && leftSlot.type === "BattleGroup") {
       this.group.lookAt(leftSlot.group.position);
       this.shootLaserAt(leftSlot);
+      return;
     }
 
     var {objectInLeftHand, objectInRightHand} = options;

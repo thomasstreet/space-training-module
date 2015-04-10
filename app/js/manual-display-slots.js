@@ -1,4 +1,10 @@
+var battleGroupPositions = {
+  left: new THREE.Vector3(-150, -20, 150),
+  right: new THREE.Vector3(50, -80, 150)
+};
+
 var _slots = {
+  center: null,
   left: null,
   right: null
 };
@@ -13,43 +19,75 @@ function toggleSlotForObject(obj) {
 }
 
 function toggleSlotForBattleGroup(obj) {
-  var destination;
-  if (_slots.left === obj) {
-    obj.moveToHomePosition({duration: 300});
-    _slots.left = null;
-    obj.animateOutInfoView();
-    return;
-  }
-  else if (!_slots.left) {
-    destination = obj.manualDisplayPosition;
+  if (!_slots.center) {
+    let destination = obj.manualDisplayPosition;
     obj.moveToPosition({destination: destination, duration: 300}, () => obj.animateInInfoView());
-    _slots.left = obj;
+    _slots.center = obj;
     return;
   }
 
-  if (_slots.right === obj) {
-    obj.moveToHomePosition({duration: 300});
+  if (_slots.center && _slots.center !== "reserved") {
+    if (_slots.center === obj) {
+      obj.moveToHomePosition({duration: 300});
+      obj.animateOutInfoView();
+      _slots.center = null;
+    } 
+    else if (_slots.center.type === "BattleGroup"){
+      let leftObj = _slots.center;
+      leftObj.moveToPosition({destination: battleGroupPositions.left, duration: 300}, () => leftObj.animateInInfoView());
+      _slots.left = leftObj;
+
+      let rightObj = obj;
+      rightObj.moveToPosition({destination: battleGroupPositions.right, duration: 300}, () => rightObj.animateInInfoView());
+      _slots.right = rightObj;
+
+      _slots.center = "reserved";
+    }
+    return;
+  }
+
+  if (_slots.left === obj && _slots.right) {
+    let leftObj = obj;
+    leftObj.moveToHomePosition({duration: 300});
+    leftObj.animateOutInfoView();
+    _slots.left = null;
+
+    let rightObj = _slots.right;
+    rightObj.moveToPosition({destination: rightObj.manualDisplayPosition, duration: 300}, () => rightObj.animateInInfoView());
     _slots.right = null;
-    obj.animateOutInfoView();
+    _slots.center = rightObj;
+    
+    return;
   }
-  else if (!_slots.right) {
-    destination = obj.manualDisplayPosition;
-    obj.moveToPosition({destination: destination, duration: 300}, () => obj.animateInInfoView());
-    _slots.right = obj;
+
+  if (_slots.right === obj && _slots.left) {
+    let rightObj = obj;
+    rightObj.moveToHomePosition({duration: 300});
+    rightObj.animateOutInfoView();
+    _slots.right = null;
+    
+    let leftObj = _slots.left;
+    leftObj.moveToPosition({destination: leftObj.manualDisplayPosition, duration: 300}, () => leftObj.animateInInfoView());
+    _slots.left = null;
+    _slots.center = leftObj;
+
+    return;
   }
+
+
 }
 
 function toggleSlotForPlanet(obj) {
-  if (_slots.left === obj) {
+  if (_slots.center === obj) {
     obj.moveToHomePosition({duration: 300});
-    _slots.left = null;
+    _slots.center = null;
     obj.animateOutInfoView();
     return;
   }
-  else if (!_slots.left) {
-    var destination = obj.manualDisplayPosition;
+  else if (!_slots.center) {
+    var destination = obj.manualDisplayPosition.clone();
     obj.moveToPosition({destination: destination, duration: 300}, () => obj.animateInInfoView());
-    _slots.left = obj;
+    _slots.center = obj;
     return;
   }
 }
