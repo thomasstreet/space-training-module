@@ -19,6 +19,9 @@ class BattleGroup extends BaseObject {
 
     this.laserColor = options.laserColor;
     this.timeOfLastLaserShot = 0;
+    // Used for strafe()
+    this.startTime = Date.now();
+    this.initialTimeOffset = options.initialTimeOffset;
 
     this.ships = [];
 
@@ -59,11 +62,13 @@ class BattleGroup extends BaseObject {
     var leftSlot = manualDisplaySlots.left();
     var rightSlot = manualDisplaySlots.right();
     if (leftSlot === this && rightSlot && rightSlot.type === "BattleGroup") {
+      this.strafeFromPosition(manualDisplaySlots.battleGroupPositions().left);
       this.group.lookAt(rightSlot.group.position);
       this.shootLaserAt(rightSlot);
       return;
     }
     else if (rightSlot === this && leftSlot && leftSlot.type === "BattleGroup") {
+      this.strafeFromPosition(manualDisplaySlots.battleGroupPositions().right);
       this.group.lookAt(leftSlot.group.position);
       this.shootLaserAt(leftSlot);
       return;
@@ -95,6 +100,21 @@ class BattleGroup extends BaseObject {
     } else {
       this.rotate();
     }
+  }
+
+  strafeFromPosition(position) {
+    var delta = ((Date.now() - this.startTime) / 1000) + this.initialTimeOffset;
+
+    var t = Number((Math.sin(delta)).toFixed(3));
+    var t2 = Number((Math.sin(delta + 0.25)).toFixed(3));
+
+    var strafeVec = new THREE.Vector3(
+      (t * 10) - 5,
+      ((t2) * 80) - 30,
+      (t * 120) - 30
+    );
+    this.group.position.addVectors(position, strafeVec);
+    this.infoView.mesh.position.addVectors(this.group.position, this.infoView.offset);
   }
 
   shootLaserAt(otherObject) {

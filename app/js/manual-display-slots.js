@@ -1,6 +1,6 @@
 var battleGroupPositions = {
-  left: new THREE.Vector3(-150, -20, 150),
-  right: new THREE.Vector3(50, -80, 150)
+  left: new THREE.Vector3(-150, 0, 150),
+  right: new THREE.Vector3(50, 0, 150)
 };
 
 var _slots = {
@@ -93,11 +93,14 @@ function toggleSlotForPlanet(obj) {
 }
 
 module.exports = {
-  left: function() {
+  left() {
     return _slots.left;
   },
-  right: function() {
+  right() {
     return _slots.right;
+  },
+  battleGroupPositions() {
+    return battleGroupPositions;
   },
   toggleSlotForObject: toggleSlotForObject
 };
