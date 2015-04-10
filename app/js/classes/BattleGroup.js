@@ -2,6 +2,8 @@ var BaseObject = require('./BaseObject');
 var Ship = require('./Ship');
 var $ = require('../utils');
 
+var manualDisplaySlots = require('../manual-display-slots');
+
 var OBJLoader = new THREE.OBJLoader();
 
 class BattleGroup extends BaseObject {
@@ -50,6 +52,22 @@ class BattleGroup extends BaseObject {
   }
 
   update(options) {
+    this.ships.forEach((ship) => {
+      ship.update();
+    });
+
+    var leftSlot = manualDisplaySlots.left();
+    var rightSlot = manualDisplaySlots.right();
+    if (leftSlot === this && rightSlot && rightSlot.type === "BattleGroup") {
+      this.group.lookAt(rightSlot.group.position);
+      this.shootLaserAt(rightSlot);
+    }
+
+    else if (rightSlot === this && leftSlot && leftSlot.type === "BattleGroup") {
+      this.group.lookAt(leftSlot.group.position);
+      this.shootLaserAt(leftSlot);
+    }
+
     var {objectInLeftHand, objectInRightHand} = options;
 
     var isOneOfTheHeldObjects = objectInLeftHand === this ||
@@ -76,10 +94,6 @@ class BattleGroup extends BaseObject {
     } else {
       this.rotate();
     }
-
-    this.ships.forEach((ship) => {
-      ship.update();
-    });
   }
 
   shootLaserAt(otherObject) {
