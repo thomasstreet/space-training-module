@@ -18,6 +18,20 @@ function toggleSlotForObject(obj) {
   }
 }
 
+// Toggle Behaviors:
+//
+// If nothing has been clicked, the first clicked object always becomes the
+// center slot.
+//
+// If the first object clicked was a Planet, don't allow selection of other
+// objects until that Planet is clicked again to move it home and clear the 
+// center slot.
+//
+// If the first object clicked was a BattleGroup, and then another BattleGroup
+// object is clicked, move one object to the left slot, and one to the right slot.
+//
+// If the first object clicked was a BattleGroup, and then a Planet is clicked,
+// do nothing.
 function toggleSlotForBattleGroup(obj) {
   if (!_slots.center) {
     let destination = obj.manualDisplayPosition;
@@ -89,8 +103,6 @@ function toggleSlotForBattleGroup(obj) {
 
     return;
   }
-
-
 }
 
 function toggleSlotForPlanet(obj) {
