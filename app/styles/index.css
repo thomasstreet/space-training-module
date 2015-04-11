@@ -70,17 +70,17 @@ body.loaded #loading {
   cursor: pointer;
 }
 
-#hud {
+#controls {
   opacity: 0.6;
   border-radius 5px;
   padding 20px;
   z-index: 1;
   position: absolute;
   bottom: 20px;
-  right: 20px;
+  right: 30px;
 }
 
-#hud #vr-toggle {
+#vr-toggle {
   border: 0;
   padding: 10px 20px;
   background: white;
@@ -88,15 +88,43 @@ body.loaded #loading {
   display: none;
 }
 
-#hud #vr-toggle.active {
+#vr-toggle.active {
   display: block !important;
 }
 
 #reset-camera {
   padding: 7px;
-  border-radius: 0;
-  background: black;
+  background: none;
   color: white;
   outline: none;
+  border: none;
+  font-size: 12px;
+}
 
+#info {
+  opacity: 0.6;
+  border-radius 5px;
+  padding 20px;
+  z-index: 1;
+  position: absolute;
+  bottom: 25px;
+  left: 25px;
+  font: normal normal normal 12px/normal 'Lucida Grande';
+  color: white;
+}
+
+#info div {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+#info img {
+  height: 20px;
+  transform: translateY(5px);
+  margin-right: 5px;
+}
+
+#info a {
+  text-decoration: none;
+  color: white;
 }
