@@ -29,7 +29,7 @@ function main(vrEnabled, vrHMD, vrHMDSensor) {
   }
 
   // Camera control by mouse
-  var controls = new THREE.OrbitControls(camera, renderer.domElement);
+  //var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
   // Needed to show textures
   var ambientLight = new THREE.AmbientLight(0x404040);

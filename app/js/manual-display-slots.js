@@ -34,11 +34,23 @@ function toggleSlotForBattleGroup(obj) {
     } 
     else if (_slots.center.type === "BattleGroup"){
       let leftObj = _slots.center;
-      leftObj.moveToPosition({destination: battleGroupPositions.left, duration: 300}, () => leftObj.animateInInfoView());
+      leftObj.moveToPosition({
+        destination: battleGroupPositions.left,
+        duration: 300
+      }, () => {
+        leftObj.animateInInfoView();
+        leftObj.startStrafing(leftObj);
+      });
       _slots.left = leftObj;
 
       let rightObj = obj;
-      rightObj.moveToPosition({destination: battleGroupPositions.right, duration: 300}, () => rightObj.animateInInfoView());
+      rightObj.moveToPosition({
+        destination: battleGroupPositions.right,
+        duration: 300
+      }, () => {
+        rightObj.animateInInfoView();
+        rightObj.startStrafing(rightObj);
+      });
       _slots.right = rightObj;
 
       _slots.center = "reserved";
@@ -48,11 +60,13 @@ function toggleSlotForBattleGroup(obj) {
 
   if (_slots.left === obj && _slots.right) {
     let leftObj = obj;
+    leftObj.stopStrafing();
     leftObj.moveToHomePosition({duration: 300});
     leftObj.animateOutInfoView();
     _slots.left = null;
 
     let rightObj = _slots.right;
+    rightObj.stopStrafing();
     rightObj.moveToPosition({destination: rightObj.manualDisplayPosition, duration: 300}, () => rightObj.animateInInfoView());
     _slots.right = null;
     _slots.center = rightObj;
@@ -62,11 +76,13 @@ function toggleSlotForBattleGroup(obj) {
 
   if (_slots.right === obj && _slots.left) {
     let rightObj = obj;
+    rightObj.stopStrafing();
     rightObj.moveToHomePosition({duration: 300});
     rightObj.animateOutInfoView();
     _slots.right = null;
     
     let leftObj = _slots.left;
+    leftObj.stopStrafing();
     leftObj.moveToPosition({destination: leftObj.manualDisplayPosition, duration: 300}, () => leftObj.animateInInfoView());
     _slots.left = null;
     _slots.center = leftObj;

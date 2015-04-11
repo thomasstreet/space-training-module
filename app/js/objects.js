@@ -42,7 +42,7 @@ var ErdaneseBattleGroup = new BattleGroup({
   homePosition: new THREE.Vector3(-200, -100, -50),
   manualDisplayPosition: new THREE.Vector3(-60, 0, 250),
   radius: 30,
-  initialTimeOffset: 1,
+  initialTimeOffset: 1000,
   shipPositions: [
     new THREE.Vector3(0, 20, 30),
     new THREE.Vector3(20, 0, 0),
