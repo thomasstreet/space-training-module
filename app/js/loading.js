@@ -114,7 +114,7 @@ function startExitVideo() {
   $.hide(loopVideo);
 
   exitVideo.play();
-  //backgroundMusic.play();
+  backgroundMusic.play();
 
   setTimeout(() => {
     $.hide(exitVideo);

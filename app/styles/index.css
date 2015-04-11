@@ -70,6 +70,38 @@ body.loaded #loading {
   cursor: pointer;
 }
 
+#hint-popup {
+  position: absolute;
+  top: 30px;
+  width: 310px;
+  left: calc(50% - 155px);
+  color: white;
+  font-size: 14px;
+  font-family: 'Lucida Grande';
+  font-weight: 100;
+  padding: 12px;
+  border: 1px solid white;
+  cursor: pointer;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 1s;
+  pointer-events: none;
+}
+
+#hint-popup.active {
+  z-index: 999;
+  opacity: 0.9;
+  pointer-events: auto;
+}
+
+#hint-popup .close {
+  float: right;
+  height: 1px;
+  font-size: 22px;
+  transform: translateY(-6px);
+  -webkit-transform: translateY(-6px);
+}
+
 #controls {
   opacity: 0.6;
   border-radius 5px;
@@ -121,6 +153,7 @@ body.loaded #loading {
 #info img {
   height: 20px;
   transform: translateY(5px);
+  -webit-transform: translateY(5px);
   margin-right: 5px;
 }
 

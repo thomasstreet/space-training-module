@@ -1,4 +1,5 @@
 var warningPopup = require('./warning-popup');
+var hintPopup = require('./hint-popup');
 
 var Hand = require("./classes/Hand");
 
@@ -29,6 +30,7 @@ var loop = Leap.loop({background: true}, {
 function setUpHandEventHandlers() {
   loop.on('handFound', function(data) {
     warningPopup.leapDetected();
+    hintPopup.leapDetected();
 
     var hand = data.type === 'left' ? left : right;
     hand.showHand(data);
