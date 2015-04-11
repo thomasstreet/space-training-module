@@ -32,6 +32,9 @@ function toggleSlotForObject(obj) {
 //
 // If the first object clicked was a BattleGroup, and then a Planet is clicked,
 // do nothing.
+//
+// TODO: Refactor this into something respectable. Find a less stateful way
+// to start strafing after moveToPosition()
 function toggleSlotForBattleGroup(obj) {
   if (!_slots.center) {
     let destination = obj.manualDisplayPosition;
@@ -53,7 +56,7 @@ function toggleSlotForBattleGroup(obj) {
         duration: 300
       }, () => {
         leftObj.animateInInfoView();
-        leftObj.startStrafing(leftObj);
+        leftObj.startStrafing();
       });
       _slots.left = leftObj;
 
@@ -63,7 +66,7 @@ function toggleSlotForBattleGroup(obj) {
         duration: 300
       }, () => {
         rightObj.animateInInfoView();
-        rightObj.startStrafing(rightObj);
+        rightObj.startStrafing();
       });
       _slots.right = rightObj;
 
